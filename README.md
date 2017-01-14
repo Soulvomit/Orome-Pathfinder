@@ -1,5 +1,5 @@
 # Orome-Pathfinder
-Fast NASM implementation of A* pathfinding!
+Fast x86-64 implementation of A* (astar) pathfinding assembled with the NASM!
 
 1. Features
  
