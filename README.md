@@ -7,7 +7,7 @@ Fast NASM implementation of A* pathfinding!
    - Very light memory footprint (58 bytes per node).
    - Customizable path-finding (dijkstra's, greedy BFS, include diagonals).
    - System independent (“pure” x86-64 code, no syscalls or API usage).
-   - Wrappers of different programming languages (C, C++, .NET).
+   - Wrappers for different programming languages (C, C++, .NET).
    - Low-level threading support is abstracted away from the user (pre-threaded interfaces).
    - Link-based path-finding for use in navmeshes (WIP – not done yet).
    - True 3D path-finding  (WIP – not done yet).
