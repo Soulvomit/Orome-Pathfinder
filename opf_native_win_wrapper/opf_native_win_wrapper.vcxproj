@@ -130,6 +130,9 @@
       <LinkTimeCodeGeneration>
       </LinkTimeCodeGeneration>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(SolutionDir)opf_nasm\v0_3_0\opf.dll" "$(SolutionDir)$(Configuration)\opf.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -172,6 +175,9 @@
       <StackCommitSize>
       </StackCommitSize>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(SolutionDir)opf_nasm\v0_3_0\opf.dll" "$(SolutionDir)$(Configuration)\opf.dll"</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="opf_native_interface.h" />
