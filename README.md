@@ -4,19 +4,12 @@ Fast NASM implementation of A* pathfinding!
 1. Features
  
   Blazing fast version of A* path-finding (10x faster then generic MSVC++ versions).
-
   Very light memory footprint (58 bytes per node).
-
   Customizable path-finding (dijkstra's, greedy BFS, include diagonals).
-
   System independent (“pure” x86-64 code, no syscalls or API usage).
-
   Wrappers of different programming languages (C, C++, .NET).
-
   Low-level threading support is abstracted away from the user (pre-threaded interfaces).
-
   Link-based path-finding for use in navmeshes (WIP – not done yet).
-
   True 3D path-finding  (WIP – not done yet).
 
 2. Motivation
@@ -31,13 +24,13 @@ Fast NASM implementation of A* pathfinding!
 
   Although I make use of these 'concepts' throughout the system, THIS IS NOT:
 
-    An x86-64 assembly guide!-->
+    An x86-64 assembly guide!--> https://software.intel.com/en-us/articles/introduction-to-x64-assembly
 
-    An A* Path-finding guide!-->
+    An A* Path-finding guide!--> http://theory.stanford.edu/~amitp/GameProgramming/AStarComparison.html
 
-    An NASM guide!-->
+    An NASM guide!--> http://www.nasm.us/doc/
 
-    An managed/native inter-operability guide!-->
+    An managed/native inter-operability (PInvoke) guide!--> https://msdn.microsoft.com/en-us/library/ms173184.aspx
 
 3. NASM Source
  
