@@ -1,0 +1,296 @@
+
+Discarded input sections
+
+ .drectve       0x0000000000000000       0x21 FindPath.o64
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+                0x0000000400000000                __image_base__ = 0x400000000
+                0x0000000000000000                __dll__ = 0x0
+                0x0000000400000000                __ImageBase = 0x400000000
+                0x0000000000001000                __section_alignment__ = 0x1000
+                0x0000000000000200                __file_alignment__ = 0x200
+                0x0000000000000004                __major_os_version__ = 0x4
+                0x0000000000000000                __minor_os_version__ = 0x0
+                0x0000000000000000                __major_image_version__ = 0x0
+                0x0000000000000000                __minor_image_version__ = 0x0
+                0x0000000000000005                __major_subsystem_version__ = 0x5
+                0x0000000000000002                __minor_subsystem_version__ = 0x2
+                0x0000000000000003                __subsystem__ = 0x3
+                0x0000000000200000                __size_of_stack_reserve__ = 0x200000
+                0x0000000000001000                __size_of_stack_commit__ = 0x1000
+                0x0000000000100000                __size_of_heap_reserve__ = 0x100000
+                0x0000000000001000                __size_of_heap_commit__ = 0x1000
+                0x0000000000000000                __loader_flags__ = 0x0
+                0x0000000000000000                __dll_characteristics__ = 0x0
+LOAD Node.o64
+LOAD Node2D.o64
+LOAD FindPath.o64
+LOAD Data.o64
+                0x0000000000000250                . = SIZEOF_HEADERS
+                0x0000000000001000                . = ALIGN (__section_alignment__)
+
+.text           0x0000000400001000      0x800
+ *(.init)
+ *(.text)
+ .text          0x0000000400001000      0x319 Node.o64
+                0x0000000400001000                _Node.Ctor
+                0x000000040000102c                _Node.UpdateAdjecentNode
+                0x00000004000010d2                _Node.Traceback
+                0x0000000400001120                _Node.Empty
+ *fill*         0x0000000400001319        0x7 
+ .text          0x0000000400001320       0x6b Node2D.o64
+                0x0000000400001320                _Node2D.CalcManhattanDistance
+                0x000000040000136f                _Node2D.GetByCoordinates
+ *fill*         0x000000040000138b        0x5 
+ .text          0x0000000400001390      0x29e FindPath.o64
+                0x0000000400001390                DllMain
+                0x0000000400001396                FindPath
+ *(SORT(.text$*))
+ *(.text.*)
+ *(.gnu.linkonce.t.*)
+ *(.glue_7t)
+ *(.glue_7)
+                0x0000000400001630                . = ALIGN (0x8)
+ *fill*         0x000000040000162e        0x2 
+                0x0000000400001630                ___CTOR_LIST__ = .
+                0x0000000400001630                __CTOR_LIST__ = .
+                0x0000000400001630        0x4 LONG 0xffffffffffffffff
+                0x0000000400001634        0x4 LONG 0xffffffffffffffff
+ *(.ctors)
+ *(.ctor)
+ *(SORT(.ctors.*))
+                0x0000000400001638        0x4 LONG 0x0
+                0x000000040000163c        0x4 LONG 0x0
+                0x0000000400001640                ___DTOR_LIST__ = .
+                0x0000000400001640                __DTOR_LIST__ = .
+                0x0000000400001640        0x4 LONG 0xffffffffffffffff
+                0x0000000400001644        0x4 LONG 0xffffffffffffffff
+ *(.dtors)
+ *(.dtor)
+ *(SORT(.dtors.*))
+                0x0000000400001648        0x4 LONG 0x0
+                0x000000040000164c        0x4 LONG 0x0
+ *(.fini)
+ *(.gcc_exc)
+                [!provide]                        PROVIDE (etext, .)
+ *(.gcc_except_table)
+
+.data           0x0000000400002000      0x200
+                0x0000000400002000                __data_start__ = .
+ *(.data)
+ .data          0x0000000400002000       0x88 Data.o64
+                0x0000000400002000                Node.BaseCost
+                0x0000000400002008                Node.AdjecentOffsets
+ *(.data2)
+ *(SORT(.data$*))
+ *(.jcr)
+                0x0000000400002088                __data_end__ = .
+ *(.data_cygwin_nocopy)
+
+.rdata          0x0000000400003000        0x0
+ *(.rdata)
+ *(SORT(.rdata$*))
+                0x0000000400003000                __rt_psrelocs_start = .
+ *(.rdata_runtime_pseudo_reloc)
+                0x0000000400003000                __rt_psrelocs_end = .
+                0x0000000000000000                __rt_psrelocs_size = (__rt_psrelocs_end - __rt_psrelocs_start)
+                0x0000000400003000                ___RUNTIME_PSEUDO_RELOC_LIST_END__ = .
+                0x0000000400003000                __RUNTIME_PSEUDO_RELOC_LIST_END__ = .
+                0x0000000400003000                ___RUNTIME_PSEUDO_RELOC_LIST__ = (. - __rt_psrelocs_size)
+                0x0000000400003000                __RUNTIME_PSEUDO_RELOC_LIST__ = (. - __rt_psrelocs_size)
+
+.eh_frame
+ *(.eh_frame*)
+
+.pdata
+ *(.pdata*)
+
+.xdata
+ *(.xdata*)
+
+.bss            0x0000000400003000        0x0
+                0x0000000400003000                __bss_start__ = .
+ *(.bss)
+ *(COMMON)
+                0x0000000400003000                __bss_end__ = .
+
+.edata          0x0000000400003000      0x200
+ *(.edata)
+ .edata         0x0000000400003000       0x5b dll stuff
+
+/DISCARD/
+ *(.debug$S)
+ *(.debug$T)
+ *(.debug$F)
+ *(.drectve)
+ *(.note.GNU-stack)
+ *(.gnu.lto_*)
+
+.idata          0x0000000400004000      0x200
+ SORT(*)(.idata$2)
+ SORT(*)(.idata$3)
+                0x0000000400004000        0x4 LONG 0x0
+                0x0000000400004004        0x4 LONG 0x0
+                0x0000000400004008        0x4 LONG 0x0
+                0x000000040000400c        0x4 LONG 0x0
+                0x0000000400004010        0x4 LONG 0x0
+ SORT(*)(.idata$4)
+                0x0000000400004014                __IAT_start__ = .
+ SORT(*)(.idata$5)
+                0x0000000400004014                __IAT_end__ = .
+ SORT(*)(.idata$6)
+ SORT(*)(.idata$7)
+
+.CRT            0x0000000400005000        0x0
+                0x0000000400005000                ___crt_xc_start__ = .
+ *(SORT(.CRT$XC*))
+                0x0000000400005000                ___crt_xc_end__ = .
+                0x0000000400005000                ___crt_xi_start__ = .
+ *(SORT(.CRT$XI*))
+                0x0000000400005000                ___crt_xi_end__ = .
+                0x0000000400005000                ___crt_xl_start__ = .
+ *(SORT(.CRT$XL*))
+                0x0000000400005000                ___crt_xp_start__ = .
+ *(SORT(.CRT$XP*))
+                0x0000000400005000                ___crt_xp_end__ = .
+                0x0000000400005000                ___crt_xt_start__ = .
+ *(SORT(.CRT$XT*))
+                0x0000000400005000                ___crt_xt_end__ = .
+
+.tls            0x0000000400005000        0x0
+                0x0000000400005000                ___tls_start__ = .
+ *(.tls$AAA)
+ *(.tls)
+ *(.tls$)
+ *(SORT(.tls$*))
+ *(.tls$ZZZ)
+                0x0000000400005000                ___tls_end__ = .
+
+.endjunk        0x0000000400005000        0x0
+                [!provide]                        PROVIDE (end, .)
+                [!provide]                        PROVIDE (_end, .)
+                0x0000000400005000                __end__ = .
+
+.rsrc
+ *(.rsrc)
+ *(.rsrc$*)
+
+.reloc          0x0000000400005000      0x200
+ *(.reloc)
+ .reloc         0x0000000400005000       0xcc dll stuff
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.debug_aranges
+ *(.debug_aranges)
+
+.zdebug_aranges
+ *(.zdebug_aranges)
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.zdebug_pubnames
+ *(.zdebug_pubnames)
+
+.debug_pubtypes
+ *(.debug_pubtypes)
+
+.zdebug_pubtypes
+ *(.zdebug_pubtypes)
+
+.debug_info
+ *(.debug_info .gnu.linkonce.wi.*)
+
+.zdebug_info
+ *(.zdebug_info .zdebug.gnu.linkonce.wi.*)
+
+.debug_abbrev
+ *(.debug_abbrev)
+
+.zdebug_abbrev
+ *(.zdebug_abbrev)
+
+.debug_line
+ *(.debug_line)
+
+.zdebug_line
+ *(.zdebug_line)
+
+.debug_frame
+ *(.debug_frame)
+
+.zdebug_frame
+ *(.zdebug_frame)
+
+.debug_str
+ *(.debug_str)
+
+.zdebug_str
+ *(.zdebug_str)
+
+.debug_loc
+ *(.debug_loc)
+
+.zdebug_loc
+ *(.zdebug_loc)
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.zdebug_macinfo
+ *(.zdebug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.zdebug_weaknames
+ *(.zdebug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.zdebug_funcnames
+ *(.zdebug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.zdebug_typenames
+ *(.zdebug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.zdebug_varnames
+ *(.zdebug_varnames)
+
+.debug_macro
+ *(.debug_macro)
+
+.zdebug_macro
+ *(.zdebug_macro)
+
+.debug_ranges
+ *(.debug_ranges)
+
+.zdebug_ranges
+ *(.zdebug_ranges)
+
+.debug_types
+ *(.debug_types .gnu.linkonce.wt.*)
+
+.zdebug_types
+ *(.zdebug_types .zdebug.gnu.linkonce.wt.*)
+OUTPUT(opf_debug.dll pei-x86-64)
+LOAD dll stuff

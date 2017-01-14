@@ -1,0 +1,118 @@
+     1                                  ;Author:	Jonas Brown
+     2                                  ;Date:		27/12-2016
+     3                                  ;File: 		Data.asm
+     4                                  
+     5                                  [BITS 64]
+     6                                  [SECTION .data]
+     7                                  ;Node
+     8                                  [GLOBAL Node.Position.Y]
+     9                                  [GLOBAL Node.Position.X]
+    10                                  [GLOBAL Node.Resistance]
+    11                                  [GLOBAL Node.Traversable]
+    12                                  [GLOBAL Node.Closed]
+    13                                  [GLOBAL Node.GCost]
+    14                                  [GLOBAL Node.HCost]
+    15                                  [GLOBAL Node.FCost]
+    16                                  [GLOBAL Node.ID]
+    17                                  [GLOBAL Node.PParent]
+    18                                  [GLOBAL Node.PNext]
+    19                                  [GLOBAL Node.Size]
+    20                                  [GLOBAL Node.BaseCost]
+    21                                  [GLOBAL Node.AdjecentOffsets]
+    22                                  ;NodeStack
+    23                                  [GLOBAL NodeStack.Top]
+    24                                  [GLOBAL NodeStack.Bottom]
+    25                                  [GLOBAL NodeStack.Count]
+    26                                  ;NodeOpenList
+    27                                  [GLOBAL NodeOpenList.First]
+    28                                  [GLOBAL NodeOpenList.Last]
+    29                                  [GLOBAL NodeOpenList.Count]
+    30                                  ;Grid
+    31                                  [GLOBAL Grid.IncludeDiagonals]
+    32                                  [GLOBAL Grid.StartX]
+    33                                  [GLOBAL Grid.StartY]
+    34                                  [GLOBAL Grid.PStartNode]
+    35                                  [GLOBAL Grid.TargetX]
+    36                                  [GLOBAL Grid.TargetY]
+    37                                  [GLOBAL Grid.PMap]
+    38                                  [GLOBAL Grid.MapWidth]
+    39                                  [GLOBAL Grid.MapHeight]
+    40                                  [GLOBAL Grid.POutBuffer]
+    41                                  [GLOBAL Grid.OutBufferSize]
+    42                                  ;TEST
+    43                                  ;[GLOBAL TestData.PMap]
+    44                                  ;[GLOBAL TestData.POutBuffer]
+    45                                  [DEFAULT REL]
+    46                                  ALIGN 8
+    47                                  
+    48                                  ;per node data accessors:
+    49                                  Node:
+    50                                  	;.ShadowBytes2	equ		62		;8*7+6	= 62
+    51                                  	;.ShadowBytes1	equ		60		;8*7+4	= 60
+    52                                  	;.ShadowBytes	equ		58		;8*7+2	= 58
+    53                                  	;imm const: offsets accessors for supplied data:
+    54                                  	.Position.Y:	equ 	56		;8*7 	= 56
+    55                                  	.Position.X:	equ 	54		;8*6+6 	= 54
+    56                                  	;imm const: offsets accessors:
+    57                                  	.Resistance:	equ		52		;8*6+4 	= 52
+    58                                  	.Traversable:	equ		50		;8*6+2 	= 50
+    59                                  	.Closed:		equ		48		;8*6 	= 48
+    60                                  	.GCost:			equ		40		;8*5 	= 40
+    61                                  	.HCost:			equ		32		;8*4 	= 32
+    62                                  	.FCost:			equ 	24		;8*3 	= 24
+    63                                  	.ID: 			equ 	16		;8*2 	= 16
+    64                                  	.PParent:		equ 	8		;8*1 	= 8
+    65                                  	.PNext			equ		0		;8*0 	= 0
+    66                                  	;imm const: offsets accessors: size of a node
+    67                                  	.Size:			equ 	58		;8*7+2	= 58
+    68                                  	;.Size:			equ 	64		;8*6 	= 64
+    69                                  	;const static data: base cost of traversing a node
+    70 00000000 0100000000000000        	.BaseCost: 			dq		1
+    71 00000008 010000000000000000-     	.AdjecentOffsets:	dq 		1,0, -1,0, 0,1, 0,-1, 1,1, 1,-1, -1,1, -1,-1
+    71 00000011 00000000000000FFFF-
+    71 0000001A FFFFFFFFFFFF000000-
+    71 00000023 000000000000000000-
+    71 0000002C 000000000100000000-
+    71 00000035 000000000000000000-
+    71 0000003E 0000FFFFFFFFFFFFFF-
+    71 00000047 FF0100000000000000-
+    71 00000050 010000000000000001-
+    71 00000059 00000000000000FFFF-
+    71 00000062 FFFFFFFFFFFFFFFFFF-
+    71 0000006B FFFFFFFFFF01000000-
+    71 00000074 00000000FFFFFFFFFF-
+    71 0000007D FFFFFFFFFFFFFFFFFF-
+    71 00000086 FFFF               
+    72                                  
+    73                                  ;per execution unit data accessors:	
+    74                                  ;stack alignment need - add 2 shadow bytes			
+    75                                  NodeStack:
+    76                                  	;imm const: offsets accessors: the topmost node on stack
+    77                                  	.Top:			equ		0 	;8*0 	= 0
+    78                                  	;imm const: offsets accessors: bottom node on stack
+    79                                  	.Bottom:		equ		8	;8*1 	= 8
+    80                                  	;imm const: number of nodes on the stack
+    81                                  	.Count:			equ		16	;8*2 	= 16
+    82                                  
+    83                                  NodeOpenList:
+    84                                  	;imm const: offsets accessors: the fist node in open list
+    85                                  	.First:			equ		24	;8*3 	= 24
+    86                                  	;imm const: offsets accessors: the last node in open list
+    87                                  	.Last:			equ		32	;8*4 	= 32
+    88                                  	;imm const: offsets accessors: number of nodes in open list
+    89                                  	.Count:			equ		40	;8*5 	= 40
+    90                                  
+    91                                  Grid:
+    92                                  	;imm const: offsets accessors:
+    93                                  	.IncludeDiagonals	equ		48	;8*6	= 48
+    94                                  	.StartX:			equ 	50	;8*6+2	= 50
+    95                                  	.StartY:			equ 	52	;8*6+4	= 52
+    96                                  	.TargetX:			equ 	54	;8*6+6	= 54
+    97                                  	.TargetY:			equ 	56	;8*7	= 56
+    98                                  	.MapWidth:			equ		58	;8*7+2	= 58
+    99                                  	.MapHeight:			equ 	60	;8*7+4	= 60
+   100                                  	.OutBufferSize: 	equ 	62	;8*7+6	= 62	
+   101                                  	.POutBuffer: 		equ 	64	;8*8	= 64
+   102                                  	.PMap				equ 	72	;8*9	= 72
+   103                                  	.PStartNode:		equ 	80	;8*10	= 80
+   104                                  ;	.Size:			equ 	88	;8*11 	= 88

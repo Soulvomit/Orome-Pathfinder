@@ -1,0 +1,44 @@
+     1                                  [BITS 64]
+     2                                  [SECTION .text]
+     3                                  [GLOBAL _Node2D.CalcManhattanDistance]
+     4                                  [GLOBAL _Node2D.GetByCoordinates]
+     5                                  ;From Node
+     6                                  [EXTERN Node.Position.X]
+     7                                  [EXTERN Node.Position.Y]
+     8                                  [EXTERN Node.Size]
+     9                                  [EXTERN NodeStack.Bottom]
+    10                                  [DEFAULT REL]
+    11                                  
+    12                                  _Node2D:
+    13                                  	;Uses r8-r15 as temp storage 
+    14                                  	;Params: rax = Node1, rbx = Node2
+    15                                  	;Return: rcx = vManhattanDistance
+    16                                  	.CalcManhattanDistance:
+    17 00000000 4C8B80[00000000]        		mov r8, [rax + Node.Position.X] 
+    18 00000007 4C8B88[00000000]        		mov r9, [rax + Node.Position.Y]
+    19 0000000E 4C2B83[00000000]        		sub r8, [rbx + Node.Position.X] 
+    20 00000015 4C2B8B[00000000]        		sub r9, [rbx + Node.Position.Y]
+    21                                  		;abs r8
+    22 0000001C 4D89C2                  		mov r10, r8 
+    23 0000001F 49F7D8                  		neg r8
+    24 00000022 4D0F4CC2                		cmovl r8, r10
+    25                                  		;abs r9
+    26 00000026 4D89CA                  		mov r10, r9
+    27 00000029 49F7D9                  		neg r9
+    28 0000002C 4D0F4CCA                		cmovl r9, r10
+    29                                  		;store return value in rcx and ret
+    30 00000030 4C89C1                  		mov rcx, r8
+    31 00000033 4C01C9                  		add rcx, r9
+    32 00000036 C3                      		ret
+    33                                  		
+    34                                  	;Uses r8-r15 as temp storage.
+    35                                  	;Params: rax = Node.Position.X; rbx = Node.Position.Y, rdx = Grid.Width
+    36                                  	;Return: rcx = Node Pointer
+    37                                  	.GetByCoordinates:
+    38 00000037 4989D8                  		mov r8, rbx
+    39 0000003A 4C0FAFC2                		imul r8, rdx
+    40 0000003E 4901C0                  		add r8, rax
+    41 00000041 4D69C0[00000000]        		imul r8, Node.Size
+    42 00000048 488B0D(00000000)        		mov rcx, [NodeStack.Bottom]
+    43 0000004F 4C29C1                  		sub rcx, r8
+    44 00000052 C3                      		ret

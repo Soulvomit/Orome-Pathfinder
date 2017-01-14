@@ -1,0 +1,192 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opf_native_win_wrapper", "opf_native_win_wrapper\opf_native_win_wrapper.vcxproj", "{B82595BC-5119-46C2-8675-1D27B2F81A40}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opf_native_test", "opf_native_test\opf_native_test.vcxproj", "{13893C50-4773-45AF-B3D1-1D870968D78A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B82595BC-5119-46C2-8675-1D27B2F81A40} = {B82595BC-5119-46C2-8675-1D27B2F81A40}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "opf_managed_win_wrapper", "opf_managed_win_wrapper\opf_managed_win_wrapper.csproj", "{BC1E4811-FE59-4F3B-8FEA-293CFA106806}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B82595BC-5119-46C2-8675-1D27B2F81A40} = {B82595BC-5119-46C2-8675-1D27B2F81A40}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "opf_managed_test", "opf_managed_test\opf_managed_test.csproj", "{287C4C9B-D619-430E-9B5C-E16D11B7A35C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{13893C50-4773-45AF-B3D1-1D870968D78A} = {13893C50-4773-45AF-B3D1-1D870968D78A}
+		{B82595BC-5119-46C2-8675-1D27B2F81A40} = {B82595BC-5119-46C2-8675-1D27B2F81A40}
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "opf_nasm", "opf_nasm", "{876036C8-4CEA-4D09-B583-64102CD50A33}"
+	ProjectSection(SolutionItems) = preProject
+		opf_nasm\opf_nasm_version_log.txt = opf_nasm\opf_nasm_version_log.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v0_3_0", "v0_3_0", "{CEE1CC05-31C4-4A3D-9C38-0213AFCFF583}"
+	ProjectSection(SolutionItems) = preProject
+		opf_nasm\v0_3_0\build.sh = opf_nasm\v0_3_0\build.sh
+		opf_nasm\v0_3_0\Data.asm = opf_nasm\v0_3_0\Data.asm
+		opf_nasm\v0_3_0\Data.lst = opf_nasm\v0_3_0\Data.lst
+		opf_nasm\v0_3_0\Data.o64 = opf_nasm\v0_3_0\Data.o64
+		opf_nasm\v0_3_0\FindPath.asm = opf_nasm\v0_3_0\FindPath.asm
+		opf_nasm\v0_3_0\FindPath.lst = opf_nasm\v0_3_0\FindPath.lst
+		opf_nasm\v0_3_0\FindPath.o64 = opf_nasm\v0_3_0\FindPath.o64
+		opf_nasm\v0_3_0\Node.asm = opf_nasm\v0_3_0\Node.asm
+		opf_nasm\v0_3_0\Node.lst = opf_nasm\v0_3_0\Node.lst
+		opf_nasm\v0_3_0\Node.o64 = opf_nasm\v0_3_0\Node.o64
+		opf_nasm\v0_3_0\Node2D.asm = opf_nasm\v0_3_0\Node2D.asm
+		opf_nasm\v0_3_0\Node2D.lst = opf_nasm\v0_3_0\Node2D.lst
+		opf_nasm\v0_3_0\Node2D.o64 = opf_nasm\v0_3_0\Node2D.o64
+		opf_nasm\v0_3_0\opf.dll = opf_nasm\v0_3_0\opf.dll
+		opf_nasm\v0_3_0\opf.map = opf_nasm\v0_3_0\opf.map
+		opf_nasm\v0_3_0\opf_debug.dll = opf_nasm\v0_3_0\opf_debug.dll
+		opf_nasm\v0_3_0\opf_debug.map = opf_nasm\v0_3_0\opf_debug.map
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v0_2_0", "v0_2_0", "{D414A3B3-B6D4-48EE-9885-66797E9D75A3}"
+	ProjectSection(SolutionItems) = preProject
+		opf_nasm\v0_2_0\build.sh = opf_nasm\v0_2_0\build.sh
+		opf_nasm\v0_2_0\Data.asm = opf_nasm\v0_2_0\Data.asm
+		opf_nasm\v0_2_0\Data.lst = opf_nasm\v0_2_0\Data.lst
+		opf_nasm\v0_2_0\Data.o64 = opf_nasm\v0_2_0\Data.o64
+		opf_nasm\v0_2_0\FindPath.asm = opf_nasm\v0_2_0\FindPath.asm
+		opf_nasm\v0_2_0\FindPath.lst = opf_nasm\v0_2_0\FindPath.lst
+		opf_nasm\v0_2_0\FindPath.o64 = opf_nasm\v0_2_0\FindPath.o64
+		opf_nasm\v0_2_0\Node.asm = opf_nasm\v0_2_0\Node.asm
+		opf_nasm\v0_2_0\Node.lst = opf_nasm\v0_2_0\Node.lst
+		opf_nasm\v0_2_0\Node.o64 = opf_nasm\v0_2_0\Node.o64
+		opf_nasm\v0_2_0\Node2D.asm = opf_nasm\v0_2_0\Node2D.asm
+		opf_nasm\v0_2_0\Node2D.lst = opf_nasm\v0_2_0\Node2D.lst
+		opf_nasm\v0_2_0\Node2D.o64 = opf_nasm\v0_2_0\Node2D.o64
+		opf_nasm\v0_2_0\pathfinder.dll = opf_nasm\v0_2_0\pathfinder.dll
+		opf_nasm\v0_2_0\pathfinder.map = opf_nasm\v0_2_0\pathfinder.map
+		opf_nasm\v0_2_0\pathfinder_debug.dll = opf_nasm\v0_2_0\pathfinder_debug.dll
+		opf_nasm\v0_2_0\pathfinder_debug.map = opf_nasm\v0_2_0\pathfinder_debug.map
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v0_1_0", "v0_1_0", "{523F18F4-DD97-4591-A4B3-94EA1AD8EA3C}"
+	ProjectSection(SolutionItems) = preProject
+		opf_nasm\v0_1_0\build.sh = opf_nasm\v0_1_0\build.sh
+		opf_nasm\v0_1_0\Data.asm = opf_nasm\v0_1_0\Data.asm
+		opf_nasm\v0_1_0\Data.lst = opf_nasm\v0_1_0\Data.lst
+		opf_nasm\v0_1_0\Data.o64 = opf_nasm\v0_1_0\Data.o64
+		opf_nasm\v0_1_0\FindPath.asm = opf_nasm\v0_1_0\FindPath.asm
+		opf_nasm\v0_1_0\FindPath.lst = opf_nasm\v0_1_0\FindPath.lst
+		opf_nasm\v0_1_0\FindPath.o64 = opf_nasm\v0_1_0\FindPath.o64
+		opf_nasm\v0_1_0\Node.asm = opf_nasm\v0_1_0\Node.asm
+		opf_nasm\v0_1_0\Node.lst = opf_nasm\v0_1_0\Node.lst
+		opf_nasm\v0_1_0\Node.o64 = opf_nasm\v0_1_0\Node.o64
+		opf_nasm\v0_1_0\Node2D.asm = opf_nasm\v0_1_0\Node2D.asm
+		opf_nasm\v0_1_0\Node2D.lst = opf_nasm\v0_1_0\Node2D.lst
+		opf_nasm\v0_1_0\Node2D.o64 = opf_nasm\v0_1_0\Node2D.o64
+		opf_nasm\v0_1_0\pathfinder.dll = opf_nasm\v0_1_0\pathfinder.dll
+		opf_nasm\v0_1_0\pathfinder.map = opf_nasm\v0_1_0\pathfinder.map
+		opf_nasm\v0_1_0\pathfinder_debug.dll = opf_nasm\v0_1_0\pathfinder_debug.dll
+		opf_nasm\v0_1_0\pathfinder_debug.map = opf_nasm\v0_1_0\pathfinder_debug.map
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "opf_test_projects", "opf_test_projects", "{6D442F17-868C-490F-AFDD-2BCBEF2DB139}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "opf_docs", "opf_docs", "{19D81F5A-80B7-4D6F-B1E4-798A9DFC1256}"
+	ProjectSection(SolutionItems) = preProject
+		opf_doc.pdf = opf_doc.pdf
+		opf_system_overview.pdf = opf_system_overview.pdf
+		opf_system_version_log.txt = opf_system_version_log.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v0_3_1", "v0_3_1", "{43F08463-C9A6-489D-9224-3A269CB4BDA1}"
+	ProjectSection(SolutionItems) = preProject
+		opf_nasm\v0_3_1\build.sh = opf_nasm\v0_3_1\build.sh
+		opf_nasm\v0_3_1\Data.asm = opf_nasm\v0_3_1\Data.asm
+		opf_nasm\v0_3_1\Data.lst = opf_nasm\v0_3_1\Data.lst
+		opf_nasm\v0_3_1\Data.o64 = opf_nasm\v0_3_1\Data.o64
+		opf_nasm\v0_3_1\FindPath.asm = opf_nasm\v0_3_1\FindPath.asm
+		opf_nasm\v0_3_1\FindPath.lst = opf_nasm\v0_3_1\FindPath.lst
+		opf_nasm\v0_3_1\FindPath.o64 = opf_nasm\v0_3_1\FindPath.o64
+		opf_nasm\v0_3_1\Node.asm = opf_nasm\v0_3_1\Node.asm
+		opf_nasm\v0_3_1\Node.lst = opf_nasm\v0_3_1\Node.lst
+		opf_nasm\v0_3_1\Node.o64 = opf_nasm\v0_3_1\Node.o64
+		opf_nasm\v0_3_1\Node2D.asm = opf_nasm\v0_3_1\Node2D.asm
+		opf_nasm\v0_3_1\Node2D.lst = opf_nasm\v0_3_1\Node2D.lst
+		opf_nasm\v0_3_1\Node2D.o64 = opf_nasm\v0_3_1\Node2D.o64
+		opf_nasm\v0_3_1\opf.dll = opf_nasm\v0_3_1\opf.dll
+		opf_nasm\v0_3_1\opf.map = opf_nasm\v0_3_1\opf.map
+		opf_nasm\v0_3_1\opf_debug.dll = opf_nasm\v0_3_1\opf_debug.dll
+		opf_nasm\v0_3_1\opf_debug.map = opf_nasm\v0_3_1\opf_debug.map
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B82595BC-5119-46C2-8675-1D27B2F81A40}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{B82595BC-5119-46C2-8675-1D27B2F81A40}.Debug|Any CPU.Build.0 = Debug|x64
+		{B82595BC-5119-46C2-8675-1D27B2F81A40}.Debug|x64.ActiveCfg = Debug|x64
+		{B82595BC-5119-46C2-8675-1D27B2F81A40}.Debug|x64.Build.0 = Debug|x64
+		{B82595BC-5119-46C2-8675-1D27B2F81A40}.Debug|x86.ActiveCfg = Debug|Win32
+		{B82595BC-5119-46C2-8675-1D27B2F81A40}.Debug|x86.Build.0 = Debug|Win32
+		{B82595BC-5119-46C2-8675-1D27B2F81A40}.Release|Any CPU.ActiveCfg = Release|x64
+		{B82595BC-5119-46C2-8675-1D27B2F81A40}.Release|Any CPU.Build.0 = Release|x64
+		{B82595BC-5119-46C2-8675-1D27B2F81A40}.Release|x64.ActiveCfg = Release|x64
+		{B82595BC-5119-46C2-8675-1D27B2F81A40}.Release|x64.Build.0 = Release|x64
+		{B82595BC-5119-46C2-8675-1D27B2F81A40}.Release|x86.ActiveCfg = Release|Win32
+		{B82595BC-5119-46C2-8675-1D27B2F81A40}.Release|x86.Build.0 = Release|Win32
+		{13893C50-4773-45AF-B3D1-1D870968D78A}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{13893C50-4773-45AF-B3D1-1D870968D78A}.Debug|Any CPU.Build.0 = Debug|x64
+		{13893C50-4773-45AF-B3D1-1D870968D78A}.Debug|x64.ActiveCfg = Debug|x64
+		{13893C50-4773-45AF-B3D1-1D870968D78A}.Debug|x64.Build.0 = Debug|x64
+		{13893C50-4773-45AF-B3D1-1D870968D78A}.Debug|x86.ActiveCfg = Debug|Win32
+		{13893C50-4773-45AF-B3D1-1D870968D78A}.Debug|x86.Build.0 = Debug|Win32
+		{13893C50-4773-45AF-B3D1-1D870968D78A}.Release|Any CPU.ActiveCfg = Release|x64
+		{13893C50-4773-45AF-B3D1-1D870968D78A}.Release|Any CPU.Build.0 = Release|x64
+		{13893C50-4773-45AF-B3D1-1D870968D78A}.Release|x64.ActiveCfg = Release|x64
+		{13893C50-4773-45AF-B3D1-1D870968D78A}.Release|x64.Build.0 = Release|x64
+		{13893C50-4773-45AF-B3D1-1D870968D78A}.Release|x86.ActiveCfg = Release|Win32
+		{13893C50-4773-45AF-B3D1-1D870968D78A}.Release|x86.Build.0 = Release|Win32
+		{BC1E4811-FE59-4F3B-8FEA-293CFA106806}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC1E4811-FE59-4F3B-8FEA-293CFA106806}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC1E4811-FE59-4F3B-8FEA-293CFA106806}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BC1E4811-FE59-4F3B-8FEA-293CFA106806}.Debug|x64.Build.0 = Debug|Any CPU
+		{BC1E4811-FE59-4F3B-8FEA-293CFA106806}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BC1E4811-FE59-4F3B-8FEA-293CFA106806}.Debug|x86.Build.0 = Debug|Any CPU
+		{BC1E4811-FE59-4F3B-8FEA-293CFA106806}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC1E4811-FE59-4F3B-8FEA-293CFA106806}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC1E4811-FE59-4F3B-8FEA-293CFA106806}.Release|x64.ActiveCfg = Release|Any CPU
+		{BC1E4811-FE59-4F3B-8FEA-293CFA106806}.Release|x64.Build.0 = Release|Any CPU
+		{BC1E4811-FE59-4F3B-8FEA-293CFA106806}.Release|x86.ActiveCfg = Release|Any CPU
+		{BC1E4811-FE59-4F3B-8FEA-293CFA106806}.Release|x86.Build.0 = Release|Any CPU
+		{287C4C9B-D619-430E-9B5C-E16D11B7A35C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{287C4C9B-D619-430E-9B5C-E16D11B7A35C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{287C4C9B-D619-430E-9B5C-E16D11B7A35C}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{287C4C9B-D619-430E-9B5C-E16D11B7A35C}.Debug|x64.Build.0 = Debug|Any CPU
+		{287C4C9B-D619-430E-9B5C-E16D11B7A35C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{287C4C9B-D619-430E-9B5C-E16D11B7A35C}.Debug|x86.Build.0 = Debug|Any CPU
+		{287C4C9B-D619-430E-9B5C-E16D11B7A35C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{287C4C9B-D619-430E-9B5C-E16D11B7A35C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{287C4C9B-D619-430E-9B5C-E16D11B7A35C}.Release|x64.ActiveCfg = Release|Any CPU
+		{287C4C9B-D619-430E-9B5C-E16D11B7A35C}.Release|x64.Build.0 = Release|Any CPU
+		{287C4C9B-D619-430E-9B5C-E16D11B7A35C}.Release|x86.ActiveCfg = Release|Any CPU
+		{287C4C9B-D619-430E-9B5C-E16D11B7A35C}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{13893C50-4773-45AF-B3D1-1D870968D78A} = {6D442F17-868C-490F-AFDD-2BCBEF2DB139}
+		{287C4C9B-D619-430E-9B5C-E16D11B7A35C} = {6D442F17-868C-490F-AFDD-2BCBEF2DB139}
+		{CEE1CC05-31C4-4A3D-9C38-0213AFCFF583} = {876036C8-4CEA-4D09-B583-64102CD50A33}
+		{D414A3B3-B6D4-48EE-9885-66797E9D75A3} = {876036C8-4CEA-4D09-B583-64102CD50A33}
+		{523F18F4-DD97-4591-A4B3-94EA1AD8EA3C} = {876036C8-4CEA-4D09-B583-64102CD50A33}
+		{43F08463-C9A6-489D-9224-3A269CB4BDA1} = {876036C8-4CEA-4D09-B583-64102CD50A33}
+	EndGlobalSection
+EndGlobal

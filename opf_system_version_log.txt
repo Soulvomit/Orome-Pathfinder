@@ -1,0 +1,5 @@
+v0.0.1 - C++ - Tested code from Visual Studio and made a simple C++ interface method.
+v0.0.2 - C++ - Created threaded native windows wrapper for winapi application + tested "thread safety".
+v0.0.3 - C++ - Created a small native test application.
+v0.0.4 - C# - Created managed wrapper for .net application + comment/document more!
+v0.0.5 - C# - Created a managed winforms test application. 
