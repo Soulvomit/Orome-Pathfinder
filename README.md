@@ -36,15 +36,15 @@ Fast NASM implementation of A* pathfinding!
 
  4.1. OFP.DLL
    - The  NASM source code linked with a PE-header for use on the Win64 platform.
- Calling Convention: https://msdn.microsoft.com/en-us/library/ms235286.aspx 
- NASM Windows (v2.12.02rc6): nasm -O 3 -f win64 *.asm -o *.o64 -l *.lst 
- Cygwin64 LD (v2.25.2): ld -shared -O 3 -s -e DllMain -o opf.dll “all_files”.o64 -Map=opf.map
+     - Calling Convention: https://msdn.microsoft.com/en-us/library/ms235286.aspx 
+     - NASM Windows (v2.12.02rc6): nasm -O 3 -f win64 *.asm -o *.o64 -l *.lst 
+     - Cygwin64 LD (v2.25.2): ld -shared -O 3 -s -e DllMain -o opf.dll “all_files”.o64 -Map=opf.map
 
  4.2. LIBOFP.SO
    - (WIP – Not done yet) The NASM source code linked with a ELF-header for use on Unix64 platforms. 
- Calling Convention: https://github.com/hjl-tools/x86-psABI/wiki/X86-psABI
- NASM Linux (v2.10.09): nasm -O 3 -f elf64 *.asm -o *.elf64 -l *.lst
- GNU LD (v2.24): ld -shared -soname -O 3 -s -o libopf.so “all_files”.elf64 -Map=libopf.map
+     - Calling Convention: https://github.com/hjl-tools/x86-psABI/wiki/X86-psABI
+     - NASM Linux (v2.10.09): nasm -O 3 -f elf64 *.asm -o *.elf64 -l *.lst
+     - GNU LD (v2.24): ld -shared -soname -O 3 -s -o libopf.so “all_files”.elf64 -Map=libopf.map
 
  4.3. OPF_NATIVE_WIN_WRAPPER.DLL 
    - This module has two main purposes; firstly, it provides an entry point to the native windows world. You should use it, if you wish to write a native C or C++ program (or any native language with windows dynamic linking support) using the Oromë Pathfinder. The second purpose of the module is, to contain the operation of different path-finding algorithms, within their own execution units (aka threading and synchronizing). Since an Oromë path-finding algorithm rely heavily on stack usage, it is always best to run it within an isolated execution unit, with the correct stack size. The “threaded” path-finding interfaces contained within this module, handles this for you. If you wish to provide your own threading, the “non-threaded” interfaces are also available. But be warned; using the non-threaded interfaces with in a larger application (such as a game) is error-prone as hell, and simply a recipe for disaster, if you don't know what you are doing. Bottom line; use the threaded interfaces or provide your own threading support for the normal interfaces.
