@@ -137,6 +137,11 @@
     <None Include="Resources\orome_by_estelinakina.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>mkdir "$(SolutionDir)$(Configuration)\docs"
+copy /Y "$(SolutionDir)opf_doc.pdf" "$(SolutionDir)$(Configuration)\docs\opf_doc.pdf"
+copy /Y "$(SolutionDir)opf_system_overview.pdf" "$(SolutionDir)$(Configuration)\docs\opf_system_overview.pdf"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
