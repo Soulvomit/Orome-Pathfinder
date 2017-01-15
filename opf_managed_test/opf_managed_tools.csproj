@@ -7,8 +7,8 @@
     <ProjectGuid>{287C4C9B-D619-430E-9B5C-E16D11B7A35C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>opf_managed_test</RootNamespace>
-    <AssemblyName>opf_managed_test</AssemblyName>
+    <RootNamespace>opf_managed_tools</RootNamespace>
+    <AssemblyName>opf_managed_tools</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -138,9 +138,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>mkdir "$(SolutionDir)$(Configuration)\docs"
-copy /Y "$(SolutionDir)opf_doc.pdf" "$(SolutionDir)$(Configuration)\docs\opf_doc.pdf"
-copy /Y "$(SolutionDir)opf_system_overview.pdf" "$(SolutionDir)$(Configuration)\docs\opf_system_overview.pdf"</PostBuildEvent>
+    <PostBuildEvent>if $(ConfigurationName) == Release (
+copy /Y "$(SolutionDir)Release\opf_managed_tools.exe" "$(SolutionDir)opf_bin\opf_manged_tools.exe"
+mkdir "$(SolutionDir)opf_bin\docs"
+copy /Y "$(SolutionDir)opf_doc.pdf" "$(SolutionDir)opf_bin\docs\opf_doc.pdf"
+copy /Y "$(SolutionDir)opf_system_overview.pdf" "$(SolutionDir)opf_bin\docs\opf_system_overview.pdf"
+)</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -131,8 +131,12 @@
       </LinkTimeCodeGeneration>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y "$(SolutionDir)opf_nasm\v0_3_0\opf.dll" "$(SolutionDir)$(Configuration)\opf.dll"</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>copy /Y "$(SolutionDir)opf_nasm\v0_3_0\opf.dll" "$(SolutionDir)$(Configuration)\opf.dll"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -176,8 +180,13 @@
       </StackCommitSize>
     </Link>
     <PostBuildEvent>
-      <Command>copy /Y "$(SolutionDir)opf_nasm\v0_3_0\opf.dll" "$(SolutionDir)$(Configuration)\opf.dll"</Command>
+      <Command>copy /Y "$(SolutionDir)Release\opf_native_win_wrapper.dll" "$(SolutionDir)opf_bin\opf_native_win_wrapper.dll"
+copy /Y "$(SolutionDir)opf_nasm\v0_3_0\opf.dll" "$(SolutionDir)opf_bin\opf.dll"
+</Command>
     </PostBuildEvent>
+    <PreBuildEvent>
+      <Command>copy /Y "$(SolutionDir)opf_nasm\v0_3_0\opf.dll" "$(SolutionDir)$(Configuration)\opf.dll"</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="opf_native_interface.h" />

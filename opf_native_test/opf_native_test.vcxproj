@@ -176,6 +176,10 @@
       <AdditionalLibraryDirectories>
       </AdditionalLibraryDirectories>
     </Link>
+    <PostBuildEvent>
+      <Command>copy /Y "$(SolutionDir)Release\opf_native_test.exe" "$(SolutionDir)opf_bin\opf_native_test.exe"
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="opf_native_test.cpp" />
