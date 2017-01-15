@@ -107,11 +107,9 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_WINDOWS;_USRDLL;PF_NATIVE_WIN_WRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <IntrinsicFunctions>
-      </IntrinsicFunctions>
       <WholeProgramOptimization>
       </WholeProgramOptimization>
-      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BasicRuntimeChecks>UninitializedLocalUsageCheck</BasicRuntimeChecks>
       <CallingConvention>Cdecl</CallingConvention>
       <MinimalRebuild>true</MinimalRebuild>
       <FunctionLevelLinking>false</FunctionLevelLinking>
@@ -158,7 +156,7 @@
       <WarningLevel>Level4</WarningLevel>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <Optimization>Disabled</Optimization>
+      <Optimization>Custom</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_WINDOWS;_USRDLL;PF_NATIVE_WIN_WRAPPER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>

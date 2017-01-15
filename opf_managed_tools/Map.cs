@@ -117,6 +117,7 @@ namespace opf_managed_test
                 OPFVisual.Console.Text = "CONSOLE::" + pft.Status;
             }
         }
+
         public void ClearPath()
         {
             if (startNode != null)
