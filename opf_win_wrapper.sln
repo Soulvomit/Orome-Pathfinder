@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "opf_managed_win_wrapper", "
 		{B82595BC-5119-46C2-8675-1D27B2F81A40} = {B82595BC-5119-46C2-8675-1D27B2F81A40}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "opf_managed_tools", "opf_managed_test\opf_managed_tools.csproj", "{287C4C9B-D619-430E-9B5C-E16D11B7A35C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "opf_managed_tools", "opf_managed_tools\opf_managed_tools.csproj", "{287C4C9B-D619-430E-9B5C-E16D11B7A35C}"
 	ProjectSection(ProjectDependencies) = postProject
 		{13893C50-4773-45AF-B3D1-1D870968D78A} = {13893C50-4773-45AF-B3D1-1D870968D78A}
 		{B82595BC-5119-46C2-8675-1D27B2F81A40} = {B82595BC-5119-46C2-8675-1D27B2F81A40}
