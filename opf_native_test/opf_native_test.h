@@ -1,8 +1,8 @@
 #pragma once
 #include <iostream>
 #include <string>
-#include "../opf_native_win_wrapper/opf_native_interface_threaded.h"
-#include "../opf_native_win_wrapper/opf_native_interface.h"
+#include <opf_native_interface_threaded.h>
+#include <opf_native_interface.h>
 
 #pragma comment(lib, "opf_native_win_wrapper")
 
