@@ -45,8 +45,10 @@ BOOL APIENTRY DllMain(HMODULE hModule, WORD ul_reason_for_call, LPVOID lpReserve
 
 bool LoadResources() 
 {
+
 	//try to load opf.dll library
 	hPathfinder = LoadLibrary(L"opf.dll");
+
 	//if load fails
 	if (!hPathfinder)
 	{

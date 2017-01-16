@@ -83,7 +83,8 @@
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>copy /Y "$(SolutionDir)opf_nasm\v0_3_0\opf.dll" "$(SolutionDir)$(Configuration)\opf.dll"</Command>
+      <Command>copy /Y "$(SolutionDir)opf_nasm\v0_3_0\opf.dll" "$(SolutionDir)$(Configuration)\opf.dll"
+copy /Y "$(SolutionDir)opf_nasm\v0_3_0\opf_debug.dll" "$(SolutionDir)$(Configuration)\opf_debug.dll"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
