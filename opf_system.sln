@@ -98,6 +98,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "opf_bin", "opf_bin", "{7EF8
 		opf_bin\opf_managed_win_wrapper.dll = opf_bin\opf_managed_win_wrapper.dll
 		opf_bin\opf_manged_tools.exe = opf_bin\opf_manged_tools.exe
 		opf_bin\opf_native_test.exe = opf_bin\opf_native_test.exe
+		opf_bin\opf_native_win_failsafe.dll = opf_bin\opf_native_win_failsafe.dll
 		opf_bin\opf_native_win_wrapper.dll = opf_bin\opf_native_win_wrapper.dll
 	EndProjectSection
 EndProject

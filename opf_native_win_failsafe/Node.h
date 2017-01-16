@@ -16,7 +16,7 @@ class Node
 private:
 	//Internal Members:
 	int mID;						//identifier of node, corrosponds to place on grid
-	unsigned char mResistance;				//resistance multiplier of traversing through this node
+	unsigned char mResistance;		//resistance multiplier of traversing through this node
 	Point2D mPosition;				//ptr to this nodes 2d point on a grid
 	bool mTraversable;				//set if node is non-traversable
 	bool mClosed = false;			//set if node has been checked
@@ -43,7 +43,7 @@ private:
 
 public:
 	//Constructor:
-	Node(int X, int Y, int ID, bool traversable = true, unsigned char resistance = 1)
+	Node(unsigned short X, unsigned short Y, int ID, bool traversable = true, unsigned char resistance = 1)
 	{
 		mPosition.X = X;
 		mPosition.Y = Y;

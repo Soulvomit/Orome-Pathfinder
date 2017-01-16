@@ -102,7 +102,7 @@ namespace opf_managed_test
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            PFTask pft = new PFTask(startNode, targetNode, this, width*height, OPFVisual.IncludeDiagonals, 1);
+            PFTask pft = new PFTask(startNode, targetNode, this, width*height, OPFVisual.IncludeDiagonals, 1, OPFVisual.UseFailsafe);
             pft.WaitJoin();
             sw.Stop();
 

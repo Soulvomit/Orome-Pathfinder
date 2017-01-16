@@ -7,6 +7,8 @@ File: 		opf_native_interface_threaded.cpp
 #pragma once
 #include "opf_native_win_wrapper.h"
 
+#pragma comment(lib, "opf_native_win_failsafe")
+
 //global type defined pointer to FindPath routine 
 ASM_INTERFACE FindPathASMRoutine = (ASM_INTERFACE)0x0;
 //global unstance ptr to opf.dll

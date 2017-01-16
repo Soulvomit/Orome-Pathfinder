@@ -21,5 +21,5 @@ int Point2D::CalcManhattanDistance(Point2D *pTargetPoint)
 	//(absolut value of (x2 - x1) + absolut value of (y2 - y1)) * cost of moving one point
 	int a = pTargetPoint->X - X;
 	int b = pTargetPoint->Y - Y;
-	return (abs(a) + abs(b)) * _BaseCost;
+	return (abs(a) + abs(b));
 }

@@ -7,7 +7,7 @@ File: 		opf_native_win_wrapper.h
 
 #pragma once
 #include "stdafx.h"
-#include <opf_native_win_failsafe.h> 
+#include <opf_native_win_failsafe.h>
 #include <deque>
 #include <ctime>
 

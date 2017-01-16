@@ -7,7 +7,8 @@ File: 		opf_native_interface_threaded.h
 
 #pragma once
 #include "opf_native_win_wrapper.h"
-#define NODE_SIZE 58			//size of the internal node of the pathfinder.dll in bytes; don't change
+#define FAILSAFE_NODE_SIZE 50	//size of the internal node of the failsafe in bytes; don't change
+#define NODE_SIZE 58			//size of the internal node of the opf.dll in bytes; don't change
 #define SHADOW_SIZE 1000		//size of shadow space, must be atleast 88 bytes for thread local storage
 
 //defines thread instance data; all data is threadsafe if accessed through interface functions 
@@ -47,7 +48,7 @@ struct PFTHREAD_PARAMS
 ***************************************************************************************************************************/
 extern "C" __declspec(dllexport) PFTHREAD_INSTANCE_DATA* FindPathThreaded(const int nStartX, const int nStartY, 
 	const int nTargetX, const int nTargetY, const unsigned char* pMap, const int nMapWidth, const int nMapHeight, 
-	const int nOutBufferSize);
+	const int nOutBufferSize, const bool nUseFailsafe = false);
 
 /***************************************************************************************************************************
 ** Starts a thread which extends on the functionality of FindPathThreaded(). Diagonals; optional.
@@ -59,7 +60,8 @@ extern "C" __declspec(dllexport) PFTHREAD_INSTANCE_DATA* FindPathThreaded(const 
 ***************************************************************************************************************************/
 extern "C" __declspec(dllexport) PFTHREAD_INSTANCE_DATA* FindPathExThreaded(const int nStartX, const int nStartY, 
 	const int nTargetX, const int nTargetY, const unsigned char* pMap, const int nMapWidth, const int nMapHeight, 
-	const int nOutBufferSize, const bool nIncludeDiagonal = false, const unsigned char nNodeBaseCost = 1);
+	const int nOutBufferSize, const bool nIncludeDiagonal = false, const unsigned char nNodeBaseCost = 1, 
+	const bool nUseFailsafe = false);
 
 /**************************************************************************************************************************
 ** Extends on the functionality of FindPathEx(). Provides profiling options to let the caller benchmark
@@ -75,8 +77,8 @@ extern "C" __declspec(dllexport) PFTHREAD_INSTANCE_DATA* FindPathExThreaded(cons
 ***************************************************************************************************************************/
 extern "C" __declspec(dllexport) int FindPathExProfilingThreaded(const int nStartX, const int nStartY, const int nTargetX,
 	const int nTargetY, const int nMapWidth, const int nMapHeight, const int nOutBufferSize, double& nOutTimeMS, 
-	const int nPasses = 1, const int nMaxThreads = 4, const bool nIncludeDiagonal = false, 
-	const unsigned char  nNodeBaseCost = 1, const bool nRandomData = true, const unsigned char nFrequency = 2);
+	const int nPasses = 1, const int nMaxThreads = 4, const bool nIncludeDiagonal = false, const unsigned char  nNodeBaseCost = 1, 
+	const bool nRandomData = true, const unsigned char nFrequency = 2, const bool nUseFailsafe = false);
 
 //check if thread is ready to join; joins thread if ready, else returns false
 extern "C" __declspec(dllexport) bool PFThreadJoin(PFTHREAD_INSTANCE_DATA* pTid);
@@ -93,3 +95,5 @@ extern "C" __declspec(dllexport) void PFThreadDeleteTID(PFTHREAD_INSTANCE_DATA* 
 
 //the winapi thread handler interface
 DWORD WINAPI PFThreadHandler(LPVOID lpParam);
+//the winapi failsafe thread handler interface
+DWORD WINAPI PFThreadHandlerFailsafe(LPVOID lpParam);

@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 
 		ProfileThreaded(width, height, max_pathlength, passes, activethreads, frequency);
 
-		ProfileNonThreaded(width, height, max_pathlength, passes, frequency);
+		ProfileThreadedFailsafe(width, height, max_pathlength, passes, activethreads, frequency);
 		
 		std::cout << "Benchmark done..." << std::endl;
 
@@ -39,7 +39,23 @@ void ProfileNonThreaded(const int width, const int height, const int max_pathlen
 	int failures = FindPathExProfiling(nStart[0], nStart[1], nTarget[0], nTarget[1], nMapSize[0], nMapSize[1],
 		max_pathlength, OutTime, passes, true, BASECOST, true, frequency);
 
-	std::cout << "Non-Threaded Benchmark:" << std::endl;
+	std::cout << "Non-Threaded x86-64 Benchmark:" << std::endl;
+	std::cout << "Time in MS: " << OutTime << std::endl;
+	std::cout << "Failures: " << failures << "/" << passes << std::endl << std::endl;
+}
+
+void ProfileNonThreadedFailsafe(const int width, const int height, const int max_pathlength, const int passes, const unsigned char frequency)
+{
+	const int nStart[2] = { 0, 0 };
+	const int nTarget[2] = { width - 1, height - 1 };
+	const int nMapSize[2] = { width, height };
+
+	double OutTime = 0;
+
+	int failures = FindPathExProfiling(nStart[0], nStart[1], nTarget[0], nTarget[1], nMapSize[0], nMapSize[1],
+		max_pathlength, OutTime, passes, true, BASECOST, true, frequency);
+
+	std::cout << "Non-Threaded C++ Benchmark:" << std::endl;
 	std::cout << "Time in MS: " << OutTime << std::endl;
 	std::cout << "Failures: " << failures << "/" << passes << std::endl << std::endl;
 }
@@ -54,9 +70,26 @@ void ProfileThreaded(const int width, const int height, const int max_pathlength
 	double OutTime = 0;
 
 	int failures = FindPathExProfilingThreaded(nStart[0], nStart[1], nTarget[0], nTarget[1], nMapSize[0], nMapSize[1],
-		max_pathlength, OutTime, passes, activethreads, true, BASECOST, true, frequency);
+		max_pathlength, OutTime, passes, activethreads, true, BASECOST, true, frequency, false);
 
-	std::cout << "Threaded Benchmark:" << std::endl;
+	std::cout << "Threaded x86-64 Benchmark:" << std::endl;
+	std::cout << "Time in MS: " << OutTime << std::endl;
+	std::cout << "Failures: " << failures << "/" << passes << std::endl << std::endl;
+}
+
+void ProfileThreadedFailsafe(const int width, const int height, const int max_pathlength, const int passes, const int activethreads,
+	const unsigned char frequency)
+{
+	const int nStart[2] = { 0, 0 };
+	const int nTarget[2] = { width - 1, height - 1 };
+	const int nMapSize[2] = { width, height };
+
+	double OutTime = 0;
+
+	int failures = FindPathExProfilingThreaded(nStart[0], nStart[1], nTarget[0], nTarget[1], nMapSize[0], nMapSize[1],
+		max_pathlength, OutTime, passes, activethreads, true, BASECOST, true, frequency, true);
+
+	std::cout << "Threaded C++ Benchmark:" << std::endl;
 	std::cout << "Time in MS: " << OutTime << std::endl;
 	std::cout << "Failures: " << failures << "/" << passes << std::endl << std::endl;
 }
@@ -71,16 +104,16 @@ void Profile()
 	std::cout << "Benchmark started..." << std::endl << std::endl;
 
 	int failures = FindPathExProfilingThreaded(nStart[0], nStart[1], nTarget[0], nTarget[1], nMapSize[0],
-		nMapSize[1], MAX_PATHLENGTH, OutTime, PASSES, ACTIVETHREADS, true, BASECOST, true, FREQUENCY);
+		nMapSize[1], MAX_PATHLENGTH, OutTime, PASSES, ACTIVETHREADS, true, BASECOST, true, FREQUENCY, false);
 
-	std::cout << "Threaded Benchmark:" << std::endl;
+	std::cout << "Threaded x86-64 Benchmark:" << std::endl;
 	std::cout << "Time in MS: " << OutTime << std::endl;
 	std::cout << "Failures: " << failures << "/" << PASSES << std::endl << std::endl;
 
-	int failures1 = FindPathExProfiling(nStart[0], nStart[1], nTarget[0], nTarget[1], nMapSize[0],
-		nMapSize[1], MAX_PATHLENGTH, OutTime, PASSES, true, BASECOST, true, FREQUENCY);
+	int failures1 = FindPathExProfilingThreaded(nStart[0], nStart[1], nTarget[0], nTarget[1], nMapSize[0],
+		nMapSize[1], MAX_PATHLENGTH, OutTime, PASSES, ACTIVETHREADS, true, BASECOST, true, FREQUENCY, true);
 
-	std::cout << "Non-Threaded Benchmark:" << std::endl;
+	std::cout << "Threaded C++ Benchmark:" << std::endl;
 	std::cout << "Time in MS: " << OutTime << std::endl;
 	std::cout << "Failures: " << failures1 << "/" << PASSES << std::endl << std::endl;
 

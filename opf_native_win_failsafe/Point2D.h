@@ -13,22 +13,22 @@ class Point2D
 {
 private:
 	//Internal Members:
-	int mCoordinates[2];	//array with the two ints representing x and y coordinates in 2d
+	unsigned short mCoordinates[2];	//array with the two ints representing x and y coordinates in 2d
 
 public:
 	//Constructor:
-	Point2D(int X, int Y) { mCoordinates[0] = X; mCoordinates[1] = Y; }
+	Point2D(unsigned short X, unsigned short Y) { mCoordinates[0] = X; mCoordinates[1] = Y; }
 	Point2D() = default;
 	//Public Stactic Mambers:
 	static int _BaseCost;	//base cost of traversing one point
 
 	//MS-Style Properties (Will only compile with MSVC++):
-	__declspec (property (put = SetX, get = GetX)) int X;
-	void SetX(int value) { mCoordinates[0] = value; }
-	int GetX() const { return mCoordinates[0]; }
-	__declspec (property (put = SetY, get = GetY)) int Y;
-	void SetY(int value) { mCoordinates[1] = value; }
-	int GetY() const { return mCoordinates[1]; }
+	__declspec (property (put = SetX, get = GetX)) unsigned short X;
+	void SetX(unsigned short value) { mCoordinates[0] = value; }
+	unsigned short GetX() const { return mCoordinates[0]; }
+	__declspec (property (put = SetY, get = GetY)) unsigned short Y;
+	void SetY(unsigned short value) { mCoordinates[1] = value; }
+	unsigned short GetY() const { return mCoordinates[1]; }
 
 	//Public Functions:
 	/* ---------------------------------------------------------------

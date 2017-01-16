@@ -15,6 +15,7 @@ namespace opf_managed_test
         private static Map map = null;
         private static Label lbl_console;
         private static CheckBox cb_include_diag;
+        private static CheckBox cb_use_failsafe;
 
         public static FillStatus FillStatus
         {
@@ -35,6 +36,13 @@ namespace opf_managed_test
             get
             {
                 return cb_include_diag.Checked;
+            }
+        }
+        public static bool UseFailsafe
+        {
+            get
+            {
+                return cb_use_failsafe.Checked;
             }
         }
         public static Map Map
@@ -82,6 +90,21 @@ namespace opf_managed_test
             cb_include_diag.Left = 150;
             cb_include_diag.Checked = true;
 
+            cb_use_failsafe = new System.Windows.Forms.CheckBox();
+            base.Controls.Add(cb_use_failsafe);
+            cb_use_failsafe.AutoSize = true;
+            cb_use_failsafe.Checked = true;
+            cb_use_failsafe.CheckState = System.Windows.Forms.CheckState.Checked;
+            cb_use_failsafe.Name = "cb_use_failsafe";
+            cb_use_failsafe.Size = new System.Drawing.Size(128, 17);
+            cb_use_failsafe.TabIndex = 13;
+            cb_use_failsafe.Text = "Use Failsafe";
+            cb_use_failsafe.UseVisualStyleBackColor = true;
+            cb_use_failsafe.Visible = false;
+            cb_use_failsafe.Top = 18;
+            cb_use_failsafe.Left = 150;
+            cb_use_failsafe.Checked = false;
+
             base.FormBorderStyle = FormBorderStyle.FixedSingle;
             base.MaximizeBox = false;
             base.MinimizeBox = false;
@@ -104,6 +127,7 @@ namespace opf_managed_test
             rbtn_block.Visible = !rbtn_block.Visible;
             lbl_console.Visible = !lbl_console.Visible;
             cb_include_diag.Visible = !cb_include_diag.Visible;
+            cb_use_failsafe.Visible = !cb_use_failsafe.Visible;
         }
         private Map InitMap()
         {
