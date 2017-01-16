@@ -3,7 +3,7 @@ Fast x86-64 implementation of A* (astar) pathfinding assembled with the NASM!
 
 1. Features
  
-   - Blazing fast version of A* path-finding (10x faster then generic MSVC++ versions).
+   - Blazing fast version of A* path-finding (up to 10x faster then generic MSVC++ versions).
    - Very light memory footprint (58 bytes per node).
    - Customizable path-finding (dijkstra's, greedy BFS, include diagonals).
    - System independent (“pure” x86-64 code, no syscalls or API usage).
