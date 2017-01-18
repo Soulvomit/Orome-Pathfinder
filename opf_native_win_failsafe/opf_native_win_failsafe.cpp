@@ -26,7 +26,7 @@ BOOL APIENTRY DllMain(HMODULE hModule,
 	return TRUE;
 }
 
-int FindPathFailsafe(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY,
+int FindPathMSVC(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY,
 	const unsigned char *pMap, const int nMapWidth, const int nMapHeight, int *pOutBuffer,
 	const int nOutBufferSize)
 {
@@ -37,7 +37,7 @@ int FindPathFailsafe(const int nStartX, const int nStartY, const int nTargetX, c
 	return pathlength;
 }
 
-int FindPathExFailsafe(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY,
+int FindPathExMSVC(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY,
 	const unsigned char *pMap, const int nMapWidth, const int nMapHeight, int *pOutBuffer,
 	const int nOutBufferSize, const bool nIncludeDiagonal, const int nNodeBaseCost)
 {
@@ -48,7 +48,7 @@ int FindPathExFailsafe(const int nStartX, const int nStartY, const int nTargetX,
 	return pathlength;
 }
 
-int FindPathExNoCleanupFailsafe(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY,
+int FindPathExNoCleanupMSVC(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY,
 	const unsigned char *pMap, const int nMapWidth, const int nMapHeight, int *pOutBuffer,
 	const int nOutBufferSize, PathFinder *&pPathFinder, const bool nIncludeDiagonal,
 	const int nNodeBaseCost, const bool nNewSnapshot)

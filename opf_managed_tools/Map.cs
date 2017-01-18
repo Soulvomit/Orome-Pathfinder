@@ -14,6 +14,8 @@ namespace opf_managed_test
         private Node startNode = null;
         private Node targetNode = null;
         private int[] currentPath = null;
+        private uint maxPathlength;
+        private byte nodeBaseCost;
 
         #region Properties
         public Node[,] Grid
@@ -71,6 +73,22 @@ namespace opf_managed_test
                 targetNode = value;
             }
         }
+
+        public uint MaxPathlength
+        {
+            get
+            {
+                return maxPathlength;
+            }
+        }
+
+        public byte NodeBaseCost
+        {
+            get
+            {
+                return nodeBaseCost;
+            }
+        }
         #endregion
 
         public Map(ushort width, ushort height, int size, OPFVisual pfTester, int margainHeight)
@@ -79,6 +97,8 @@ namespace opf_managed_test
             this.height = height;
             this.size = size;
             this.pfTester = pfTester;
+            this.maxPathlength = (uint)(width * height);
+            this.nodeBaseCost = 1;
 
             grid = new Node[width, height];
 
@@ -102,7 +122,7 @@ namespace opf_managed_test
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            PFTask pft = new PFTask(startNode, targetNode, this, width*height, OPFVisual.IncludeDiagonals, 1, OPFVisual.UseFailsafe);
+            PFTask pft = new PFTask(startNode, targetNode, this, OPFVisual.IncludeDiagonals, OPFVisual.UseFailsafe);
             pft.WaitJoin();
             sw.Stop();
 

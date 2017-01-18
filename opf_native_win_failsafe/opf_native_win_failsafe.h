@@ -23,7 +23,7 @@ File: 		FindPath.h
 <---	-1						=	No path found. pOutBuffer is "empty".
 <---	 n						=	Length of shortest path found.
 ****************************************************************************************************/
-extern "C" __declspec(dllexport) int FindPathFailsafe(const int nStartX, const int nStartY, const int nTargetX, 
+extern "C" __declspec(dllexport) int FindPathMSVC(const int nStartX, const int nStartY, const int nTargetX, 
 	const int nTargetY, const unsigned char *pMap, const int nMapWidth, const int nMapHeight, int *pOutBuffer,
 	const int nOutBufferSize);
 
@@ -37,7 +37,7 @@ extern "C" __declspec(dllexport) int FindPathFailsafe(const int nStartX, const i
 								--------	Resistance multiplier set by pMap[index] value.
 --->	nNodeBaseCost			=	Base cost of traversing a node; default = 1
 *******************************************************************************************************/
-extern "C" __declspec(dllexport) int FindPathExFailsafe(const int nStartX, const int nStartY, const int nTargetX,
+extern "C" __declspec(dllexport) int FindPathExMSVC(const int nStartX, const int nStartY, const int nTargetX,
 	const int nTargetY, const unsigned char *pMap, const int nMapWidth, const int nMapHeight, int *pOutBuffer,
 	const int nOutBufferSize, const bool nIncludeDiagonal = false, const int nNodeBaseCost = 1);
 
@@ -53,7 +53,7 @@ extern "C" __declspec(dllexport) int FindPathExFailsafe(const int nStartX, const
 --->	pPathFinder		=	Ptr to the a path finder. Will be used as i/o.
 --->	nNewSnapshot	=	Current snapshot will not be saved for this FindPath() call; default = true.
 **********************************************************************************************************/
-extern "C" __declspec(dllexport) int FindPathExNoCleanupFailsafe(const int nStartX, const int nStartY, const int nTargetX,
+extern "C" __declspec(dllexport) int FindPathExNoCleanupMSVC(const int nStartX, const int nStartY, const int nTargetX,
 	const int nTargetY, const unsigned char *pMap, const int nMapWidth, const int nMapHeight, int *pOutBuffer,
 	const int nOutBufferSize, PathFinder *&pPathFinder, const bool nIncludeDiagonal = false,
 	const int nNodeBaseCost = 1, const bool nNewSnapshot = true);

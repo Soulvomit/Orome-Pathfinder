@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace opf_managed_test
@@ -22,9 +23,14 @@ namespace opf_managed_test
             int passes = (int)nud_passes.Value;
             int activethreads = tb_activethreads.Value;
             int frequency = tb_frequency.Value;
+            int threaded;
+            if (cb_threaded.Checked)
+                threaded = 1;
+            else
+                threaded = 0;
 
             string args = width + " " + height + " " + max_pathlength + " " + passes + " " +
-                          activethreads + " " + frequency;
+                          activethreads + " " + frequency + " " + threaded;
             try
             { 
                 System.Diagnostics.Process.Start("opf_native_test.exe", args);
@@ -44,7 +50,7 @@ namespace opf_managed_test
         {
             if (tb_frequency.Value == 26)
             {
-                lbl_frequency.Text = "Tiles per Block: NO BLOCKS";
+                lbl_frequency.Text = "Tiles per Block: NONE";
             }
             else
             {
@@ -55,6 +61,22 @@ namespace opf_managed_test
         private void OPFBenchmark_FormClosed(object sender, FormClosedEventArgs e)
         {
             OPFMenu.BenchmarkForm = null;
+        }
+
+        private void cb_threaded_CheckedChanged(object sender, EventArgs e)
+        {
+            if (cb_threaded.Checked)
+            {
+                lbl_activethreads.Text = "Active Threads: " + tb_activethreads.Value;
+                lbl_activethreads.ForeColor = Color.White;
+                tb_activethreads.Enabled = true;
+            }
+            else
+            {
+                lbl_activethreads.Text = "Active Threads: MAIN";
+                lbl_activethreads.ForeColor = Color.Red;
+                tb_activethreads.Enabled = false;
+            }
         }
     }
 }

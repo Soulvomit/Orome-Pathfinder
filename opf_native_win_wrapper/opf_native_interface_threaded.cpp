@@ -8,7 +8,7 @@ File: 		opf_native_interface_threaded.cpp
 #include "opf_native_interface_threaded.h"
 
 PFTHREAD_INSTANCE_DATA* FindPathThreaded(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY,
-	const unsigned char* pMap, const int nMapWidth, const int nMapHeight, const int nOutBufferSize, const bool nUseFailsafe)
+	const unsigned char* pMap, const int nMapWidth, const int nMapHeight, const int nOutBufferSize)
 {
 	PFTHREAD_INSTANCE_DATA* pTid = new PFTHREAD_INSTANCE_DATA();	//create new thread data
 	pTid->POutBuffer = new int[nOutBufferSize];						//create new buffer
@@ -26,14 +26,7 @@ PFTHREAD_INSTANCE_DATA* FindPathThreaded(const int nStartX, const int nStartY, c
 	params->IncludeDiagonals = false;								//set IncludeDiagonals thread param
 	params->NodeBaseCost = 1;										//set NodeBaseCost thread param
 	//create new thread with the appropriate stack size and pass the thread params 
-	if (!nUseFailsafe)
-	{
-		pTid->PInstance = CreateThread(NULL, (nMapWidth * nMapHeight * NODE_SIZE) + SHADOW_SIZE, PFThreadHandler, params, 0, NULL);
-	}
-	else
-	{ 
-		pTid->PInstance = CreateThread(NULL, (nMapWidth * nMapHeight * FAILSAFE_NODE_SIZE) + SHADOW_SIZE, PFThreadHandlerFailsafe, params, 0, NULL);
-	}
+	pTid->PInstance = CreateThread(NULL, (nMapWidth * nMapHeight * NODE_SIZE) + SHADOW_SIZE, PFThreadHandler, params, 0, NULL);
 	//set thread to highest priority
 	SetThreadPriority(pTid->PInstance, THREAD_PRIORITY_HIGHEST);
 	//return thread data
@@ -42,7 +35,7 @@ PFTHREAD_INSTANCE_DATA* FindPathThreaded(const int nStartX, const int nStartY, c
 
 PFTHREAD_INSTANCE_DATA* FindPathExThreaded(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY,
 	const unsigned char* pMap, const int nMapWidth, const int nMapHeight, const int nOutBufferSize, const bool nIncludeDiagonal, 
-	const unsigned char nNodeBaseCost, const bool nUseFailsafe)
+	const unsigned char nNodeBaseCost)
 {
 	PFTHREAD_INSTANCE_DATA* pTid = new PFTHREAD_INSTANCE_DATA();	//create new thread data
 	pTid->POutBuffer = new int[nOutBufferSize];						//create new buffer
@@ -60,19 +53,67 @@ PFTHREAD_INSTANCE_DATA* FindPathExThreaded(const int nStartX, const int nStartY,
 	params->IncludeDiagonals = nIncludeDiagonal;					//set IncludeDiagonals thread param
 	params->NodeBaseCost = nNodeBaseCost;							//set NodeBaseCost thread param
     //create new thread with the appropriate stack size and pass the thread params 
-	if (!nUseFailsafe)
-	{
-		pTid->PInstance = CreateThread(NULL, (nMapWidth * nMapHeight * NODE_SIZE) + SHADOW_SIZE, PFThreadHandler, params, 0, NULL);
-	}
-	else
-	{
-		pTid->PInstance = CreateThread(NULL, (nMapWidth * nMapHeight * FAILSAFE_NODE_SIZE) + SHADOW_SIZE, PFThreadHandlerFailsafe, params, 0, NULL);
-	}
+	pTid->PInstance = CreateThread(NULL, (nMapWidth * nMapHeight * NODE_SIZE) + SHADOW_SIZE, PFThreadHandler, params, 0, NULL);
 	//set thread to highest priority
 	SetThreadPriority(pTid->PInstance, THREAD_PRIORITY_HIGHEST);
 	//return thread data
 	return pTid;
 }
+
+PFTHREAD_INSTANCE_DATA* FindPathThreadedFailsafe(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY,
+	const unsigned char* pMap, const int nMapWidth, const int nMapHeight, const int nOutBufferSize)
+{
+	PFTHREAD_INSTANCE_DATA* pTid = new PFTHREAD_INSTANCE_DATA();	//create new thread data
+	pTid->POutBuffer = new int[nOutBufferSize];						//create new buffer
+	pTid->Done = false;												//set done flag
+	PFTHREAD_PARAMS* params = new PFTHREAD_PARAMS();				//create new thread params
+	params->StartX = nStartX;										//set StartX thread param
+	params->StartY = nStartY;										//set StartY thread param
+	params->TargetX = nTargetX;										//set TargetX thread param
+	params->TargetY = nTargetY;										//set TargetY thread param
+	params->PMap = pMap;											//set map ptr thread param
+	params->MapWidth = nMapWidth;									//set MapWidth thread param
+	params->MapHeight = nMapHeight;									//set MapHeight thread param
+	params->PTid = pTid;											//set thread data ptr thread param
+	params->OutBufferSize = nOutBufferSize;							//set OutBufferSize thread param
+	params->IncludeDiagonals = false;								//set IncludeDiagonals thread param
+	params->NodeBaseCost = 1;										//set NodeBaseCost thread param
+																	//create new thread with the appropriate stack size and pass the thread params 
+	pTid->PInstance = CreateThread(NULL, (nMapWidth * nMapHeight * FAILSAFE_NODE_SIZE) + SHADOW_SIZE, PFThreadHandlerFailsafe, params, 0, NULL);
+	//set thread to highest priority
+	SetThreadPriority(pTid->PInstance, THREAD_PRIORITY_HIGHEST);
+	//return thread data
+	return pTid;
+}
+
+
+PFTHREAD_INSTANCE_DATA* FindPathExThreadedFailsafe(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY,
+	const unsigned char* pMap, const int nMapWidth, const int nMapHeight, const int nOutBufferSize, const bool nIncludeDiagonal,
+	const unsigned char nNodeBaseCost)
+{
+	PFTHREAD_INSTANCE_DATA* pTid = new PFTHREAD_INSTANCE_DATA();	//create new thread data
+	pTid->POutBuffer = new int[nOutBufferSize];						//create new buffer
+	pTid->Done = false;												//set done flag
+	PFTHREAD_PARAMS* params = new PFTHREAD_PARAMS();				//create new thread params
+	params->StartX = nStartX;										//set StartX thread param
+	params->StartY = nStartY;										//set StartY thread param
+	params->TargetX = nTargetX;										//set TargetX thread param
+	params->TargetY = nTargetY;										//set TargetY thread param
+	params->PMap = pMap;											//set map ptr thread param
+	params->MapWidth = nMapWidth;									//set MapWidth thread param
+	params->MapHeight = nMapHeight;									//set MapHeight thread param
+	params->PTid = pTid;											//set thread data ptr thread param
+	params->OutBufferSize = nOutBufferSize;							//set OutBufferSize thread param
+	params->IncludeDiagonals = nIncludeDiagonal;					//set IncludeDiagonals thread param
+	params->NodeBaseCost = nNodeBaseCost;							//set NodeBaseCost thread param
+	//create new thread with the appropriate stack size and pass the thread params 
+	pTid->PInstance = CreateThread(NULL, (nMapWidth * nMapHeight * FAILSAFE_NODE_SIZE) + SHADOW_SIZE, PFThreadHandlerFailsafe, params, 0, NULL);
+	//set thread to highest priority
+	SetThreadPriority(pTid->PInstance, THREAD_PRIORITY_HIGHEST);
+	//return thread data
+	return pTid;
+}
+
 
 int FindPathExProfilingThreaded(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY, const int nMapWidth, 
 	const int nMapHeight, const int nOutBufferSize, double& nOutTimeMS, const int nPasses, const int nMaxThreads, const bool nIncludeDiagonal, 
@@ -285,7 +326,7 @@ DWORD WINAPI PFThreadHandlerFailsafe(LPVOID lpParam)
 	//convert params to thread params
 	PFTHREAD_PARAMS* params = (PFTHREAD_PARAMS*)lpParam;
 	//call find path c++ failsafe routine with passed thread params
-	params->PTid->PathLength = FindPathExFailsafe(params->StartX, params->StartY, params->TargetX,
+	params->PTid->PathLength = FindPathExMSVC(params->StartX, params->StartY, params->TargetX,
 		params->TargetY, params->PMap, params->MapWidth, params->MapHeight, params->PTid->POutBuffer,
 		params->OutBufferSize, params->IncludeDiagonals, params->NodeBaseCost);
 	//set done flag to true

@@ -184,7 +184,7 @@ namespace opf_managed_test
         {
             if (tb_frequency.Value == 11)
             {
-                lbl_frequency.Text = "Tiles per Block: NO BLOCKS";
+                lbl_frequency.Text = "Tiles per Block: NONE";
             }
             else
             {

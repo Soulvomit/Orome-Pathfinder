@@ -165,15 +165,15 @@ namespace opf_managed_win_wrapper
         #endregion
 
         #region Native Property Handlers
-        //documented in pf_native_wrapper source code
+        //documented in opf_native_win_wrapper source code
         [DllImport("opf_native_win_wrapper.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U1)]
         private static extern bool PFThreadDone(IntPtr instanceData);
-        //documented in pf_native_wrapper source code
+        //documented in opf_native_win_wrapper source code
         [DllImport("opf_native_win_wrapper.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.SysUInt)]
         private static extern IntPtr PFThreadGetPOutbuffer(IntPtr instanceData);
-        //documented in pf_native_wrapper source code
+        //documented in opf_native_win_wrapper source code
         [DllImport("opf_native_win_wrapper.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.I4)]
         private static extern int PFThreadGetPathLength(IntPtr instanceData);
@@ -187,20 +187,24 @@ namespace opf_managed_win_wrapper
         /// <param name="startPoint">Starting point of the path.</param>
         /// <param name="targetPoint">Target point of the path.</param>
         /// <param name="map">Topographic data to use for pathfinding. Must inheirit from interface: IPFMap.</param>
-        /// <param name="maxPathLength">The maximum pathlength. Pathfinding will stop once enum PathTooLong. A value equal to 
-        /// MapWidth*MapHeight will insure that the insure map is searched. A lower value will conserve memory.</param>
         /// <param name="includeDiagonals"></param>
-        /// <param name="nodeBaseCost"></param>
         /// <param name="useFailsafe"></param>
-        public PFTask(IPFVector startPoint, IPFVector targetPoint, IOPFMap map, int maxPathLength, bool includeDiagonals = true, 
-            byte nodeBaseCost = 1, bool useFailsafe = false)
+        public PFTask(IPFVector startPoint, IPFVector targetPoint, IOPFMap map, bool includeDiagonals = true,  bool useFailsafe = false)
         {
             pfStatus = OPFStatus.TaskIsRunning;
             byte[] linearTopography = map.GetLinearTopography();
-            instanceData = FindPathExThreaded(startPoint.IntX, startPoint.IntY, targetPoint.IntX, targetPoint.IntY, linearTopography,
-                    map.Width, map.Height, maxPathLength, includeDiagonals, nodeBaseCost, useFailsafe);
+            if (!useFailsafe)
+            {
+                instanceData = FindPathExThreaded(startPoint.IntX, startPoint.IntY, targetPoint.IntX, targetPoint.IntY, linearTopography,
+                        map.Width, map.Height, (int)map.MaxPathlength, includeDiagonals, map.NodeBaseCost);
+            }
+            else
+            {
+                instanceData = FindPathExThreadedFailsafe(startPoint.IntX, startPoint.IntY, targetPoint.IntX, targetPoint.IntY, 
+                    linearTopography, map.Width, map.Height, (int)map.MaxPathlength, includeDiagonals, map.NodeBaseCost);
+            }
         }
-        //documented in pf_native_wrapper source code
+        //documented in opf_native_win_wrapper source code
         [DllImport("opf_native_win_wrapper.dll", CharSet = CharSet.Ansi,  CallingConvention = CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.SysUInt)]
         private static extern IntPtr FindPathExThreaded(
@@ -223,9 +227,32 @@ namespace opf_managed_win_wrapper
             [param: MarshalAs(UnmanagedType.U1)]
             bool includeDiagonal,
             [param: MarshalAs(UnmanagedType.U4)]
-            int nodeBaseCost,
+            int nodeBaseCost);
+
+        //documented in opf_native_win_wrapper source code
+        [DllImport("opf_native_win_wrapper.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.SysUInt)]
+        private static extern IntPtr FindPathExThreadedFailsafe(
+            [param: MarshalAs(UnmanagedType.U4)]
+            int startX,
+            [param: MarshalAs(UnmanagedType.U4)]
+            int startY,
+            [param: MarshalAs(UnmanagedType.U4)]
+            int targetX,
+            [param: MarshalAs(UnmanagedType.U4)]
+            int targetY,
+            [param: MarshalAs(UnmanagedType.LPArray)]
+            byte[] map,
+            [param: MarshalAs(UnmanagedType.U4)]
+            int mapWidth,
+            [param: MarshalAs(UnmanagedType.U4)]
+            int mapHeight,
+            [param: MarshalAs(UnmanagedType.U4)]
+            int outBufferSize,
             [param: MarshalAs(UnmanagedType.U1)]
-            bool useFailsafe);
+            bool includeDiagonal,
+            [param: MarshalAs(UnmanagedType.U4)]
+            int nodeBaseCost);
         #endregion
 
         #region Destructor
@@ -236,7 +263,7 @@ namespace opf_managed_win_wrapper
         {
             PFThreadDeleteTID(instanceData);
         }
-        //documented in pf_native_wrapper source code
+        //documented in opf_native_win_wrapper source code
         [DllImport("opf_native_win_wrapper.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         private static extern void PFThreadDeleteTID(IntPtr instanceData);
         #endregion
@@ -260,7 +287,7 @@ namespace opf_managed_win_wrapper
                 return false;
             }
         }
-        //documented in pf_native_wrapper source code
+        //documented in opf_native_win_wrapper source code
         [DllImport("opf_native_win_wrapper.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U1)]
         private static extern bool PFThreadJoin(IntPtr instanceData);
@@ -284,7 +311,7 @@ namespace opf_managed_win_wrapper
                 return false;
             }
         }
-        //documented in pf_native_wrapper source code
+        //documented in opf_native_win_wrapper source code
         [DllImport("opf_native_win_wrapper.dll", CharSet = CharSet.Ansi, CallingConvention = CallingConvention.StdCall)]
         [return: MarshalAs(UnmanagedType.U1)]
         private static extern bool PFThreadWaitJoin(IntPtr instanceData);
@@ -297,15 +324,13 @@ namespace opf_managed_win_wrapper
         /// <param name="startPoint">Starting point of the path.</param>
         /// <param name="targetPoint">Target point of the path.</param>
         /// <param name="map">Topographic data to use for pathfinding. Must inheirit from interface: IPFMap.</param>
-        /// <param name="maxPathLength">The maximum pathlength. Pathfinding will stop once enum PathTooLong. A value equal to 
-        /// MapWidth*MapHeight will insure that the insure map is searched. A lower value will conserve memory.</param>
         /// <param name="wait">Wait for completion of current pathfinding.</param>
         /// <param name="includeDiagonals"></param>
         /// <param name="nodeBaseCost"></param>
         /// <param name="useFailsafe"></param>
         /// <returns></returns>
-        public bool Initialize(IPFVector startPoint, IPFVector targetPoint, IOPFMap map, int maxPathLength, bool wait = false, 
-            bool includeDiagonals = true, byte nodeBaseCost = 1, bool useFailsafe = false)
+        public bool Initialize(IPFVector startPoint, IPFVector targetPoint, IOPFMap map, bool wait = false, 
+            bool includeDiagonals = true, bool useFailsafe = false)
         {
             if (!isDone)
             {
@@ -320,8 +345,16 @@ namespace opf_managed_win_wrapper
             }
             PFThreadDeleteTID(instanceData);
             pfStatus = OPFStatus.TaskIsRunning;
-            instanceData = FindPathExThreaded(startPoint.IntX, startPoint.IntY, targetPoint.IntX, targetPoint.IntY, map.GetLinearTopography(),
-                    map.Width, map.Height, maxPathLength, includeDiagonals, nodeBaseCost, useFailsafe);
+            if (!useFailsafe)
+            {
+                instanceData = FindPathExThreaded(startPoint.IntX, startPoint.IntY, targetPoint.IntX, targetPoint.IntY, 
+                    map.GetLinearTopography(), map.Width, map.Height, (int)map.MaxPathlength, includeDiagonals, map.NodeBaseCost);
+            }
+            else
+            {
+                instanceData = FindPathExThreadedFailsafe(startPoint.IntX, startPoint.IntY, targetPoint.IntX, targetPoint.IntY,
+                    map.GetLinearTopography(), map.Width, map.Height, (int)map.MaxPathlength, includeDiagonals, map.NodeBaseCost);
+            }
             return true;
         }
         #endregion

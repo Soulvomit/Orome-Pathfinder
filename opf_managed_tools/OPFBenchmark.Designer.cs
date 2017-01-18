@@ -41,6 +41,7 @@
             this.lbl_frequency = new System.Windows.Forms.Label();
             this.tb_frequency = new System.Windows.Forms.TrackBar();
             this.tb_activethreads = new System.Windows.Forms.TrackBar();
+            this.cb_threaded = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.nud_width)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_height)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nud_max_pathlength)).BeginInit();
@@ -270,12 +271,27 @@
             this.tb_activethreads.Value = 4;
             this.tb_activethreads.Scroll += new System.EventHandler(this.tb_activethreads_Scroll);
             // 
+            // cb_threaded
+            // 
+            this.cb_threaded.AutoSize = true;
+            this.cb_threaded.Checked = true;
+            this.cb_threaded.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cb_threaded.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cb_threaded.Location = new System.Drawing.Point(15, 251);
+            this.cb_threaded.Name = "cb_threaded";
+            this.cb_threaded.Size = new System.Drawing.Size(80, 17);
+            this.cb_threaded.TabIndex = 27;
+            this.cb_threaded.Text = "Threaded";
+            this.cb_threaded.UseVisualStyleBackColor = true;
+            this.cb_threaded.CheckedChanged += new System.EventHandler(this.cb_threaded_CheckedChanged);
+            // 
             // OPFBenchmark
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlText;
             this.ClientSize = new System.Drawing.Size(225, 310);
+            this.Controls.Add(this.cb_threaded);
             this.Controls.Add(this.tb_activethreads);
             this.Controls.Add(this.tb_frequency);
             this.Controls.Add(this.lbl_frequency);
@@ -320,5 +336,6 @@
         private System.Windows.Forms.Label lbl_frequency;
         private System.Windows.Forms.TrackBar tb_frequency;
         private System.Windows.Forms.TrackBar tb_activethreads;
+        private System.Windows.Forms.CheckBox cb_threaded;
     }
 }
