@@ -1,33 +1,33 @@
 /*
-Logical descriptor for Node class:
+Definitions for the MSVC++ failsafe 2DNode class:
 Written by:	Jonas Brown
-Date:		08/04-2016
-File: 		Node2D.h::Node.cpp	
+Date:		11/01-2017
+File: 		2DNode.cpp
 */
 
-#include "Node.h"
+#include "2DNode.h"
 
-bool Node::Initialize(Point2D *pTargetPoint, Node *pCurrentNode, std::list<Node*> *pOpen)
+bool _2DNode::Initialize(_2DPoint *pTargetPoint, _2DNode *pCurrentNode, std::list<_2DNode*> *pOpen, const unsigned char nBaseCost)
 {
 	//set current node as this nodes parent
 	pParent = pCurrentNode;
 	//initialize g cost 
-	mGCost = pParent->G + Point2D::_BaseCost * mResistance;
+	mGCost = pParent->G + nBaseCost * mResistance;
 	//check if this node is target node; return true
 	if (mPosition.X == pTargetPoint->X && mPosition.Y == pTargetPoint->Y) return true;
 	//else initialize h and f costs
 	mHCost = mPosition.CalcManhattanDistance(pTargetPoint);
 	mFCost = mGCost + mHCost;
 	//open node and sort it
-	int debugcode = fSortedInsert(pOpen);
+	char debugcode = fSortedInsert(pOpen);
 	return false;
 }
-bool Node::Update(Point2D *pTargetPoint, Node *pCurrentNode)
+bool _2DNode::Update(_2DNode *pCurrentNode, const unsigned char nBaseCost)
 {
 	//compute new costs
-	int newGCost = pCurrentNode->G + Point2D::_BaseCost * mResistance;
+	unsigned int newGCost = pCurrentNode->G + nBaseCost * mResistance;
 	//int newHCost = mPosition.CalcManhattanDistance(pTargetPoint);
-	int newFCost = newGCost + mHCost;
+	unsigned int newFCost = newGCost + mHCost;
 	//if updated f cost is larger then current f cost, or f costs are equal and path is longer; don't update
 	if (newFCost > mFCost || (newFCost == mFCost && newGCost >= mGCost)) return false;
 	//else update all costs and set new parent; return true
@@ -37,7 +37,7 @@ bool Node::Update(Point2D *pTargetPoint, Node *pCurrentNode)
 	mFCost = newFCost;
 	return true;
 }
-void Node::Traceback(std::deque<Node*> *pShortestPath)
+void _2DNode::Traceback(std::deque<_2DNode*> *pShortestPath)
 {
 	//NOTE: Implement some kind of check to avoid recursion ad infinitum.
 
@@ -50,7 +50,7 @@ void Node::Traceback(std::deque<Node*> *pShortestPath)
 		pParent->Traceback(pShortestPath);
 	}
 }
-char Node::fSortedInsert(std::list<Node*> *pOpen)
+char _2DNode::fSortedInsert(std::list<_2DNode*> *pOpen)
 {
 	//NOTE: For larger maps consider using a binary tree (std::multiset?) for faster lookup. 	
 
@@ -69,7 +69,7 @@ char Node::fSortedInsert(std::list<Node*> *pOpen)
 		return 1;
 	}
 	//for all open nodes
-	for (std::list<Node*>::iterator current = pOpen->begin(); current != pOpen->end(); current++)
+	for (std::list<_2DNode*>::iterator current = pOpen->begin(); current != pOpen->end(); current++)
 	{
 		//if this node is cheaper then current lookup
 		if ((*current)->F > F)

@@ -1,14 +1,14 @@
 /*
-Interface descriptor for FindPath Library:
+Declarations for the MSVC++ failsafe Library:
 Written by:	Jonas Brown
-Date:		11/04-2016
-File: 		FindPath.h
+Date:		11/01-2017
+File: 		opf_native_win_failsafe.h
 */
 
 //Headers:
 #pragma once
 #include "stdafx.h"
-#include "PathFinder.h"
+#include "2DPathFinder.h"
 
 /****************************************************************************************************
 ** Finds the shortest path from start-point to target-point. Diagonals are excluded.
@@ -55,5 +55,5 @@ extern "C" __declspec(dllexport) int FindPathExMSVC(const int nStartX, const int
 **********************************************************************************************************/
 extern "C" __declspec(dllexport) int FindPathExNoCleanupMSVC(const int nStartX, const int nStartY, const int nTargetX,
 	const int nTargetY, const unsigned char *pMap, const int nMapWidth, const int nMapHeight, int *pOutBuffer,
-	const int nOutBufferSize, PathFinder *&pPathFinder, const bool nIncludeDiagonal = false,
+	const int nOutBufferSize, _2DPathFinder *&pPathFinder, const bool nIncludeDiagonal = false,
 	const int nNodeBaseCost = 1, const bool nNewSnapshot = true);

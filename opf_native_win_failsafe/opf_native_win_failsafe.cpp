@@ -30,7 +30,7 @@ int FindPathMSVC(const int nStartX, const int nStartY, const int nTargetX, const
 	const unsigned char *pMap, const int nMapWidth, const int nMapHeight, int *pOutBuffer,
 	const int nOutBufferSize)
 {
-	PathFinder* pPathFinder = new PathFinder();
+	_2DPathFinder* pPathFinder = new _2DPathFinder();
 	int pathlength = pPathFinder->FindPath(nStartX, nStartY, nTargetX, nTargetY, pMap,
 		nMapWidth, nMapHeight, pOutBuffer, nOutBufferSize);
 	delete pPathFinder;
@@ -41,7 +41,7 @@ int FindPathExMSVC(const int nStartX, const int nStartY, const int nTargetX, con
 	const unsigned char *pMap, const int nMapWidth, const int nMapHeight, int *pOutBuffer,
 	const int nOutBufferSize, const bool nIncludeDiagonal, const int nNodeBaseCost)
 {
-	PathFinder* pPathFinder = new PathFinder();
+	_2DPathFinder* pPathFinder = new _2DPathFinder();
 	int pathlength = pPathFinder->FindPath(nStartX, nStartY, nTargetX, nTargetY, pMap,
 		nMapWidth, nMapHeight, pOutBuffer, nOutBufferSize, nIncludeDiagonal, nNodeBaseCost);
 	delete pPathFinder;
@@ -50,7 +50,7 @@ int FindPathExMSVC(const int nStartX, const int nStartY, const int nTargetX, con
 
 int FindPathExNoCleanupMSVC(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY,
 	const unsigned char *pMap, const int nMapWidth, const int nMapHeight, int *pOutBuffer,
-	const int nOutBufferSize, PathFinder *&pPathFinder, const bool nIncludeDiagonal,
+	const int nOutBufferSize, _2DPathFinder *&pPathFinder, const bool nIncludeDiagonal,
 	const int nNodeBaseCost, const bool nNewSnapshot)
 {
 	int pathlength;
@@ -61,7 +61,7 @@ int FindPathExNoCleanupMSVC(const int nStartX, const int nStartY, const int nTar
 	}
 	else
 	{
-		pPathFinder = new PathFinder();
+		pPathFinder = new _2DPathFinder();
 		pathlength = pPathFinder->FindPath(nStartX, nStartY, nTargetX, nTargetY, pMap, nMapWidth, nMapHeight,
 			pOutBuffer, nOutBufferSize, nIncludeDiagonal, nNodeBaseCost, true);
 	}

@@ -1,15 +1,15 @@
-/*	
-Interface descriptor for Point2D class:
+/*
+Declarations for the MSVC++ failsafe 2DPoint class:
 Written by:	Jonas Brown
-Date:		08/04-2016
-File: 		Point2D.h
+Date:		11/01-2017
+File: 		2DPoint.h
 */
 
 //Headers:
 #pragma once
 #include <cmath>
 
-class Point2D
+class _2DPoint
 {
 private:
 	//Internal Members:
@@ -17,10 +17,8 @@ private:
 
 public:
 	//Constructor:
-	Point2D(unsigned short X, unsigned short Y) { mCoordinates[0] = X; mCoordinates[1] = Y; }
-	Point2D() = default;
-	//Public Stactic Mambers:
-	static int _BaseCost;	//base cost of traversing one point
+	_2DPoint(unsigned short X, unsigned short Y) { mCoordinates[0] = X; mCoordinates[1] = Y; }
+	_2DPoint() = default;
 
 	//MS-Style Properties (Will only compile with MSVC++):
 	__declspec (property (put = SetX, get = GetX)) unsigned short X;
@@ -38,7 +36,7 @@ public:
 	<< Returns: 
 	<---	Euclidean distance to target point.	
 	---------------------------------------------------------------- */
-	float CalcEuclideanDistance(Point2D *pTargetPoint);
+	float CalcEuclideanDistance(_2DPoint *pTargetPoint);
 	/* ---------------------------------------------------------------	
 	** Calculates manhattan distance from this point to target point.
 	>> Params:
@@ -46,5 +44,5 @@ public:
 	<< Returns: 
 	<---	Manhattan distance to target point.	
 	---------------------------------------------------------------- */
-	int CalcManhattanDistance(Point2D *pTargetPoint);
+	unsigned int CalcManhattanDistance(_2DPoint *pTargetPoint);
 };

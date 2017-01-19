@@ -1,46 +1,40 @@
-/*	
-Logical descriptor for PathFinder class:
+/*
+Definitions for the MSVC++ failsafe 2DPathFinder class:
 Written by:	Jonas Brown
-Date:		08/04-2016
-File: 		PathFinder.h::PathFinder.cpp	
+Date:		11/01-2017
+File: 		2DPathFinder.cpp
 */
 
-#include "PathFinder.h"
+#include "2DPathFinder.h"
 
-int PathFinder::FindPath(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY, 
-	const unsigned char* pMap, const int nMapWidth, const int nMapHeight, int* pOutBuffer, 
-	const int nOutBufferSize, const bool nIncludeDiagonal, const int nNodeBaseCost,
+int _2DPathFinder::FindPath(const unsigned short nStartX, const unsigned short nStartY, const unsigned short nTargetX,
+	const unsigned int nTargetY, const unsigned char *pMap, const unsigned short nMapWidth, const unsigned short nMapHeight,
+	int *pOutBuffer, const unsigned int nOutBufferSize, const bool nIncludeDiagonal, const unsigned char nNodeBaseCost, 
 	const bool nNewSnapshot)
 {
 	//if out-of-bounds on x-axis or out-of-bounds on y-axis or base cost is invalid
 	if (nStartX < 0 || nTargetX < 0 || nStartY  < 0 || nTargetY < 0 || nStartX >= nMapWidth || nTargetX >= nMapWidth || 
 		nStartY >= nMapHeight || nTargetY >= nMapHeight || nNodeBaseCost < 1) return -1;
 	//set the base cost of traversing one point
-	Point2D::_BaseCost = nNodeBaseCost;							
+	mBaseCost = nNodeBaseCost;							
 	//initialize the map with given parameters
 	if (nNewSnapshot || !mGridSnapshot.empty()) 
 	{
 		//move map width and map height to internal storage
 		mMapWidth = nMapWidth;
 		mMapHeight = nMapHeight;
-		//froeach node array ptr** at 2d array ptr***
-		for (int x = 0; x < nMapWidth; ++x)
+		for (unsigned short i = 0; i < mMapWidth; i++)
 		{
-			std::vector<Node> temp;
-			//allocate heap memory for node array ptr**
+			std::vector<_2DNode> temp;
 			mGridSnapshot.push_back(temp);
 		}
 		//node counter
-		int i = 0;
-		//foreach node array ptr** at 2d array ptr***
-		for (int y = 0; y < nMapHeight; y++)
+		unsigned int i = 0;
+		for (unsigned short y = 0; y < mMapHeight; y++)
 		{
-			//foreach node ptr* at node array ptr**
-			for (int x = 0; x < nMapWidth; x++)
+			for (unsigned short x = 0; x < mMapWidth; x++)
 			{
-				//if using resistance multi; allocate stack memory for nodes and link them 
-				//within 2d array and init node resistance
-				mGridSnapshot[x].push_back(Node(x, y, i, (pMap[i] > 0), pMap[i]));
+				mGridSnapshot[x].push_back(_2DNode(x, y, i, (pMap[i] > 0), pMap[i]));
 				//increment counter
 				i++;
 			}
@@ -50,22 +44,21 @@ int PathFinder::FindPath(const int nStartX, const int nStartY, const int nTarget
 	mOpen.clear();
 	mShortestPath.clear();
 	//create a reference to target node from given parameters, and open it
-	Node* pTargetNode = &mGridSnapshot[nTargetX][nTargetY];		
+	_2DNode* pTargetNode = &mGridSnapshot[nTargetX][nTargetY];		
 	mOpen = { &mGridSnapshot[nStartX][nStartY] };					
 	//if starting or target node is non-traversable, terminate
 	if (!mOpen.front()->Traversable || !pTargetNode->Traversable) return -1;	
 	//adjecent offsets; adjecent offsets size is 8 if diagonals are excluded, else size is 4
-	std::vector<std::pair<int, int>> adjecentOffsets = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+	std::vector<std::pair<char, char>> adjecentOffsets = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
 	if (nIncludeDiagonal)
 	{
-		std::vector<std::pair<int, int>> diagonalOffsets = { { 1, 1 }, { 1, -1 }, { -1, 1 }, {-1, -1 } };
+		std::vector<std::pair<char, char>> diagonalOffsets = { { 1, 1 }, { 1, -1 }, { -1, 1 }, {-1, -1 } };
 		adjecentOffsets.insert(adjecentOffsets.end(), diagonalOffsets.begin(), diagonalOffsets.end());
 	}
-	int k = 0;
 	//while buffer size has not been exceeded
-	for (int i = 0; i < nOutBufferSize - 1; i++)
+	for (unsigned int i = 0; i < INT32_MAX; i++)
 	{
-		Node* pCurrentNode = mOpen.front();				//node we are currently checking
+		_2DNode* pCurrentNode = mOpen.front();				//node we are currently checking
 		mOpen.pop_front();								//remove it from open list
 		pCurrentNode->Closed = true;					//set the current node to closed
 		//for each adjecent node
@@ -85,16 +78,14 @@ int PathFinder::FindPath(const int nStartX, const int nStartY, const int nTarget
 			}
 		}
 		//if there are no more nodes to set as current, path is blocked
-		
-		k++;
 		if (mOpen.empty()) return -1;
 	}
 	//buffer size exceeded = path is to long
 	return -1;
 }
 
-unsigned char PathFinder::fUpdateAdjecentNode(const int nOffsetX, const int nOffsetY, Node* pCurrentNode, 
-	Node* pTargetNode, std::list<Node*> *pOpen)
+char _2DPathFinder::fUpdateAdjecentNode(const char nOffsetX, const char nOffsetY, _2DNode *pCurrentNode,
+	_2DNode *pTargetNode, std::list<_2DNode*> *pOpen)
 {
 	//x,y position for adjecent node
 	int adjecentX = pCurrentNode->Position.X + nOffsetX;
@@ -105,7 +96,7 @@ unsigned char PathFinder::fUpdateAdjecentNode(const int nOffsetX, const int nOff
 		return 0; //adjecent node oob
 	}
 	//reference node adjecent to current
-	Node* pAdjecentNode = &mGridSnapshot[adjecentX][adjecentY];
+	_2DNode* pAdjecentNode = &mGridSnapshot[adjecentX][adjecentY];
 	//if it is closed and is non-traversable 
 	if (pAdjecentNode->Closed || !pAdjecentNode->Traversable)
 	{
@@ -115,14 +106,14 @@ unsigned char PathFinder::fUpdateAdjecentNode(const int nOffsetX, const int nOff
 	if (pAdjecentNode->ParentPtr)
 	{
 		//try update, if returns true, node updated; else not update
-		if (pAdjecentNode->Update(&pTargetNode->Position, pCurrentNode))
+		if (pAdjecentNode->Update(pCurrentNode, mBaseCost))
 		{
 			return 3; //adjecent node updated
 		}
 		return 2; //adjecent node not updated
 	}
 	//else if adjecent node doesn't have a parent; initialize, and check if target found
-	if (pAdjecentNode->Initialize(&pTargetNode->Position, pCurrentNode, pOpen))
+	if (pAdjecentNode->Initialize(&pTargetNode->Position, pCurrentNode, pOpen, mBaseCost))
 	{
 		pTargetNode->ParentPtr = pCurrentNode;
 		return 5; //target node found

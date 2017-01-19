@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 		const int passes = std::stoi(argv[4]);
 		const int activethreads = std::stoi(argv[5]);
 		const unsigned char frequency = (const unsigned char)std::stoi(argv[6]);
-		const bool threaded = (const bool)std::stoi(argv[7]);
+		const bool threaded = (std::stoi(argv[7]) > 0);
 
 		std::cout << "Paramaterized benchmark started..." << std::endl << std::endl;
 

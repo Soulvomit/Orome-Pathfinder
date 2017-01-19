@@ -163,18 +163,22 @@
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Node.h" />
+    <ClInclude Include="2DNode.h" />
+    <ClInclude Include="LinkedNode.h" />
+    <ClInclude Include="LinkedPathFinder.h" />
     <ClInclude Include="opf_native_win_failsafe.h" />
-    <ClInclude Include="PathFinder.h" />
-    <ClInclude Include="Point2D.h" />
+    <ClInclude Include="2DPathFinder.h" />
+    <ClInclude Include="2DPoint.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="2DNode.cpp" />
+    <ClCompile Include="LinkedNode.cpp" />
+    <ClCompile Include="LinkedPathFinder.cpp" />
     <ClCompile Include="opf_native_win_failsafe.cpp" />
-    <ClCompile Include="PathFinder.cpp" />
-    <ClCompile Include="Point2D.cpp" />
+    <ClCompile Include="2DPathFinder.cpp" />
+    <ClCompile Include="2DPoint.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
