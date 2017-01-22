@@ -8,19 +8,19 @@ File: 		IOPFVector.cs
 namespace opf_managed_win_wrapper
 {
     /// <summary>
-    /// Interface which represents a 2d point implementation. IPFVector implementations are used by a PFTask, to represent a 2d coordinate.  
+    /// Interface which represents a 2d integer implementation. IPFVector implementations are used by a PFTask, to represent 2d coordinates.  
     /// </summary>
     public interface IPFVector
     {
         /// <summary>
-        /// Should return the X coordinate of the point/vector as an integer value.
+        /// Should return the X coordinate of the node/point/vector as an integer value.
         /// </summary>
         ushort IntX
         {
             get;
         }
         /// <summary>
-        /// Should return the Y coordinate of the point/vector integer value.
+        /// Should return the Y coordinate of the node/point/vector integer value.
         /// </summary>
         ushort IntY
         {

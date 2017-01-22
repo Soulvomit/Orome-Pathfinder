@@ -97,7 +97,7 @@
       </EnableParallelCodeGeneration>
       <CallingConvention>Cdecl</CallingConvention>
       <BasicRuntimeChecks>StackFrameRuntimeCheck</BasicRuntimeChecks>
-      <AdditionalOptions>/Oty %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Oi /Ot /Oy /Ob2 /Gs /GF /Gy %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

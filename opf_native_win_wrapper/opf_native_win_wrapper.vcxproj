@@ -104,7 +104,7 @@ copy /Y "$(SolutionDir)opf_nasm\v0_3_0\opf_debug.dll" "$(SolutionDir)$(Configura
       <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <CallingConvention>Cdecl</CallingConvention>
-      <AdditionalOptions>/Oty %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/Oi /Ot /Oy /Ob2 /Gs /GF /Gy %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
