@@ -71,8 +71,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IOPFLinkedMap.cs" />
-    <Compile Include="IOPFLinkedNode.cs" />
     <Compile Include="IOPFMap.cs" />
     <Compile Include="IOPFVector.cs" />
     <Compile Include="OPFTask.cs" />

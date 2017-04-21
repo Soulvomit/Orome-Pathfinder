@@ -87,8 +87,8 @@
       </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>copy /Y "$(SolutionDir)opf_nasm\v0_3_0\opf.dll" "$(SolutionDir)$(Configuration)\opf.dll"
-copy /Y "$(SolutionDir)opf_nasm\v0_3_0\opf_debug.dll" "$(SolutionDir)$(Configuration)\opf_debug.dll"</Command>
+      <Command>copy /Y "$(SolutionDir)opf_nasm\v0_3_2\opf.dll" "$(SolutionDir)$(Configuration)\opf.dll"
+copy /Y "$(SolutionDir)opf_nasm\v0_3_2\opf_debug.dll" "$(SolutionDir)$(Configuration)\opf_debug.dll"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -117,11 +117,11 @@ copy /Y "$(SolutionDir)opf_nasm\v0_3_0\opf_debug.dll" "$(SolutionDir)$(Configura
     </Link>
     <PostBuildEvent>
       <Command>copy /Y "$(SolutionDir)Release\opf_native_win_wrapper.dll" "$(SolutionDir)opf_bin\opf_native_win_wrapper.dll"
-copy /Y "$(SolutionDir)opf_nasm\v0_3_0\opf.dll" "$(SolutionDir)opf_bin\opf.dll"
+copy /Y "$(SolutionDir)opf_nasm\v0_3_2\opf.dll" "$(SolutionDir)opf_bin\opf.dll"
 </Command>
     </PostBuildEvent>
     <PreBuildEvent>
-      <Command>copy /Y "$(SolutionDir)opf_nasm\v0_3_0\opf.dll" "$(SolutionDir)$(Configuration)\opf.dll"</Command>
+      <Command>copy /Y "$(SolutionDir)opf_nasm\v0_3_2\opf.dll" "$(SolutionDir)$(Configuration)\opf.dll"</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

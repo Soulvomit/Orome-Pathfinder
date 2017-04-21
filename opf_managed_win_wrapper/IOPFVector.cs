@@ -4,7 +4,6 @@ Author:		Jonas Brown
 Date:		04/1-2016
 File: 		IOPFVector.cs
 */
-
 namespace opf_managed_win_wrapper
 {
     /// <summary>

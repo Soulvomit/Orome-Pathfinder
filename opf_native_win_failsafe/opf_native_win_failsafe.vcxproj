@@ -164,8 +164,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="2DNode.h" />
-    <ClInclude Include="LinkedNode.h" />
-    <ClInclude Include="LinkedPathFinder.h" />
     <ClInclude Include="opf_native_win_failsafe.h" />
     <ClInclude Include="2DPathFinder.h" />
     <ClInclude Include="2DPoint.h" />
@@ -174,8 +172,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="2DNode.cpp" />
-    <ClCompile Include="LinkedNode.cpp" />
-    <ClCompile Include="LinkedPathFinder.cpp" />
     <ClCompile Include="opf_native_win_failsafe.cpp" />
     <ClCompile Include="2DPathFinder.cpp" />
     <ClCompile Include="2DPoint.cpp" />

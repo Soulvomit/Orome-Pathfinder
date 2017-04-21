@@ -33,12 +33,6 @@
     <ClInclude Include="2DPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LinkedNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="LinkedPathFinder.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="opf_native_win_failsafe.cpp">
@@ -51,12 +45,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="2DPoint.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LinkedNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="LinkedPathFinder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
