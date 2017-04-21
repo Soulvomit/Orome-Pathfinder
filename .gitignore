@@ -66,6 +66,7 @@ artifacts/
 *.pidb
 *.svclog
 *.scc
+*.VC.opendb
 
 # Chutzpah Test files
 _Chutzpah*
@@ -210,3 +211,4 @@ FakesAssemblies/
 GeneratedArtifacts/
 _Pvt_Extensions/
 ModelManifest.xml
+/opf_system.VC.db

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.23107.0
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opf_native_win_wrapper", "opf_native_win_wrapper\opf_native_win_wrapper.vcxproj", "{B82595BC-5119-46C2-8675-1D27B2F81A40}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -36,8 +36,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v0_3_0", "v0_3_0", "{CEE1CC
 		opf_nasm\v0_3_0\FindPath.asm = opf_nasm\v0_3_0\FindPath.asm
 		opf_nasm\v0_3_0\Node.asm = opf_nasm\v0_3_0\Node.asm
 		opf_nasm\v0_3_0\Node2D.asm = opf_nasm\v0_3_0\Node2D.asm
-		opf_nasm\v0_3_0\opf.dll = opf_nasm\v0_3_0\opf.dll
-		opf_nasm\v0_3_0\opf_debug.dll = opf_nasm\v0_3_0\opf_debug.dll
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v0_2_0", "v0_2_0", "{D414A3B3-B6D4-48EE-9885-66797E9D75A3}"
@@ -47,8 +45,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v0_2_0", "v0_2_0", "{D414A3
 		opf_nasm\v0_2_0\FindPath.asm = opf_nasm\v0_2_0\FindPath.asm
 		opf_nasm\v0_2_0\Node.asm = opf_nasm\v0_2_0\Node.asm
 		opf_nasm\v0_2_0\Node2D.asm = opf_nasm\v0_2_0\Node2D.asm
-		opf_nasm\v0_2_0\pathfinder.dll = opf_nasm\v0_2_0\pathfinder.dll
-		opf_nasm\v0_2_0\pathfinder_debug.dll = opf_nasm\v0_2_0\pathfinder_debug.dll
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v0_1_0", "v0_1_0", "{523F18F4-DD97-4591-A4B3-94EA1AD8EA3C}"
@@ -58,8 +54,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v0_1_0", "v0_1_0", "{523F18
 		opf_nasm\v0_1_0\FindPath.asm = opf_nasm\v0_1_0\FindPath.asm
 		opf_nasm\v0_1_0\Node.asm = opf_nasm\v0_1_0\Node.asm
 		opf_nasm\v0_1_0\Node2D.asm = opf_nasm\v0_1_0\Node2D.asm
-		opf_nasm\v0_1_0\pathfinder.dll = opf_nasm\v0_1_0\pathfinder.dll
-		opf_nasm\v0_1_0\pathfinder_debug.dll = opf_nasm\v0_1_0\pathfinder_debug.dll
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "opf_test_projects", "opf_test_projects", "{6D442F17-868C-490F-AFDD-2BCBEF2DB139}"
@@ -75,21 +69,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v0_3_1", "v0_3_1", "{43F084
 	ProjectSection(SolutionItems) = preProject
 		opf_nasm\v0_3_1\build.sh = opf_nasm\v0_3_1\build.sh
 		opf_nasm\v0_3_1\Data.asm = opf_nasm\v0_3_1\Data.asm
-		opf_nasm\v0_3_1\Data.lst = opf_nasm\v0_3_1\Data.lst
-		opf_nasm\v0_3_1\Data.o64 = opf_nasm\v0_3_1\Data.o64
 		opf_nasm\v0_3_1\FindPath.asm = opf_nasm\v0_3_1\FindPath.asm
-		opf_nasm\v0_3_1\FindPath.lst = opf_nasm\v0_3_1\FindPath.lst
-		opf_nasm\v0_3_1\FindPath.o64 = opf_nasm\v0_3_1\FindPath.o64
 		opf_nasm\v0_3_1\Node.asm = opf_nasm\v0_3_1\Node.asm
-		opf_nasm\v0_3_1\Node.lst = opf_nasm\v0_3_1\Node.lst
-		opf_nasm\v0_3_1\Node.o64 = opf_nasm\v0_3_1\Node.o64
 		opf_nasm\v0_3_1\Node2D.asm = opf_nasm\v0_3_1\Node2D.asm
-		opf_nasm\v0_3_1\Node2D.lst = opf_nasm\v0_3_1\Node2D.lst
-		opf_nasm\v0_3_1\Node2D.o64 = opf_nasm\v0_3_1\Node2D.o64
-		opf_nasm\v0_3_1\opf.dll = opf_nasm\v0_3_1\opf.dll
-		opf_nasm\v0_3_1\opf.map = opf_nasm\v0_3_1\opf.map
-		opf_nasm\v0_3_1\opf_debug.dll = opf_nasm\v0_3_1\opf_debug.dll
-		opf_nasm\v0_3_1\opf_debug.map = opf_nasm\v0_3_1\opf_debug.map
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "opf_bin", "opf_bin", "{7EF84DD5-9945-451D-9C98-A7BA30F88BBB}"
@@ -109,6 +91,27 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{79633ACC-4
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "opf_native_win_failsafe", "opf_native_win_failsafe\opf_native_win_failsafe.vcxproj", "{CA8C5E0A-F534-44B6-891B-29F966DA5B3B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v0_3_2", "v0_3_2", "{9D36D9BC-31AB-4CD3-BB8B-1396F553B9A6}"
+	ProjectSection(SolutionItems) = preProject
+		opf_nasm\v0_3_2\build.sh = opf_nasm\v0_3_2\build.sh
+		opf_nasm\v0_3_2\Data.asm = opf_nasm\v0_3_2\Data.asm
+		opf_nasm\v0_3_2\Data.lst = opf_nasm\v0_3_2\Data.lst
+		opf_nasm\v0_3_2\Data.o64 = opf_nasm\v0_3_2\Data.o64
+		opf_nasm\v0_3_2\FindPath.asm = opf_nasm\v0_3_2\FindPath.asm
+		opf_nasm\v0_3_2\FindPath.lst = opf_nasm\v0_3_2\FindPath.lst
+		opf_nasm\v0_3_2\FindPath.o64 = opf_nasm\v0_3_2\FindPath.o64
+		opf_nasm\v0_3_2\Node.asm = opf_nasm\v0_3_2\Node.asm
+		opf_nasm\v0_3_2\Node.lst = opf_nasm\v0_3_2\Node.lst
+		opf_nasm\v0_3_2\Node.o64 = opf_nasm\v0_3_2\Node.o64
+		opf_nasm\v0_3_2\Node2D.asm = opf_nasm\v0_3_2\Node2D.asm
+		opf_nasm\v0_3_2\Node2D.lst = opf_nasm\v0_3_2\Node2D.lst
+		opf_nasm\v0_3_2\Node2D.o64 = opf_nasm\v0_3_2\Node2D.o64
+		opf_nasm\v0_3_2\opf.dll = opf_nasm\v0_3_2\opf.dll
+		opf_nasm\v0_3_2\opf.map = opf_nasm\v0_3_2\opf.map
+		opf_nasm\v0_3_2\opf_debug.dll = opf_nasm\v0_3_2\opf_debug.dll
+		opf_nasm\v0_3_2\opf_debug.map = opf_nasm\v0_3_2\opf_debug.map
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -192,5 +195,6 @@ Global
 		{523F18F4-DD97-4591-A4B3-94EA1AD8EA3C} = {876036C8-4CEA-4D09-B583-64102CD50A33}
 		{43F08463-C9A6-489D-9224-3A269CB4BDA1} = {876036C8-4CEA-4D09-B583-64102CD50A33}
 		{79633ACC-43F8-4430-A15D-127ABE1C1476} = {7EF84DD5-9945-451D-9C98-A7BA30F88BBB}
+		{9D36D9BC-31AB-4CD3-BB8B-1396F553B9A6} = {876036C8-4CEA-4D09-B583-64102CD50A33}
 	EndGlobalSection
 EndGlobal

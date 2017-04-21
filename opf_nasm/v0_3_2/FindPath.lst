@@ -109,14 +109,14 @@
    109 0000007D 6652                    	push dx					;Grid.StartY@52
    110 0000007F 6651                    	push cx					;Grid.StartX@50
    111 00000081 488B4550                	mov rax, [rbp + 80]		;Grid.IncludeDiagonals@48
-   112 00000085 4883F801                	cmp rax, 1
-   113 00000089 7406                    	jz .includediagonals
-   114 0000008B 66B80400                		mov ax, 4
-   115 0000008F EB04                    		jmp .ignorediagonals
+   112 00000085 4883F801                	cmp rax, 1					;if IncludeDiagonals == true
+   113 00000089 7406                    	jz .includediagonals		;jmp to include digonals
+   114 0000008B 66B80400                		mov ax, 4				;else, mov ax, 4 
+   115 0000008F EB04                    		jmp .ignorediagonals	;and ignore diagonals
    116                                  	.includediagonals:
-   117 00000091 66B80800                		mov ax, 8
+   117 00000091 66B80800                		mov ax, 8				;mov ax, 8
    118                                  	.ignorediagonals:
-   119 00000095 6650                    	push word ax
+   119 00000095 6650                    	push word ax				;store ax on stack
    120 00000097 6A00                    	push qword 0			;NodeOpenList.Count@40
    121 00000099 6A00                    	push qword 0			;NodeOpenList.Last@32
    122 0000009B 6A00                    	push qword 0			;NodeOpenList.First@24
@@ -147,7 +147,7 @@
    146 000000FA 664489C8                			mov ax, r9w						;ARG: X
    147 000000FE 664489C3                			mov bx, r8w						;ARG: Y
    148 00000102 438A0C13                			mov cl, [r11+r10]				;ARG: Traversable
-   149 00000106 66BA0100                			mov dx, 1						;ARG: Resistance
+   149 00000106 438A1413                			mov dl, [r11+r10]			    ;ARG: Resistance
    150 0000010A E8(00000000)            			call _Node.Ctor					;call constructor
    151 0000010F 49FFC2                  			inc r10							;inc node counter
    152 00000112 49FFC1                  			inc r9							;inc row counter

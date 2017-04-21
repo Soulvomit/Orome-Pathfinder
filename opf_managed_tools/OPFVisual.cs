@@ -162,6 +162,10 @@ namespace opf_managed_test
                     }
                 }
             }
+            else if (tb_frequency.Value == 11)
+            {
+                //tempMap.GenerateMaze();
+            }
             map = tempMap;
         }
 

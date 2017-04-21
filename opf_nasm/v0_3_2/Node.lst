@@ -227,7 +227,7 @@
    227 000001DC C3                      				ret
    228                                  			.tie_breaker:
    229                                  				;if f-costs are equal and path is shorter, do update
-   230 000001DD 4C3988[00000000]        				cmp [rax + Node.GCost], r9
+   230 000001DD 4C3B88[00000000]        				cmp r9, [rax + Node.GCost]
    231 000001E4 7CDC                    				jl .do_update
    232                                  			.no_update:
    233 000001E6 B900000000              				mov rcx, 0
@@ -270,12 +270,12 @@
    270 0000025E 7416                    				jz .new_last					;new last node
    271                                  				;check costs
    272                                  				;mov r9, [rax + Node.FCost]		;save adjecents f-cost
-   273 00000260 493B9A[00000000]        				cmp rbx, [r10 + Node.FCost]		;compare adjecents f-cost with topframes f-cost
+   273 00000260 493B98[00000000]        				cmp rbx, [r8 + Node.FCost]		;compare adjecents f-cost with topframes f-cost
    274 00000267 7FE7                    				jg .next_open_node				;if adjecent is more f-expensive, start new frame
    275 00000269 7C18                    				jl .node_is_cheaper_f			;if adjecent is f-cheaper, link sequence
    276                                  				;tie-breaker 
    277                                  				;mov r9, [rax + Node.HCost]		;save adjecents h-cost
-   278 0000026B 493B92[00000000]        				cmp rdx, [r10 + Node.HCost]		;compare adjecents h-cost with topfames h-cost
+   278 0000026B 493B90[00000000]        				cmp rdx, [r8 + Node.HCost]		;compare adjecents h-cost with topfames h-cost
    279 00000272 7FDC                    				jg .next_open_node				;if adjecent is more h-expensive, start new frame
    280 00000274 7E14                    				jle .node_is_cheaper_h			;if adjecent is h-cheaper or equal, link sequence
    281                                  				.new_last:

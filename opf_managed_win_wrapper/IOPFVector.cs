@@ -10,7 +10,7 @@ namespace opf_managed_win_wrapper
     /// <summary>
     /// Interface which represents a 2d integer implementation. IPFVector implementations are used by a PFTask, to represent 2d coordinates.  
     /// </summary>
-    public interface IPFVector
+    public interface IOPFVector
     {
         /// <summary>
         /// Should return the X coordinate of the node/point/vector as an integer value.

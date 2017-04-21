@@ -1,4 +1,7 @@
 ﻿using opf_managed_win_wrapper;
+using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 
@@ -122,7 +125,7 @@ namespace opf_managed_test
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            PFTask pft = new PFTask(startNode, targetNode, this, OPFVisual.IncludeDiagonals, OPFVisual.UseFailsafe);
+            OPFTask pft = new OPFTask(startNode, targetNode, this, OPFVisual.IncludeDiagonals, OPFVisual.UseFailsafe);
             pft.WaitJoin();
             sw.Stop();
 

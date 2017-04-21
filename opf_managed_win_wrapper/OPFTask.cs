@@ -31,7 +31,7 @@ namespace opf_managed_win_wrapper
     /// <summary>
     /// Each PFTask corresponds to a windows worker thread and its thread local data on the native level.
     /// </summary>
-    public sealed class PFTask
+    public sealed class OPFTask
     {
         #region Internal Data
         private IntPtr instanceData = IntPtr.Zero;                  //pointer to native task data.
@@ -189,7 +189,7 @@ namespace opf_managed_win_wrapper
         /// <param name="map">Topographic data to use for pathfinding. Must inheirit from interface: IPFMap.</param>
         /// <param name="includeDiagonals"></param>
         /// <param name="useFailsafe"></param>
-        public PFTask(IPFVector startPoint, IPFVector targetPoint, IOPFMap map, bool includeDiagonals = true,  bool useFailsafe = false)
+        public OPFTask(IOPFVector startPoint, IOPFVector targetPoint, IOPFMap map, bool includeDiagonals = true,  bool useFailsafe = false)
         {
             pfStatus = OPFStatus.TaskIsRunning;
             byte[] linearTopography = map.GetLinearTopography();
@@ -259,7 +259,7 @@ namespace opf_managed_win_wrapper
         /// <summary>
         /// Terminates the thread and does native level cleanup of thread data. Only called by the garbage collector.
         /// </summary>
-        ~PFTask()
+        ~OPFTask()
         {
             PFThreadDeleteTID(instanceData);
         }
@@ -329,19 +329,15 @@ namespace opf_managed_win_wrapper
         /// <param name="nodeBaseCost"></param>
         /// <param name="useFailsafe"></param>
         /// <returns></returns>
-        public bool Initialize(IPFVector startPoint, IPFVector targetPoint, IOPFMap map, bool wait = false, 
+        public bool Initialize(IOPFVector startPoint, IOPFVector targetPoint, IOPFMap map, bool wait = false, 
             bool includeDiagonals = true, bool useFailsafe = false)
         {
             if (!isDone)
             {
-                if (!wait)
+                if (wait)
                 {
-                    return false;
+                    WaitJoin();
                 }
-                if (!WaitJoin())
-                {
-                    return false;
-                } 
             }
             PFThreadDeleteTID(instanceData);
             pfStatus = OPFStatus.TaskIsRunning;

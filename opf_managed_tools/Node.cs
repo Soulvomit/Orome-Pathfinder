@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace opf_managed_test
 {
-    public class Node: Control, IPFVector
+    public class Node: Control, IOPFVector
     {
         ushort[] coordinates;
         byte traversable;
