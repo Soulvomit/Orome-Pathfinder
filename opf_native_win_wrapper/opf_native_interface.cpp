@@ -12,17 +12,17 @@ int FindPath(const int nStartX, const int nStartY, const int nTargetX, const int
 {
 	//call find path asm routine
 	int pathlength = FindPathASMRoutine(nStartX, nStartY, nTargetX, nTargetY, pMap, nMapWidth, nMapHeight, pOutBuffer, 
-		nOutBufferSize, false, 1);
+		nOutBufferSize, false);
 	//return path length
 	return pathlength;
 }
 
 int FindPathEx(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY, const unsigned char *pMap, const int nMapWidth,
-	const int nMapHeight, int *pOutBuffer, const int nOutBufferSize, const bool nIncludeDiagonal, const unsigned char nNodeBaseCost)
+	const int nMapHeight, int *pOutBuffer, const int nOutBufferSize, const bool nIncludeDiagonal)
 {
 	//call find path asm routine
 	int pathlength = FindPathASMRoutine(nStartX, nStartY, nTargetX, nTargetY, pMap, nMapWidth, nMapHeight, pOutBuffer, nOutBufferSize, 
-		nIncludeDiagonal, nNodeBaseCost);
+		nIncludeDiagonal);
 	//return path length
 	return pathlength;
 }
@@ -37,18 +37,18 @@ int FindPathFailsafe(const int nStartX, const int nStartY, const int nTargetX, c
 }
 
 int FindPathExFailsafe(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY, const unsigned char *pMap, const int nMapWidth,
-	const int nMapHeight, int *pOutBuffer, const int nOutBufferSize, const bool nIncludeDiagonal, const unsigned char nNodeBaseCost)
+	const int nMapHeight, int *pOutBuffer, const int nOutBufferSize, const bool nIncludeDiagonal)
 {
 	//call find path msvc++ routine
 	int pathlength = FindPathExMSVC(nStartX, nStartY, nTargetX, nTargetY, pMap, nMapWidth, nMapHeight, pOutBuffer, nOutBufferSize,
-		nIncludeDiagonal, nNodeBaseCost);
+		nIncludeDiagonal);
 	//return path length
 	return pathlength;
 }
 
 int FindPathExProfiling(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY, const int nMapWidth, 
 	const int nMapHeight, const int nOutBufferSize, double& nOutTimeMS, const int nPasses, const bool nIncludeDiagonal, 
-	const unsigned char nNodeBaseCost, const bool nRandomData, const unsigned char nFrequency, const bool nUseFailsafe)
+	const bool nRandomData, const unsigned char nFrequency, const bool nUseFailsafe)
 {
 	int pathlength = 0;
 	int failures = 0;
@@ -67,12 +67,12 @@ int FindPathExProfiling(const int nStartX, const int nStartY, const int nTargetX
 		if (!nUseFailsafe)
 		{
 			pathlength = FindPathASMRoutine(nStartX, nStartY, nTargetX, nTargetY, map, nMapWidth, nMapHeight, pOutBuffer,
-				nOutBufferSize, nIncludeDiagonal, nNodeBaseCost);
+				nOutBufferSize, nIncludeDiagonal);
 		}
 		else
 		{
 			pathlength = FindPathExMSVC(nStartX, nStartY, nTargetX, nTargetY, map, nMapWidth, nMapHeight, pOutBuffer,
-				nOutBufferSize, nIncludeDiagonal, nNodeBaseCost);
+				nOutBufferSize, nIncludeDiagonal);
 		}
 		//count path failures
 		if (pathlength <= 0)

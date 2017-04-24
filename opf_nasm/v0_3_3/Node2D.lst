@@ -15,13 +15,13 @@
     15                                  
     16                                  _Node2D:
     17                                  	;Uses r8-r15 as temp storage 
-    18                                  	;IN: rax = Node1, rbx = Node2
+    18                                  	;IN: rax = Node1, r15 = Node2
     19                                  	;OUT: rcx = vManhattanDistance
     20                                  	.CalcManhattanDistance:
     21 00000000 66448B80[00000000]      		mov r8w, [rax + Node.Position.X] 
     22 00000008 66448B88[00000000]      		mov r9w, [rax + Node.Position.Y]
-    23 00000010 66442B83[00000000]      		sub r8w, [rbx + Node.Position.X] 
-    24 00000018 66442B8B[00000000]      		sub r9w, [rbx + Node.Position.Y]
+    23 00000010 66452B87[00000000]      		sub r8w, [r15 + Node.Position.X] 
+    24 00000018 66452B8F[00000000]      		sub r9w, [r15 + Node.Position.Y]
     25                                  		;abs r8
     26 00000020 664589C2                		mov r10w, r8w 
     27 00000024 6641F7D8                		neg r8w

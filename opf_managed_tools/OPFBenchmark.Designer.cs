@@ -89,7 +89,7 @@
             this.nud_width.Size = new System.Drawing.Size(65, 16);
             this.nud_width.TabIndex = 15;
             this.nud_width.Value = new decimal(new int[] {
-            2000,
+            4000,
             0,
             0,
             0});
@@ -120,7 +120,7 @@
             this.nud_height.Size = new System.Drawing.Size(65, 16);
             this.nud_height.TabIndex = 16;
             this.nud_height.Value = new decimal(new int[] {
-            2000,
+            4000,
             0,
             0,
             0});
@@ -151,7 +151,7 @@
             this.nud_max_pathlength.Size = new System.Drawing.Size(65, 16);
             this.nud_max_pathlength.TabIndex = 17;
             this.nud_max_pathlength.Value = new decimal(new int[] {
-            4000,
+            8000,
             0,
             0,
             0});

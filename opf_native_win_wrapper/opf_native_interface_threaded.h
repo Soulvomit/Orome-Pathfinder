@@ -8,8 +8,8 @@ File: 		opf_native_interface_threaded.h
 #pragma once
 #include "opf_native_win_wrapper.h"
 #define FAILSAFE_NODE_SIZE 48	//size of the internal node of the failsafe in bytes; don't change
-#define NODE_SIZE 58			//size of the internal node of the opf.dll in bytes; don't change
-#define SHADOW_SIZE 1000		//size of shadow space, must be atleast 88 bytes for thread local storage
+#define NODE_SIZE 56			//size of the internal node of the opf.dll in bytes; don't change
+#define SHADOW_SIZE 88		//size of shadow space, must be atleast 88 bytes for thread local storage
 
 //defines thread instance data; all data is threadsafe if accessed through interface functions 
 struct PFTHREAD_INSTANCE_DATA
@@ -32,7 +32,6 @@ struct PFTHREAD_PARAMS
 	PFTHREAD_INSTANCE_DATA* PTid = nullptr;
     int OutBufferSize = 0;
 	bool IncludeDiagonals = true;
-	unsigned char NodeBaseCost = 1;
 };
 
 /***************************************************************************************************************************
@@ -56,11 +55,10 @@ extern "C" __declspec(dllexport) PFTHREAD_INSTANCE_DATA* FindPathThreaded(const 
 >> Changed/Added Params:
 --->	pMap					=	Char buffer with topographic data. !0 = resistance. 0 = non-traversable.
 --->	nIncludeDiagonal		=	Diagonal movement is enabled; default = false.
---->	nNodeBaseCost			=	Base cost of traversing a node; default = 1
 ***************************************************************************************************************************/
 extern "C" __declspec(dllexport) PFTHREAD_INSTANCE_DATA* FindPathExThreaded(const int nStartX, const int nStartY, 
 	const int nTargetX, const int nTargetY, const unsigned char* pMap, const int nMapWidth, const int nMapHeight, 
-	const int nOutBufferSize, const bool nIncludeDiagonal = false, const unsigned char nNodeBaseCost = 1);
+	const int nOutBufferSize, const bool nIncludeDiagonal = false);
 
 //MSVC++ implementation of FindPathThreaded for use as failsafe and testing
 extern "C" __declspec(dllexport) PFTHREAD_INSTANCE_DATA* FindPathThreadedFailsafe(const int nStartX, const int nStartY,
@@ -70,7 +68,7 @@ extern "C" __declspec(dllexport) PFTHREAD_INSTANCE_DATA* FindPathThreadedFailsaf
 //MSVC++ implementation of FindPathThreadedEx for use as failsafe and testing
 extern "C" __declspec(dllexport) PFTHREAD_INSTANCE_DATA* FindPathExThreadedFailsafe(const int nStartX, const int nStartY,
 	const int nTargetX, const int nTargetY, const unsigned char* pMap, const int nMapWidth, const int nMapHeight,
-	const int nOutBufferSize, const bool nIncludeDiagonal = false, const unsigned char nNodeBaseCost = 1);
+	const int nOutBufferSize, const bool nIncludeDiagonal = false);
 
 /**************************************************************************************************************************
 ** Extends on the functionality of FindPathEx(). Provides profiling options to let the caller benchmark
@@ -86,8 +84,8 @@ extern "C" __declspec(dllexport) PFTHREAD_INSTANCE_DATA* FindPathExThreadedFails
 ***************************************************************************************************************************/
 extern "C" __declspec(dllexport) int FindPathExProfilingThreaded(const int nStartX, const int nStartY, const int nTargetX,
 	const int nTargetY, const int nMapWidth, const int nMapHeight, const int nOutBufferSize, double& nOutTimeMS, 
-	const int nPasses = 1, const int nMaxThreads = 4, const bool nIncludeDiagonal = false, const unsigned char  nNodeBaseCost = 1, 
-	const bool nRandomData = true, const unsigned char nFrequency = 2, const bool nUseFailsafe = false);
+	const int nPasses = 1, const int nMaxThreads = 4, const bool nIncludeDiagonal = false, const bool nRandomData = true, 
+	const unsigned char nFrequency = 2, const bool nUseFailsafe = false);
 
 //check if thread is ready to join; joins thread if ready, else returns false
 extern "C" __declspec(dllexport) bool PFThreadJoin(PFTHREAD_INSTANCE_DATA* pTid);

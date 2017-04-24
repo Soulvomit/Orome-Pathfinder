@@ -10,9 +10,7 @@
 #define HEIGHT 1000
 #define MAX_PATHLENGTH 1500
 #define PASSES 100
-
 #define ACTIVETHREADS 4
-#define BASECOST 1
 #define FREQUENCY 6
 
 void ProfileNonThreaded(const int width, const int height, const int max_pathlength, const int passes,

@@ -35,47 +35,45 @@ LOAD Data.o64
                 0x0000000000000250                . = SIZEOF_HEADERS
                 0x0000000000001000                . = ALIGN (__section_alignment__)
 
-.text           0x0000000400001000      0x800
+.text           0x0000000400001000      0x600
  *(.init)
  *(.text)
- .text          0x0000000400001000      0x319 Node.o64
-                0x0000000400001000                _Node.Ctor
-                0x000000040000102c                _Node.UpdateAdjecentNode
-                0x00000004000010d2                _Node.Traceback
-                0x0000000400001120                _Node.Empty
- *fill*         0x0000000400001319        0x7 
- .text          0x0000000400001320       0x6b Node2D.o64
-                0x0000000400001320                _Node2D.CalcManhattanDistance
-                0x000000040000136f                _Node2D.GetByCoordinates
- *fill*         0x000000040000138b        0x5 
- .text          0x0000000400001390      0x29e FindPath.o64
-                0x0000000400001390                DllMain
-                0x0000000400001396                FindPath
+ .text          0x0000000400001000      0x291 Node.o64
+                0x0000000400001000                _Node.CheckAdjecentNodes
+                0x00000004000010d5                _Node.Traceback
+                0x0000000400001123                _Node.Empty
+ *fill*         0x0000000400001291        0xf 
+ .text          0x00000004000012a0       0x6b Node2D.o64
+                0x00000004000012a0                _Node2D.CalcManhattanDistance
+                0x00000004000012ef                _Node2D.GetByCoordinates
+ *fill*         0x000000040000130b        0x5 
+ .text          0x0000000400001310      0x240 FindPath.o64
+                0x0000000400001310                DllMain
+                0x0000000400001316                FindPath
  *(SORT(.text$*))
  *(.text.*)
  *(.gnu.linkonce.t.*)
  *(.glue_7t)
  *(.glue_7)
-                0x0000000400001630                . = ALIGN (0x8)
- *fill*         0x000000040000162e        0x2 
-                0x0000000400001630                ___CTOR_LIST__ = .
-                0x0000000400001630                __CTOR_LIST__ = .
-                0x0000000400001630        0x4 LONG 0xffffffffffffffff
-                0x0000000400001634        0x4 LONG 0xffffffffffffffff
+                0x0000000400001550                . = ALIGN (0x8)
+                0x0000000400001550                ___CTOR_LIST__ = .
+                0x0000000400001550                __CTOR_LIST__ = .
+                0x0000000400001550        0x4 LONG 0xffffffffffffffff
+                0x0000000400001554        0x4 LONG 0xffffffffffffffff
  *(.ctors)
  *(.ctor)
  *(SORT(.ctors.*))
-                0x0000000400001638        0x4 LONG 0x0
-                0x000000040000163c        0x4 LONG 0x0
-                0x0000000400001640                ___DTOR_LIST__ = .
-                0x0000000400001640                __DTOR_LIST__ = .
-                0x0000000400001640        0x4 LONG 0xffffffffffffffff
-                0x0000000400001644        0x4 LONG 0xffffffffffffffff
+                0x0000000400001558        0x4 LONG 0x0
+                0x000000040000155c        0x4 LONG 0x0
+                0x0000000400001560                ___DTOR_LIST__ = .
+                0x0000000400001560                __DTOR_LIST__ = .
+                0x0000000400001560        0x4 LONG 0xffffffffffffffff
+                0x0000000400001564        0x4 LONG 0xffffffffffffffff
  *(.dtors)
  *(.dtor)
  *(SORT(.dtors.*))
-                0x0000000400001648        0x4 LONG 0x0
-                0x000000040000164c        0x4 LONG 0x0
+                0x0000000400001568        0x4 LONG 0x0
+                0x000000040000156c        0x4 LONG 0x0
  *(.fini)
  *(.gcc_exc)
                 [!provide]                        PROVIDE (etext, .)
@@ -84,13 +82,12 @@ LOAD Data.o64
 .data           0x0000000400002000      0x200
                 0x0000000400002000                __data_start__ = .
  *(.data)
- .data          0x0000000400002000       0x88 Data.o64
-                0x0000000400002000                Node.BaseCost
-                0x0000000400002008                Node.AdjecentOffsets
+ .data          0x0000000400002000       0x20 Data.o64
+                0x0000000400002000                Node.AdjecentOffsets
  *(.data2)
  *(SORT(.data$*))
  *(.jcr)
-                0x0000000400002088                __data_end__ = .
+                0x0000000400002020                __data_end__ = .
  *(.data_cygwin_nocopy)
 
 .rdata          0x0000000400003000        0x0
@@ -122,7 +119,7 @@ LOAD Data.o64
 
 .edata          0x0000000400003000      0x200
  *(.edata)
- .edata         0x0000000400003000       0x55 dll stuff
+ .edata         0x0000000400003000       0x5b dll stuff
 
 /DISCARD/
  *(.debug$S)
@@ -183,7 +180,7 @@ LOAD Data.o64
 
 .reloc          0x0000000400005000      0x200
  *(.reloc)
- .reloc         0x0000000400005000       0xcc dll stuff
+ .reloc         0x0000000400005000       0xb0 dll stuff
 
 .stab
  *(.stab)
@@ -292,5 +289,5 @@ LOAD Data.o64
 
 .zdebug_types
  *(.zdebug_types .zdebug.gnu.linkonce.wt.*)
-OUTPUT(opf.dll pei-x86-64)
+OUTPUT(opf_debug.dll pei-x86-64)
 LOAD dll stuff

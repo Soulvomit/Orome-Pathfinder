@@ -96,21 +96,30 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v0_3_2", "v0_3_2", "{9D36D9
 	ProjectSection(SolutionItems) = preProject
 		opf_nasm\v0_3_2\build.sh = opf_nasm\v0_3_2\build.sh
 		opf_nasm\v0_3_2\Data.asm = opf_nasm\v0_3_2\Data.asm
-		opf_nasm\v0_3_2\Data.lst = opf_nasm\v0_3_2\Data.lst
-		opf_nasm\v0_3_2\Data.o64 = opf_nasm\v0_3_2\Data.o64
 		opf_nasm\v0_3_2\FindPath.asm = opf_nasm\v0_3_2\FindPath.asm
-		opf_nasm\v0_3_2\FindPath.lst = opf_nasm\v0_3_2\FindPath.lst
-		opf_nasm\v0_3_2\FindPath.o64 = opf_nasm\v0_3_2\FindPath.o64
 		opf_nasm\v0_3_2\Node.asm = opf_nasm\v0_3_2\Node.asm
-		opf_nasm\v0_3_2\Node.lst = opf_nasm\v0_3_2\Node.lst
-		opf_nasm\v0_3_2\Node.o64 = opf_nasm\v0_3_2\Node.o64
 		opf_nasm\v0_3_2\Node2D.asm = opf_nasm\v0_3_2\Node2D.asm
-		opf_nasm\v0_3_2\Node2D.lst = opf_nasm\v0_3_2\Node2D.lst
-		opf_nasm\v0_3_2\Node2D.o64 = opf_nasm\v0_3_2\Node2D.o64
-		opf_nasm\v0_3_2\opf.dll = opf_nasm\v0_3_2\opf.dll
-		opf_nasm\v0_3_2\opf.map = opf_nasm\v0_3_2\opf.map
-		opf_nasm\v0_3_2\opf_debug.dll = opf_nasm\v0_3_2\opf_debug.dll
-		opf_nasm\v0_3_2\opf_debug.map = opf_nasm\v0_3_2\opf_debug.map
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "v0_3_3", "v0_3_3", "{9412E194-9572-4283-B4AF-708099936935}"
+	ProjectSection(SolutionItems) = preProject
+		opf_nasm\v0_3_3\build.sh = opf_nasm\v0_3_3\build.sh
+		opf_nasm\v0_3_3\Data.asm = opf_nasm\v0_3_3\Data.asm
+		opf_nasm\v0_3_3\Data.lst = opf_nasm\v0_3_3\Data.lst
+		opf_nasm\v0_3_3\Data.o64 = opf_nasm\v0_3_3\Data.o64
+		opf_nasm\v0_3_3\FindPath.asm = opf_nasm\v0_3_3\FindPath.asm
+		opf_nasm\v0_3_3\FindPath.lst = opf_nasm\v0_3_3\FindPath.lst
+		opf_nasm\v0_3_3\FindPath.o64 = opf_nasm\v0_3_3\FindPath.o64
+		opf_nasm\v0_3_3\Node.asm = opf_nasm\v0_3_3\Node.asm
+		opf_nasm\v0_3_3\Node.lst = opf_nasm\v0_3_3\Node.lst
+		opf_nasm\v0_3_3\Node.o64 = opf_nasm\v0_3_3\Node.o64
+		opf_nasm\v0_3_3\Node2D.asm = opf_nasm\v0_3_3\Node2D.asm
+		opf_nasm\v0_3_3\Node2D.lst = opf_nasm\v0_3_3\Node2D.lst
+		opf_nasm\v0_3_3\Node2D.o64 = opf_nasm\v0_3_3\Node2D.o64
+		opf_nasm\v0_3_3\opf.dll = opf_nasm\v0_3_3\opf.dll
+		opf_nasm\v0_3_3\opf.map = opf_nasm\v0_3_3\opf.map
+		opf_nasm\v0_3_3\opf_debug.dll = opf_nasm\v0_3_3\opf_debug.dll
+		opf_nasm\v0_3_3\opf_debug.map = opf_nasm\v0_3_3\opf_debug.map
 	EndProjectSection
 EndProject
 Global
@@ -196,5 +205,6 @@ Global
 		{43F08463-C9A6-489D-9224-3A269CB4BDA1} = {876036C8-4CEA-4D09-B583-64102CD50A33}
 		{79633ACC-43F8-4430-A15D-127ABE1C1476} = {7EF84DD5-9945-451D-9C98-A7BA30F88BBB}
 		{9D36D9BC-31AB-4CD3-BB8B-1396F553B9A6} = {876036C8-4CEA-4D09-B583-64102CD50A33}
+		{9412E194-9572-4283-B4AF-708099936935} = {876036C8-4CEA-4D09-B583-64102CD50A33}
 	EndGlobalSection
 EndGlobal

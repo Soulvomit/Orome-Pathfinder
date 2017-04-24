@@ -25,5 +25,19 @@ namespace opf_managed_win_wrapper
         {
             get;
         }
+        /// <summary>
+        /// Should return a boolean indicating whether this node is traversable.
+        /// </summary>
+        bool Traversable
+        {
+            get;
+        }
+        /// <summary>
+        /// Should return a the nodes resistance modifier as a byte.
+        /// </summary>
+        byte Resistance
+        {
+            get;
+        }
     }
 }

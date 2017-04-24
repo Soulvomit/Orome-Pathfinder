@@ -44,7 +44,7 @@ void ProfileNonThreaded(const int width, const int height, const int max_pathlen
 	double OutTime = 0;
 
 	int failures = FindPathExProfiling(nStart[0], nStart[1], nTarget[0], nTarget[1], nMapSize[0], nMapSize[1],
-		max_pathlength, OutTime, passes, true, BASECOST, true, frequency, false);
+		max_pathlength, OutTime, passes, true, true, frequency, false);
 
 	std::cout << "Non-Threaded x86-64 Benchmark:" << std::endl;
 	std::cout << "Time in MS: " << OutTime << std::endl;
@@ -60,7 +60,7 @@ void ProfileNonThreadedFailsafe(const int width, const int height, const int max
 	double OutTime = 0;
 
 	int failures = FindPathExProfiling(nStart[0], nStart[1], nTarget[0], nTarget[1], nMapSize[0], nMapSize[1],
-		max_pathlength, OutTime, passes, true, BASECOST, true, frequency, true);
+		max_pathlength, OutTime, passes, true, true, frequency, true);
 
 	std::cout << "Non-Threaded MSVC++ Benchmark:" << std::endl;
 	std::cout << "Time in MS: " << OutTime << std::endl;
@@ -78,7 +78,7 @@ void ProfileThreaded(const int width, const int height, const int max_pathlength
 	double OutTime = 0;
 
 	int failures = FindPathExProfilingThreaded(nStart[0], nStart[1], nTarget[0], nTarget[1], nMapSize[0], nMapSize[1],
-		max_pathlength, OutTime, passes, activethreads, true, BASECOST, true, frequency, false);
+		max_pathlength, OutTime, passes, activethreads, true, true, frequency, false);
 
 	std::cout << "Threaded x86-64 Benchmark:" << std::endl;
 	std::cout << "Time in MS: " << OutTime << std::endl;
@@ -95,7 +95,7 @@ void ProfileThreadedFailsafe(const int width, const int height, const int max_pa
 	double OutTime = 0;
 
 	int failures = FindPathExProfilingThreaded(nStart[0], nStart[1], nTarget[0], nTarget[1], nMapSize[0], nMapSize[1],
-		max_pathlength, OutTime, passes, activethreads, true, BASECOST, true, frequency, true);
+		max_pathlength, OutTime, passes, activethreads, true, true, frequency, true);
 
 	std::cout << "Threaded MSVC++ Benchmark:" << std::endl;
 	std::cout << "Time in MS: " << OutTime << std::endl;
@@ -124,13 +124,13 @@ void Profile()
 	//std::cout << "Failures: " << failures1 << "/" << PASSES << std::endl << std::endl;
 
 	int failures2 = FindPathExProfilingThreaded(nStart[0], nStart[1], nTarget[0], nTarget[1], nMapSize[0],
-		nMapSize[1], MAX_PATHLENGTH, OutTime, PASSES, ACTIVETHREADS, true, BASECOST, true, FREQUENCY, true);
+		nMapSize[1], MAX_PATHLENGTH, OutTime, PASSES, ACTIVETHREADS, true, true, FREQUENCY, true);
 	std::cout << "Threaded MSVC++ Benchmark:" << std::endl;
 	std::cout << "Time in MS: " << OutTime << std::endl;
 	std::cout << "Failures: " << failures2 << "/" << PASSES << std::endl << std::endl;
 
 	int failures3 = FindPathExProfiling(nStart[0], nStart[1], nTarget[0], nTarget[1], nMapSize[0],
-		nMapSize[1], MAX_PATHLENGTH, OutTime, PASSES, true, BASECOST, true, FREQUENCY, true);
+		nMapSize[1], MAX_PATHLENGTH, OutTime, PASSES, true, true, FREQUENCY, true);
 	std::cout << "Non-Threaded MSVC++ Benchmark:" << std::endl;
 	std::cout << "Time in MS: " << OutTime << std::endl;
 	std::cout << "Failures: " << failures3 << "/" << PASSES << std::endl << std::endl;

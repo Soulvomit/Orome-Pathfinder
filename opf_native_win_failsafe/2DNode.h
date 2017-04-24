@@ -97,7 +97,7 @@ public:
 	<---	false			=	Node was not target, fully initialized and opened.
 	<---	true			=	Node was target node, not fully initialized.	
 	----------------------------------------------------------------------------- */
-	bool Initialize(_2DPoint *pTargetPoint, _2DNode *pCurrentNode, std::list<_2DNode*> *pOpen, const unsigned char nBaseCost);
+	bool Initialize(_2DPoint *pTargetPoint, _2DNode *pCurrentNode, std::list<_2DNode*> *pOpen);
 	/* --------------------------------------------------------------------------------------
 	** Updates g, h and f costs and parent for this node, if f costs are lower then before.
 	** Uses g costs as tie-breaker. Does not update if g costs are tied.
@@ -107,5 +107,5 @@ public:
 	<---	false			=	No update was necessary.
 	<---	true			=	Node was updated.	
 	--------------------------------------------------------------------------------------- */
-	bool Update(_2DNode *pCurrentNode, const unsigned char nBaseCost);
+	bool Update(_2DNode *pCurrentNode);
 };

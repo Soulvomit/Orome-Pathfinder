@@ -13,8 +13,7 @@ File: 		opf_native_win_wrapper.h
 
 //typedef for FindPath assembly routine interface
 typedef int(*ASM_INTERFACE)(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY, const unsigned char* pMap,
-	const int nMapWidth, const int nMapHeight, int* pOutBuffer, const int nOutBufferSize, const bool nIncludeDiagonals, 
-	const unsigned char nNodeBaseCost);
+	const int nMapWidth, const int nMapHeight, int* pOutBuffer, const int nOutBufferSize, const bool nIncludeDiagonals);
 
 //entrypoint of the FindPath assembly routine
 extern ASM_INTERFACE FindPathASMRoutine;

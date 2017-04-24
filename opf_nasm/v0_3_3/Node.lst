@@ -1,0 +1,279 @@
+     1                                  ;Author:	Jonas Brown
+     2                                  ;Date:		27/12-2016
+     3                                  ;File: 		Node.asm
+     4                                  
+     5                                  [BITS 64]
+     6                                  [SECTION .text]
+     7                                  [GLOBAL _Node.Ctor]
+     8                                  [GLOBAL _Node.Traceback]
+     9                                  [GLOBAL _Node.CheckAdjecentNodes]
+    10                                  [GLOBAL _Node.Empty]
+    11                                  ;From _Node2D:
+    12                                  [EXTERN _Node2D.CalcManhattanDistance]
+    13                                  [EXTERN _Node2D.GetByCoordinates]
+    14                                  ;From Data - Node
+    15                                  [EXTERN Node.Position.Y]
+    16                                  [EXTERN Node.Position.X]
+    17                                  [EXTERN Node.Resistance]
+    18                                  [EXTERN Node.Closed]
+    19                                  [EXTERN Node.GCost]
+    20                                  [EXTERN Node.HCost]
+    21                                  [EXTERN Node.FCost]
+    22                                  [EXTERN Node.ID]
+    23                                  [EXTERN Node.PParent]
+    24                                  [EXTERN Node.PNext]
+    25                                  [EXTERN Node.Size]
+    26                                  [EXTERN Node.AdjecentOffsets]
+    27                                  ;From Data - NodeStack
+    28                                  [EXTERN NodeStack.Bottom]
+    29                                  [EXTERN NodeStack.Count]
+    30                                  ;From Data - NodeOpenList
+    31                                  [EXTERN NodeOpenList.First]
+    32                                  [EXTERN NodeOpenList.Count]
+    33                                  ;From Data - Grid
+    34                                  [EXTERN Grid.MapWidth]
+    35                                  [EXTERN Grid.MapHeight]
+    36                                  [EXTERN Grid.OutBufferSize]
+    37                                  [EXTERN Grid.Size]
+    38                                  [EXTERN Grid.IncludeDiagonals]
+    39                                  [DEFAULT REL]
+    40                                   
+    41                                  _Node:		
+    42                                  	;IN: r13 = AdjecentOffsets, r14 = CurrentNode, r15 = TargetNode
+    43                                  	;OUT: rcx = 0 if out-of-bounds, 1 if closed or non-traversable, 2 if updated, 
+    44                                  	;			3 if sent to update, but not updated, 4 if initialized, 5 if target node 
+    45                                  	.CheckAdjecentNodes:
+    46                                  		;ready adjecent check proc
+    47 00000000 4D31DB                  		xor r11, r11								;clear r11
+    48 00000003 49BD-                   		mov r13, Node.AdjecentOffsets				;starting adjecent offset
+    48 00000005 [0000000000000000] 
+    49                                  		;chack the current node's adjecent nodes
+    50                                  		.next_adjecent:
+    51 0000000D 4831C0                  			xor rax, rax							;clear rax
+    52 00000010 4831DB                  			xor rbx, rbx							;clear rbx
+    53 00000013 66418B4500              			mov ax, word [r13]						;offset x
+    54 00000018 66418B5D02              			mov bx, word [r13 + 2]					;offset y
+    55                                  			;x,y position for adjecent node
+    56 0000001D 66410386[00000000]      			add ax, word [r14 + Node.Position.X]	;add offset x to current node position
+    57 00000025 6641039E[00000000]      			add bx, word [r14 + Node.Position.Y]	;add offset y to current node position
+    58                                  			;if adjecent node is out-of-bounds
+    59 0000002D 663B85[00000000]        			cmp ax, word [rbp + Grid.MapWidth]
+    60 00000034 7D44                    			jge .oob
+    61 00000036 6683F800                			cmp ax, 0
+    62 0000003A 7C3E                    			jl .oob
+    63 0000003C 663B9D[00000000]        			cmp bx, word [rbp + Grid.MapHeight]
+    64 00000043 7D35                    			jge .oob
+    65 00000045 6683FB00                			cmp bx, 0
+    66 00000049 7C2F                    			jl .oob
+    67                                  			;reference node adjecent to current
+    68 0000004B 4831D2                  			xor rdx, rdx 
+    69 0000004E 668B95[00000000]        			mov dx, [rbp + Grid.MapWidth]
+    70 00000055 E8(00000000)            			call _Node2D.GetByCoordinates
+    71                                  			;if it is closed and is non-traversable 
+    72 0000005A 6683B9[00000000]00      			cmp word [rcx + Node.Closed], 0
+    73 00000062 751D                    			jnz .closed_nontraversable
+    74 00000064 6683B9[00000000]00      			cmp word [rcx + Node.Resistance], 0
+    75 0000006C 7413                    			jz .closed_nontraversable
+    76                                  			;check if node should be updated or initialized
+    77 0000006E 4883B9[00000000]FF      			cmp qword [rcx + Node.PParent], -1
+    78 00000076 742C                    			jz .initialize
+    79 00000078 750E                    			jnz .update
+    80                                  			.oob:
+    81 0000007A B900000000              				mov rcx, 0
+    82 0000007F EB3E                    				jmp .check_done
+    83                                  			.closed_nontraversable:
+    84 00000081 B901000000              				mov rcx, 1
+    85 00000086 EB37                    				jmp .check_done
+    86                                  			.update:
+    87 00000088 4889C8                  				mov rax, rcx
+    88 0000008B E8E3000000              				call private.fUpdate
+    89 00000090 4883F900                				cmp rcx, 0
+    90 00000094 7407                    				jz .no_update
+    91 00000096 B902000000              					mov rcx, 2
+    92 0000009B EB22                    					jmp .check_done
+    93                                  				.no_update:
+    94 0000009D B903000000              					mov rcx, 3
+    95 000000A2 EB1B                    					jmp .check_done
+    96                                  			.initialize:
+    97 000000A4 4889C8                  				mov rax, rcx
+    98 000000A7 E87F000000              				call private.fInitialize
+    99 000000AC 4883F901                				cmp rcx, 1
+   100 000000B0 7407                    				jz .target_found
+   101 000000B2 B904000000              					mov rcx, 4
+   102 000000B7 EB06                    					jmp .check_done
+   103                                  				.target_found:
+   104 000000B9 B905000000              					mov rcx, 5
+   105 000000BE C3                      					ret
+   106                                  			.check_done:
+   107 000000BF 4983C504                				add r13, 4								;add 4 to offset
+   108 000000C3 49FFC3                  				inc r11									;inc iteration counter
+   109 000000C6 66443B9D[00000000]      				cmp r11w, [rbp + Grid.IncludeDiagonals]	;check for last offset
+   110 000000CE 0F8539FFFFFF            				jnz .next_adjecent						;if last offset, terminate adjecent loop
+   111 000000D4 C3                      				ret
+   112                                  	
+   113                                  	;IN: rax = TargetNode, rbx = POutBuffer, rdx = DWord Index,  rsi = Starting Node, rdi = Pop Counter
+   114                                  	;OUT: rcx = Path Length
+   115                                  	.Traceback:
+   116                                  		;store node id on stack
+   117 000000D5 4C8B80[00000000]        		mov r8, [rax + Node.ID]					;get node id
+   118 000000DC 4150                    		push r8									;push node id to stack
+   119 000000DE 48FFC1                  		inc rcx									;inc path length
+   120 000000E1 663B8D[00000000]        		cmp cx, word [rbp + Grid.OutBufferSize]	;if path length = buffer size
+   121 000000E8 7412                    		jz .fill_next							;fill out buffer with path ids
+   122 000000EA 4839B0[00000000]        		cmp qword [rax + Node.PParent], rsi		;if start node = parent
+   123 000000F1 7409                    		jz .fill_next							;fill out buffer with path ids
+   124                                  		;else, recursively traceback through parents
+   125 000000F3 488B80[00000000]        		mov rax, [rax + Node.PParent]			;else, store parent in rax 
+   126 000000FA EBD9                    		jmp .Traceback							;continue traceback
+   127                                  		.fill_next:
+   128                                  			;pop the node id into outbuffer
+   129 000000FC 4158                    			pop r8					;pop r8 = next in path
+   130 000000FE 4C890413                			mov [rbx + rdx], r8		;store next node in path in outbuffer
+   131 00000102 4883C204                			add rdx, 4				;add size of dword to rdx
+   132 00000106 48FFC7                  			inc rdi					;inc rdi = counter
+   133 00000109 4839CF                  			cmp rdi, rcx			;if counter = path length
+   134 0000010C 7402                    			jz .fill_done			;job done!
+   135 0000010E EBEC                    				jmp .fill_next		;else, continue to fill outbuffer
+   136                                  			.fill_done:
+   137 00000110 C3                      				ret					;return
+   138                                  
+   139                                  	;IN: rax = Node.ID
+   140                                  	;OUT: rcx = Node Pointer
+   141                                  	.GetByID:
+   142 00000111 4C69C0[00000000]        		imul r8, rax, Node.Size
+   143 00000118 488B8D[00000000]        		mov rcx, [rbp + NodeStack.Bottom]
+   144 0000011F 4C29C1                  		sub rcx, r8
+   145 00000122 C3                      		ret
+   146                                  
+   147                                  	;Uses rsi,rdi and rbp to access data segment. 
+   148                                  	;Empties the node stack. NOTE: Must be called in the same "scope" as node construction
+   149                                  	.Empty:
+   150 00000123 5D                      		pop rbp
+   151 00000124 E83E010000              		call private.fStackDeallocAll
+   152 00000129 55                      		push rbp
+   153 0000012A C3                      		ret	
+   154                                  		
+   155                                  	;PRIVATE SUBROUTINES
+   156                                  	private:				
+   157                                  		;IN: rax = AdjecentNode, r15 = TargetNode, r14 = CurrentNode.
+   158                                  		;OUT: rcx = 1 if rax is TargetNode, else 0.
+   159                                  		.fInitialize:
+   160 0000012B 4C89B0[00000000]        			mov [rax + Node.PParent], r14			;set current as adjecents parent
+   161 00000132 4C39F8                  			cmp rax, r15							;compare target to adjecent
+   162 00000135 7436                    			jz .target_found						;if true, target found
+   163                                  			;jnz .initialize						;else, target not found, initialize node
+   164                                  			;.initialize:							
+   165 00000137 498B9E[00000000]        				mov rbx, [r14 + Node.GCost]				;get parent g-cost
+   166 0000013E 660398[00000000]        				add bx, word [rax + Node.Resistance]	;add resistance and g-cost 
+   167 00000145 488998[00000000]        				mov [rax + Node.GCost], rbx				;set adjecent g-cost to g-cost + resistance
+   168 0000014C E8(00000000)            				call _Node2D.CalcManhattanDistance		;calc manhatten distance to target, preserves rbx
+   169 00000151 488988[00000000]        				mov [rax + Node.HCost], rcx				;set return value as adjecent h-cost
+   170 00000158 4801CB                  				add rbx, rcx							;add h-cost to resistance and g-cost 
+   171 0000015B 488998[00000000]        				mov [rax + Node.FCost], rbx				;store added values as adjecent f-cost
+   172 00000162 E85A000000              				call .fOpen								;open adjecent
+   173 00000167 B900000000              				mov rcx, 0								;set ret val
+   174 0000016C C3                      				ret										;return
+   175                                  			.target_found:
+   176 0000016D B901000000              				mov rcx, 1								;set ret val
+   177 00000172 C3                      				ret										;return
+   178                                  						
+   179                                  		;IN: rax = AdjecentNode, r14 = CurrentNode.
+   180                                  		;OUT: rcx = 1 if node was updated, else 0.
+   181                                  		.fUpdate:
+   182                                  			;compute new g cost
+   183 00000173 4D8B86[00000000]        			mov r8, [r14 + Node.GCost]				;set new g-cost to current g-cost
+   184 0000017A 66440380[00000000]      			add r8w, word [rax + Node.Resistance]	;add adjecent resistance to to new g-cost
+   185 00000182 4D89C1                  			mov r9, r8								;set new f-cost to new g-cost 
+   186 00000185 4C0388[00000000]        			add r9, [rax + Node.HCost]				;add adjecent h-cost to new f-cost
+   187 0000018C 4C3B88[00000000]        			cmp r9, [rax + Node.FCost]				;compare new f-cost	to adjecent f-cost
+   188 00000193 7F26                    			jg .no_update							;if, new f-cost is larger then current f cost, no update
+   189 00000195 7C09                    			jl .update								;else if, new f-costs are less, update 
+   190                                  			;je .f_equal							;else, f-costs are equal
+   191                                  			;.f_equal:								
+   192 00000197 4C3B80[00000000]        				cmp r8, [rax + Node.GCost]			;compare new g-cost	to old g-cost
+   193 0000019E 7D1B                    				jge .no_update						;if new g-cost is greather or equal, no update
+   194                                  				;jl .update							;else, update
+   195                                  			.update:
+   196 000001A0 4C89B0[00000000]        				mov [rax + Node.PParent], r14 		;update adjecent parent to current
+   197 000001A7 4C8988[00000000]        				mov [rax + Node.GCost], r9			;update adjecent g-cost to new g-cost
+   198 000001AE 4C8980[00000000]        				mov [rax + Node.FCost], r8			;update adjecent f-cost to new f-cost
+   199 000001B5 B901000000              				mov rcx, 1							;update ret val
+   200 000001BA C3                      				ret									;return
+   201                                  			.no_update:						
+   202 000001BB B900000000              				mov rcx, 0							;set ret val
+   203 000001C0 C3                      				ret									;return
+   204                                  		
+   205                                  		;IN: rax = AdjecentNode.
+   206                                  		;OUT: rcx = 0 if new node or new top node, 1 if new bottom node.
+   207                                  		.fOpen:
+   208 000001C1 4883BD[00000000]00      			cmp qword [rbp + NodeOpenList.Count], 0	;check if open list is empty
+   209 000001C9 7E1E                    			jle .push_empty							;if it is, push empty
+   210 000001CB 4C8B8D[00000000]        			mov r9, [rbp + NodeOpenList.First]		;save first in open list as next						
+   211 000001D2 488B98[00000000]        			mov rbx, [rax + Node.FCost]				;save adjecents f-cost
+   212 000001D9 493B99[00000000]        			cmp rbx, [r9 + Node.FCost]				;compare adjecent f-cost to next f-cost
+   213 000001E0 7C15                    			jl .push_front							;if, adjecent f-cost less, front push
+   214                                  			;jge .insert_stoted						;else if, adjecent f-cost greater or equal, insert sorted
+   215                                  			;.insert_stoted:
+   216 000001E2 E82B000000              				call .fSortedInsert					;call insert sorted
+   217 000001E7 EB21                    				jmp .open_done						;and end proc
+   218                                  			.push_empty:							
+   219 000001E9 488985[00000000]        				mov [rbp + NodeOpenList.First], rax	;set adjecent as first
+   220 000001F0 B900000000              				mov rcx, 0							;set return val
+   221 000001F5 EB13                    				jmp .open_done						;and end proc
+   222                                  			.push_front:
+   223 000001F7 488985[00000000]        				mov [rbp + NodeOpenList.First], rax	;set adjecent as first
+   224 000001FE 4C8988[00000000]        				mov [rax + Node.PNext], r9			;link next to adjecent		
+   225 00000205 B901000000              				mov rcx, 1							;set return val
+   226                                  				;jmp .open_done						;and end proc
+   227                                  			.open_done:
+   228 0000020A 48FF85[00000000]        				inc qword [rbp + NodeOpenList.Count];increase open list count	
+   229 00000211 C3                      				ret									;return
+   230                                  			
+   231                                  		;IN: rax = AdjecentNode.
+   232                                  		;OUT: rcx = 3 if node was allocated based on f-cost, rcx = 4 if node was allocated based on h-cost.
+   233                                  		.fSortedInsert:
+   234                                  			;mov r9, [rbp + NodeOpenList.First]	;save first in open list as next
+   235                                  			;mov rbx, [rax + Node.FCost]		;save adjecents f-cost
+   236 00000212 488B90[00000000]        			mov rdx, [rax + Node.HCost]			;save adjecents h-cost
+   237                                  			.next_open:
+   238 00000219 4D89C8                  				mov r8, r9						;set current as next 
+   239 0000021C 4D8B88[00000000]        				mov r9, [r8 + Node.PNext]		;set next as current.next 
+   240 00000223 4983F9FF                				cmp qword r9, -1				;compare next node to null
+   241 00000227 7416                    				jz .push_back					;if null, next is last 
+   242 00000229 493B98[00000000]        				cmp rbx, [r8 + Node.FCost]		;compare adjecent f-cost to current f-cost
+   243 00000230 7FE7                    				jg .next_open					;if adjecent f-cost is more expensive, get next open
+   244 00000232 7C18                    				jl .insert_f					;if adjecent f-cost is cheaper, insert
+   245                                  				;je .equal_f					;else, f-cost equal 
+   246                                  				;.equal_f:
+   247 00000234 493B90[00000000]        					cmp rdx, [r8 + Node.HCost]	;compare adjecent h-cost to current h-cost
+   248 0000023B 7FDC                    					jg .next_open				;if adjecent h-cost is more expensive, get next open
+   249 0000023D 7E14                    					jle .insert_hf				;if adjecent h-cost is cheaper AND f-costs are equal, insert
+   250                                  				.push_back:
+   251 0000023F 498980[00000000]        					mov [r8 + Node.PNext], rax	;link adjecent to current
+   252 00000246 B902000000              					mov rcx, 2					;set return val
+   253 0000024B C3                      					ret							;return
+   254                                  				.insert_f:
+   255 0000024C B903000000              					mov rcx, 3					;set return val
+   256 00000251 EB05                    					jmp .insert					;insert
+   257                                  				.insert_hf:
+   258 00000253 B904000000              					mov rcx, 4 					;set return val
+   259                                  					;jmp .insert				;insert
+   260                                  				.insert:
+   261 00000258 498980[00000000]        					mov [r8 + Node.PNext], rax	;link adjecent to current 
+   262 0000025F 4C8988[00000000]        					mov [rax + Node.PNext], r9	;link next to adjecent
+   263 00000266 C3                      					ret							;return
+   264                                  			
+   265                                  		;deallocates all nodes
+   266                                  		.fStackDeallocAll:
+   267 00000267 5F                      			pop rdi
+   268                                  			;remove all nodes
+   269 00000268 48BE-                   			mov rsi, Node.Size
+   269 0000026A [0000000000000000] 
+   270 00000272 490FAFB1[00000000]      			imul rsi, [r9 + NodeStack.Count]
+   271 0000027A 4801F4                  			add rsp, rsi
+   272 0000027D 4881C4[00000000]        			add rsp, Grid.Size
+   273                                  			;null node counter
+   274 00000284 49C781[00000000]00-     			mov qword [r9 + NodeStack.Count], 0
+   274 0000028C 000000             
+   275 0000028F 57                      			push rdi
+   276 00000290 C3                      			ret

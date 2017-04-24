@@ -192,16 +192,16 @@ namespace opf_managed_win_wrapper
         public OPFTask(IOPFVector startPoint, IOPFVector targetPoint, IOPFMap map, bool includeDiagonals = true,  bool useFailsafe = false)
         {
             pfStatus = OPFStatus.TaskIsRunning;
-            byte[] linearTopography = map.GetLinearTopography();
+            byte[] linearTopography = map.GetResistanceBytes();
             if (!useFailsafe)
             {
                 instanceData = FindPathExThreaded(startPoint.IntX, startPoint.IntY, targetPoint.IntX, targetPoint.IntY, linearTopography,
-                        map.Width, map.Height, (int)map.MaxPathlength, includeDiagonals, map.NodeBaseCost);
+                        map.Width, map.Height, (int)map.MaxPathLength, includeDiagonals, 1);
             }
             else
             {
                 instanceData = FindPathExThreadedFailsafe(startPoint.IntX, startPoint.IntY, targetPoint.IntX, targetPoint.IntY, 
-                    linearTopography, map.Width, map.Height, (int)map.MaxPathlength, includeDiagonals, map.NodeBaseCost);
+                    linearTopography, map.Width, map.Height, (int)map.MaxPathLength, includeDiagonals, 1);
             }
         }
         //documented in opf_native_win_wrapper source code
@@ -344,12 +344,12 @@ namespace opf_managed_win_wrapper
             if (!useFailsafe)
             {
                 instanceData = FindPathExThreaded(startPoint.IntX, startPoint.IntY, targetPoint.IntX, targetPoint.IntY, 
-                    map.GetLinearTopography(), map.Width, map.Height, (int)map.MaxPathlength, includeDiagonals, map.NodeBaseCost);
+                    map.GetResistanceBytes(), map.Width, map.Height, (int)map.MaxPathLength, includeDiagonals, 1);
             }
             else
             {
                 instanceData = FindPathExThreadedFailsafe(startPoint.IntX, startPoint.IntY, targetPoint.IntX, targetPoint.IntY,
-                    map.GetLinearTopography(), map.Width, map.Height, (int)map.MaxPathlength, includeDiagonals, map.NodeBaseCost);
+                    map.GetResistanceBytes(), map.Width, map.Height, (int)map.MaxPathLength, includeDiagonals, 1);
             }
             return true;
         }

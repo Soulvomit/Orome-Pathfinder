@@ -35,17 +35,17 @@ extern "C" __declspec(dllexport) int FindPath(const int nStartX, const int nStar
 ***************************************************************************************************************************/
 extern "C" __declspec(dllexport) int FindPathEx(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY,
 	const unsigned char* pMap, const int nMapWidth, const int nMapHeight, int* pOutBuffer, const int nOutBufferSize,
-	const bool nIncludeDiagonal = false, const unsigned char nNodeBaseCost = 1);
+	const bool nIncludeDiagonal = false);
 
 //MSVC++ implementation of FindPathFailsafe for use as failsafe and testing
 extern "C" __declspec(dllexport) int FindPathFailsafe(const int nStartX, const int nStartY,
 	const int nTargetX, const int nTargetY, const unsigned char* pMap, const int nMapWidth, const int nMapHeight,
-	const int nOutBufferSize);
+	int *pOutBuffer, const int nOutBufferSize);
 
 //MSVC++ implementation of FindPathExFailsafe for use as failsafe and testing
 extern "C" __declspec(dllexport) int FindPathExFailsafe(const int nStartX, const int nStartY,
 	const int nTargetX, const int nTargetY, const unsigned char* pMap, const int nMapWidth, const int nMapHeight,
-	const int nOutBufferSize, const bool nIncludeDiagonal = false, const unsigned char nNodeBaseCost = 1);
+	int *pOutBuffer, const int nOutBufferSize, const bool nIncludeDiagonal = false);
 
 /**************************************************************************************************************************
 ** Extends on the functionality of FindPathEx(). Provides profiling options to let the caller benchmark
@@ -61,5 +61,5 @@ extern "C" __declspec(dllexport) int FindPathExFailsafe(const int nStartX, const
 ***************************************************************************************************************************/
 extern "C" __declspec(dllexport) int FindPathExProfiling(const int nStartX, const int nStartY, const int nTargetX,
 	const int nTargetY, const int nMapWidth, const int nMapHeight, const int nOutBufferSize, double& nOutTimeMS, 
-	const int nPasses = 1, const bool nIncludeDiagonal = false, const unsigned char nNodeBaseCost = 1, 
-	const bool nRandomData = true, const unsigned char nFrequency = 2, const bool nUseFailsafe = false);
+	const int nPasses = 1, const bool nIncludeDiagonal = false, const bool nRandomData = true, 
+	const unsigned char nFrequency = 2, const bool nUseFailsafe = false);

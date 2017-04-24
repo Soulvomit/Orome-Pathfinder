@@ -158,7 +158,7 @@ namespace opf_managed_test
                 {
                     if (rand.Next(tb_frequency.Value) == 0)
                     {
-                        n.Traversable = 0;
+                        n.Traversable = false;
                     }
                 }
             }

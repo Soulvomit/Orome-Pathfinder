@@ -14,9 +14,7 @@ int _2DPathFinder::FindPath(const unsigned short nStartX, const unsigned short n
 {
 	//if out-of-bounds on x-axis or out-of-bounds on y-axis or base cost is invalid
 	if (nStartX < 0 || nTargetX < 0 || nStartY  < 0 || nTargetY < 0 || nStartX >= nMapWidth || nTargetX >= nMapWidth || 
-		nStartY >= nMapHeight || nTargetY >= nMapHeight || nNodeBaseCost < 1) return -1;
-	//set the base cost of traversing one point
-	mBaseCost = nNodeBaseCost;							
+		nStartY >= nMapHeight || nTargetY >= nMapHeight || nNodeBaseCost < 1) return -1;					
 	//initialize the map with given parameters
 	if (nNewSnapshot || !mGridSnapshot.empty()) 
 	{
@@ -58,7 +56,7 @@ int _2DPathFinder::FindPath(const unsigned short nStartX, const unsigned short n
 	//while buffer size has not been exceeded
 	for (unsigned int i = 0; i < INT32_MAX; i++)
 	{
-		_2DNode* pCurrentNode = mOpen.front();				//node we are currently checking
+		_2DNode* pCurrentNode = mOpen.front();			//node we are currently checking
 		mOpen.pop_front();								//remove it from open list
 		pCurrentNode->Closed = true;					//set the current node to closed
 		//for each adjecent node
@@ -106,14 +104,14 @@ char _2DPathFinder::fUpdateAdjecentNode(const char nOffsetX, const char nOffsetY
 	if (pAdjecentNode->ParentPtr)
 	{
 		//try update, if returns true, node updated; else not update
-		if (pAdjecentNode->Update(pCurrentNode, mBaseCost))
+		if (pAdjecentNode->Update(pCurrentNode))
 		{
 			return 3; //adjecent node updated
 		}
 		return 2; //adjecent node not updated
 	}
 	//else if adjecent node doesn't have a parent; initialize, and check if target found
-	if (pAdjecentNode->Initialize(&pTargetNode->Position, pCurrentNode, pOpen, mBaseCost))
+	if (pAdjecentNode->Initialize(&pTargetNode->Position, pCurrentNode, pOpen))
 	{
 		pTargetNode->ParentPtr = pCurrentNode;
 		return 5; //target node found

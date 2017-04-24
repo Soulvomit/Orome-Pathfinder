@@ -1,13 +1,14 @@
 ﻿using opf_managed_win_wrapper;
 using System.Drawing;
 using System.Windows.Forms;
+using System;
 
 namespace opf_managed_test
 {
     public class Node: Control, IOPFVector
     {
         ushort[] coordinates;
-        byte traversable;
+        bool traversable;
         Color originColor;
 
         #region Properties
@@ -34,7 +35,7 @@ namespace opf_managed_test
             }
         }
 
-        public byte Traversable
+        public bool Traversable
         {
             get
             {
@@ -42,16 +43,23 @@ namespace opf_managed_test
             }
             set
             {
-                if (value >= 1)
+                if (value == true)
                 {
                     this.BackColor = originColor;
-                    this.traversable = 1;
                 }
-                else if (value <= 0)
+                else
                 {
                     this.BackColor = Color.LightSlateGray;
-                    this.traversable = 0;
                 }
+                this.traversable = value;
+            }
+        }
+
+        public byte Resistance
+        {
+            get
+            {
+                throw new NotImplementedException();
             }
         }
         #endregion
@@ -64,7 +72,7 @@ namespace opf_managed_test
             this.coordinates[0] = x;
             this.coordinates[1] = y;
             this.originColor = color;
-            Traversable = 1;
+            Traversable = true;
         }
 
         private void InitializeComponent()
@@ -84,13 +92,13 @@ namespace opf_managed_test
 
             if (OPFVisual.FillStatus == FillStatus.BLOCK)
             {
-                if (this.traversable >= 1)
+                if (!this.traversable)
                 {
-                    Traversable = 0;
+                    Traversable = false;
                 }
-                else if (this.traversable <= 0)
+                else
                 {
-                    Traversable = 1;
+                    Traversable = true;
                 }
             }
             else if (OPFVisual.FillStatus == FillStatus.ORIGIN)

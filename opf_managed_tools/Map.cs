@@ -58,7 +58,7 @@ namespace opf_managed_test
                     currentPath = null;
                 }
                 startNode = value;
-                startNode.Traversable = 1;
+                startNode.Traversable = true;
                 startNode.BackColor = Color.Magenta;
             }
         }
@@ -74,7 +74,7 @@ namespace opf_managed_test
             }
         }
 
-        public uint MaxPathlength
+        public uint MaxPathLength
         {
             get
             {
@@ -152,7 +152,7 @@ namespace opf_managed_test
             }
         }
 
-        public byte[] GetLinearTopography()
+        public byte[] GetResistanceBytes()
         {
             byte[] linearTopography = new byte[width * height];
             int counter = 0;
@@ -160,7 +160,14 @@ namespace opf_managed_test
             {
                 for (int x = 0; x < width; x++)
                 {
-                    linearTopography[counter] = Grid[x,y].Traversable;
+                    if (Grid[x, y].Traversable)
+                    {
+                        linearTopography[counter] = 1;
+                    }
+                    else
+                    {
+                        linearTopography[counter] = 0;
+                    }
                     counter++;
                 }
             }

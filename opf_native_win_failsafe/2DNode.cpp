@@ -7,12 +7,12 @@ File: 		2DNode.cpp
 
 #include "2DNode.h"
 
-bool _2DNode::Initialize(_2DPoint *pTargetPoint, _2DNode *pCurrentNode, std::list<_2DNode*> *pOpen, const unsigned char nBaseCost)
+bool _2DNode::Initialize(_2DPoint *pTargetPoint, _2DNode *pCurrentNode, std::list<_2DNode*> *pOpen)
 {
 	//set current node as this nodes parent
 	pParent = pCurrentNode;
 	//initialize g cost 
-	mGCost = pParent->G + nBaseCost * mResistance;
+	mGCost = pParent->G + mResistance;
 	//check if this node is target node; return true
 	if (mPosition.X == pTargetPoint->X && mPosition.Y == pTargetPoint->Y) return true;
 	//else initialize h and f costs
@@ -22,10 +22,10 @@ bool _2DNode::Initialize(_2DPoint *pTargetPoint, _2DNode *pCurrentNode, std::lis
 	char debugcode = fSortedInsert(pOpen);
 	return false;
 }
-bool _2DNode::Update(_2DNode *pCurrentNode, const unsigned char nBaseCost)
+bool _2DNode::Update(_2DNode *pCurrentNode)
 {
 	//compute new costs
-	unsigned int newGCost = pCurrentNode->G + nBaseCost * mResistance;
+	unsigned int newGCost = pCurrentNode->G + mResistance;
 	//int newHCost = mPosition.CalcManhattanDistance(pTargetPoint);
 	unsigned int newFCost = newGCost + mHCost;
 	//if updated f cost is larger then current f cost, or f costs are equal and path is longer; don't update
