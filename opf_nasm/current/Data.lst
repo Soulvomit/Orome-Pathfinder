@@ -1,0 +1,103 @@
+     1                                  ;Author:	Jonas Brown
+     2                                  ;Date:		27/12-2016
+     3                                  ;File: 		Data.asm
+     4                                  
+     5                                  [BITS 64]
+     6                                  [SECTION .data]
+     7                                  ;Node
+     8                                  [GLOBAL Node.Position.Y]
+     9                                  [GLOBAL Node.Position.X]
+    10                                  [GLOBAL Node.Resistance]
+    11                                  [GLOBAL Node.Closed]
+    12                                  [GLOBAL Node.GCost]
+    13                                  [GLOBAL Node.HCost]
+    14                                  [GLOBAL Node.FCost]
+    15                                  [GLOBAL Node.ID]
+    16                                  [GLOBAL Node.PParent]
+    17                                  [GLOBAL Node.PNext]
+    18                                  [GLOBAL Node.Size]
+    19                                  ;NodeStack
+    20                                  [GLOBAL NodeStack.Top]
+    21                                  [GLOBAL NodeStack.Bottom]
+    22                                  [GLOBAL NodeStack.Count]
+    23                                  ;NodeOpenList
+    24                                  [GLOBAL NodeOpenList.First]
+    25                                  [GLOBAL NodeOpenList.Count]
+    26                                  ;AdjecentArray
+    27                                  [GLOBAL AdjecentArray.Count]
+    28                                  [GLOBAL AdjecentArray.Offsets]
+    29                                  ;Grid
+    30                                  [GLOBAL Grid.StartX]
+    31                                  [GLOBAL Grid.StartY]
+    32                                  [GLOBAL Grid.PStartNode]
+    33                                  [GLOBAL Grid.TargetX]
+    34                                  [GLOBAL Grid.TargetY]
+    35                                  [GLOBAL Grid.PMap]
+    36                                  [GLOBAL Grid.MapWidth]
+    37                                  [GLOBAL Grid.MapHeight]
+    38                                  [GLOBAL Grid.POutBuffer]
+    39                                  [GLOBAL Grid.OutBufferSize]
+    40                                  [GLOBAL Grid.Size]
+    41                                  [DEFAULT REL]
+    42                                  ALIGN 8
+    43                                  
+    44                                  ;per node data accessors
+    45                                  ;description of node struct:
+    46                                  Node:
+    47                                  	;imm const: offsets accessors, 2d related
+    48                                  	.Position.Y:	equ 	54		;8*6+6 	= 54
+    49                                  	.Position.X:	equ 	52		;8*6+4 	= 52
+    50                                  	;imm const: offsets accessors, general
+    51                                  	.Resistance:	equ		50		;8*6+2 	= 50
+    52                                  	.Closed:		equ		48		;8*6 	= 48
+    53                                  	.GCost:			equ		40		;8*5 	= 40
+    54                                  	.HCost:			equ		32		;8*4 	= 32
+    55                                  	.FCost:			equ 	24		;8*3 	= 24
+    56                                  	.ID: 			equ 	16		;8*2 	= 16
+    57                                  	.PParent:		equ 	8		;8*1 	= 8
+    58                                  	.PNext			equ		0		;8*0 	= 0
+    59                                  	;imm const: offsets accessors, size of a node struct
+    60                                  	.Size:			equ 	56		;8*7	= 56
+    61                                  
+    62                                  ;per execution unit data accessors
+    63                                  ;description of node stack struct:			
+    64                                  NodeStack:
+    65                                  	;imm const: offsets accessors, the topmost node on stack
+    66                                  	.Top:			equ		0 	;8*0 	= 0
+    67                                  	;imm const: offsets accessors, bottom node on stack
+    68                                  	.Bottom:		equ		8	;8*1 	= 8
+    69                                  	;imm const: number of nodes on the stack
+    70                                  	.Count:			equ		16	;8*2 	= 16
+    71                                  
+    72                                  ;description of node open list struct:
+    73                                  NodeOpenList:
+    74                                  	;imm const: offsets accessors, the fist node in open list
+    75                                  	.First:			equ		24	;8*3 	= 24
+    76                                  	;imm const: offsets accessors, number of nodes in open list
+    77                                  	.Count:			equ		32	;8*4 	= 32
+    78                                  
+    79                                  ;description of node adjecent array struct:
+    80                                  AdjecentArray:
+    81                                  	;imm const: offsets accessors, adjecent array count
+    82                                  	.Count:		equ		40	;8*5	= 40
+    83                                  	;static data: adjecent offsets (first half = straights, second half = diagonals)
+    84 00000000 01000000FFFF000000-     	.Offsets:	dw 		1,0, -1,0, 0,1, 0,-1, 1,1, 1,-1, -1,1, -1,-1
+    84 00000009 0001000000FFFF0100-
+    84 00000012 01000100FFFFFFFF01-
+    84 0000001B 00FFFFFFFF         
+    85                                  	
+    86                                  ;description of grid struct 
+    87                                  Grid:
+    88                                  	;imm const: offsets accessors, grid
+    89                                  	.StartX:			equ 	42	;8*5+2	= 42
+    90                                  	.StartY:			equ 	44	;8*5+4	= 44
+    91                                  	.TargetX:			equ 	46	;8*5+6	= 46
+    92                                  	.TargetY:			equ 	48	;8*6	= 48
+    93                                  	.MapWidth:			equ		50	;8*6+2	= 50
+    94                                  	.MapHeight:			equ 	52	;8*6+4	= 52
+    95                                  	.OutBufferSize: 	equ 	54	;8*6+6	= 54	
+    96                                  	.POutBuffer: 		equ 	56	;8*7	= 56
+    97                                  	.PMap				equ 	64	;8*8	= 64
+    98                                  	.PStartNode:		equ 	72	;8*9	= 72
+    99                                  	;imm const: offsets accessors, size of a grid struct
+   100                                  	.Size:				equ 	80	;8*10 	= 80

@@ -9,7 +9,7 @@ File: 		opf_native_interface_threaded.h
 #include "opf_native_win_wrapper.h"
 #define FAILSAFE_NODE_SIZE 48	//size of the internal node of the failsafe in bytes; don't change
 #define NODE_SIZE 56			//size of the internal node of the opf.dll in bytes; don't change
-#define SHADOW_SIZE 88		//size of shadow space, must be atleast 88 bytes for thread local storage
+#define SHADOW_SIZE 80			//size of shadow space, must be atleast 88 bytes for thread local storage
 
 //defines thread instance data; all data is threadsafe if accessed through interface functions 
 struct PFTHREAD_INSTANCE_DATA

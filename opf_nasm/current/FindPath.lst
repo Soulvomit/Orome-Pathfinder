@@ -1,0 +1,214 @@
+     1                                  ;Author:	Jonas Brown
+     2                                  ;Date:		27/12-2016
+     3                                  ;File: 		FindPath.asm
+     4                                  
+     5                                  [BITS 64]
+     6                                  [SECTION .text]
+     7                                  [GLOBAL DllMain]
+     8                                  [GLOBAL FindPath]
+     9                                  [EXPORT DllMain]
+    10                                  [EXPORT FindPath]
+    11                                  ;From _Node:
+    12                                  [EXTERN _Node.CheckAdjecentNodes]
+    13                                  [EXTERN _Node.Empty]
+    14                                  [EXTERN _Node.Traceback]
+    15                                  ;From _Node2D:
+    16                                  [EXTERN _Node2D.GetByCoordinates]
+    17                                  ;From Data - Node
+    18                                  [EXTERN Node.Resistance]
+    19                                  [EXTERN Node.Closed]
+    20                                  [EXTERN Node.PNext]
+    21                                  [EXTERN Node.Size]
+    22                                  ;From Data - NodeStack
+    23                                  [EXTERN NodeStack.Top]
+    24                                  [EXTERN NodeStack.Bottom]
+    25                                  [EXTERN NodeStack.Count]
+    26                                  ;From Data - NodeOpenList
+    27                                  [EXTERN NodeOpenList.First]
+    28                                  [EXTERN NodeOpenList.Count]
+    29                                  ;From Data - Grid
+    30                                  [EXTERN Grid.TargetX]
+    31                                  [EXTERN Grid.TargetY]
+    32                                  [EXTERN Grid.StartX]
+    33                                  [EXTERN Grid.StartY]
+    34                                  [EXTERN Grid.PStartNode]
+    35                                  [EXTERN Grid.MapWidth]
+    36                                  [EXTERN Grid.MapHeight]
+    37                                  [EXTERN Grid.POutBuffer]
+    38                                  [EXTERN Grid.PMap]
+    39                                  [DEFAULT REL]
+    40                                  
+    41                                  ;windows dll entry
+    42                                  DllMain:
+    43 00000000 B801000000                  mov eax, 1
+    44 00000005 C3                          ret
+    45                                  
+    46                                  ;INTERFACE: fastcall64
+    47                                  ;typedef int(*ASM_INTERFACE)(const int nStartX, const int nStartY, const int nTargetX, const int nTargetY, 
+    48                                  ;const unsigned char* pMap, const int nMapWidth, const int nMapHeight, int* pOutBuffer, const int nOutBufferSize) 
+    49                                  FindPath:
+    50                                  	;check if start x coord is out-of-bounds
+    51 00000006 3B4C2430                	cmp ecx, [rsp + 48]
+    52 0000000A 0F8D02020000            	jge .no_path_found
+    53 00000010 83F900                  	cmp ecx, 0
+    54 00000013 0F8CF9010000            	jl .no_path_found
+    55                                  	;check if start y coord is out-of-bounds
+    56 00000019 3B542438                	cmp edx, [rsp + 56]
+    57 0000001D 0F8DEF010000            	jge .no_path_found
+    58 00000023 83FA00                  	cmp edx, 0
+    59 00000026 0F8CE6010000            	jl .no_path_found
+    60                                  	;check if target x coord is out-of-bounds
+    61 0000002C 443B442430              	cmp r8d, [rsp + 48]
+    62 00000031 0F8DDB010000            	jge .no_path_found
+    63 00000037 4183F800                	cmp r8d, 0
+    64 0000003B 0F8CD1010000            	jl .no_path_found
+    65                                  	;check if target y coord is out-of-bounds
+    66 00000041 443B4C2438              	cmp r9d, [rsp + 56]
+    67 00000046 0F8DC6010000            	jge .no_path_found
+    68 0000004C 4183F900                	cmp r9d, 0
+    69 00000050 0F8CBC010000            	jl .no_path_found
+    70                                  	
+    71                                  	;initialize "per execution" tls data
+    72 00000056 4889E5                  	mov rbp, rsp			;save the stack ptr
+    73 00000059 6A00                    	push qword 0			;push Grid.PStartNode@72 as qword
+    74 0000005B 488B4528                	mov rax, [rbp + 40]		;intercept arg Grid.PMap@64
+    75 0000005F 50                      	push rax				;push arg as qword				
+    76 00000060 488B4540                	mov rax, [rbp + 64]		;intercept arg Grid.POutBuffer@56
+    77 00000064 50                      	push rax				;push arg as qword
+    78 00000065 488B4548                	mov rax, [rbp + 72]		;intercept arg Grid.OutBufferSize@54
+    79 00000069 6650                    	push ax					;push arg as word
+    80 0000006B 488B4538                	mov rax, [rbp + 56]		;intercept arg Grid.MapHeight@52
+    81 0000006F 6650                    	push ax					;push arg as word
+    82 00000071 488B4530                	mov rax, [rbp + 48]		;intercept arg Grid.MapWidth@50
+    83 00000075 6650                    	push ax					;push arg as word
+    84 00000077 664151                  	push r9w				;intercept arg Grid.TargetY@48
+    85 0000007A 664150                  	push r8w				;intercept arg Grid.TargetX@46
+    86 0000007D 6652                    	push dx					;intercept arg Grid.StartY@44
+    87 0000007F 6651                    	push cx					;intercept arg Grid.StartX@42
+    88 00000081 488B4550                	mov rax, [rbp + 80]		;intercept arg Grid.IncludeDiagonals@40
+    89 00000085 4883F801                	cmp rax, 1				;if IncludeDiagonals == false
+    90 00000089 7506                    	jnz .ignore_diagonals	;jump to ignore digonals
+    91 0000008B 66B80800                	mov ax, 8				;else, include diagonals, mov ax, 8
+    92 0000008F EB04                    	jmp .include_diagonals	;jump over ignore diagonals
+    93                                  	.ignore_diagonals:		
+    94 00000091 66B80400                	mov ax, 4				;mov ax, 4 
+    95                                  	.include_diagonals:
+    96 00000095 6650                    	push word ax			;Grid.IncludeDiagonals@40
+    97 00000097 6A01                    	push qword 1			;NodeOpenList.Count@32
+    98 00000099 6A00                    	push qword 0			;NodeOpenList.First@24
+    99 0000009B 6A00                    	push qword 0			;NodeStack.Count@16
+   100 0000009D 6A00                    	push qword 0			;NodeStack.Bottom@8
+   101 0000009F 6A00                    	push qword 0			;NodeStack.Top@0
+   102 000000A1 4889E5                  	mov rbp, rsp			;save the stack ptr to the thread local storage
+   103                                  	
+   104                                  	;initialize values for node construction
+   105 000000A4 4889A5[00000000]        	mov [rbp + NodeStack.Bottom], rsp   			;set bottom node to stack pointer
+   106 000000AB 4881AD[00000000]-       	sub qword [rbp + NodeStack.Bottom], Node.Size	;add size bottom node
+   106 000000B2 [00000000]         
+   107 000000B6 6631C9                  	xor cx, cx										;clear resistance word, cx
+   108 000000B9 4D31C0                  	xor r8, r8				 	  					;clear row counter
+   109 000000BC 4D31C9                  	xor r9, r9				  						;clear col counter
+   110 000000BF 4D31D2                  	xor r10, r10 				  					;clear node counter
+   111 000000C2 4C8B9D[00000000]        	mov r11, [rbp + Grid.PMap]			  			;ptr to map buffer
+   112 000000C9 4C8BA5[00000000]        	mov r12, [rbp + Grid.MapWidth]					;store MapWidth into r12	
+   113 000000D0 4C8BAD[00000000]        	mov r13, [rbp + Grid.MapHeight]					;store MapHieght into r13
+   114 000000D7 4981E4FFFF0000          	and r12, 0xFFFF									;clear the highest 12 bytes of r12
+   115 000000DE 4981E5FFFF0000          	and r13, 0xFFFF									;clear the highest 12 bytes of r13
+   116 000000E5 4D0FAFE5                	imul r12, r13									;multiply r12 with MapHeight
+   117                                  	;construct nodes on stack from PMap
+   118                                  	.alloc:									;entry point of stack alloction loop
+   119 000000E9 4D39E2                  		cmp r10, r12						;check for last node in map 
+   120 000000EC 7435                    		jz .find_path						;if last node, terminate alloc loop
+   121 000000EE 66443B8D[00000000]      			cmp r9w, [rbp + Grid.MapWidth]	;check for last node in row
+   122 000000F6 7423                    			jz .switch_row					;if last node in row, row switch
+   123                                  			;construct node
+   124 000000F8 664150                  			push r8w						;Node.Position.Y: 	offset = 8*6+6	= 54
+   125 000000FB 664151                  			push r9w						;Node.Position.X: 	offset = 8*6+4 	= 52
+   126 000000FE 438A0C13                			mov cl, byte [r11+r10]			;store resistance as byte
+   127 00000102 6651                    			push cx 						;Node.Resistance: 	offset = 8*6+2 	= 50
+   128 00000104 666A00                  			push word  0					;Node.Closed: 		offset = 8*6 	= 48
+   129 00000107 6A00                    			push qword 0					;Node.GCost: 		offset = 8*5	= 40
+   130 00000109 6A00                    			push qword 0					;Node.HCost: 		offset = 8*4	= 32
+   131 0000010B 6A00                    			push qword 0					;Node.FCost: 		offset = 8*3	= 24
+   132 0000010D 4152                    			push qword r10					;Node.ID: 			offset = 8*2	= 16
+   133 0000010F 6AFF                    			push qword -1					;Node.PParent: 		offset = 8*1	= 8
+   134 00000111 6AFF                    			push qword -1					;Node.PNext: 		offset = 8*0	= 0
+   135 00000113 49FFC2                  			inc r10							;inc node counter
+   136 00000116 49FFC1                  			inc r9							;inc row counter
+   137 00000119 EBCE                    			jmp .alloc						;continue alloc loop
+   138                                  			.switch_row:					;entry of row switch
+   139 0000011B 49FFC0                  				inc r8						;inc col counter
+   140 0000011E 4D31C9                  				xor r9, r9					;reset row counter
+   141 00000121 EBC6                    				jmp .alloc					;continue alloc loop
+   142                                  	
+   143                                  	.find_path:
+   144                                  		;save node counter
+   145 00000123 4C8995[00000000]        		mov qword [rbp + NodeStack.Count], r10
+   146                                  		;save top ptr
+   147 0000012A 4889A5[00000000]        		mov qword [rbp + NodeStack.Top], rsp
+   148                                  		;store addr of target node in r15
+   149 00000131 668B85[00000000]        		mov ax, [rbp + Grid.TargetX]			;store TargetX in ax
+   150 00000138 668B9D[00000000]        		mov bx, [rbp + Grid.TargetY]			;store TargetY in bx
+   151 0000013F 668B95[00000000]        		mov dx, [rbp + Grid.MapWidth]			;store MapWidth in dx
+   152 00000146 4825FFFF0000            		and rax, 0xFFFF							;clear the highest 12 bytes of rax
+   153 0000014C 4881E3FFFF0000          		and rbx, 0xFFFF							;clear the highest 12 bytes of rbx
+   154 00000153 4881E2FFFF0000          		and rdx, 0xFFFF							;clear the highest 12 bytes of rdx
+   155 0000015A E8(00000000)            		call _Node2D.GetByCoordinates			;call GetByCoord to get the target node
+   156 0000015F 6683B9[00000000]00      		cmp word [rcx + Node.Resistance], 0		;if target node is not traversable
+   157 00000167 0F84AD000000            		jz .no_path_found_1						;no path can be found
+   158 0000016D 4989CF                  		mov r15, rcx							;else, store the target node in r15
+   159 00000170 668B85[00000000]        		mov ax, [rbp + Grid.StartX]				;store StartX in ax
+   160 00000177 668B9D[00000000]        		mov bx, [rbp + Grid.StartY]				;store StartY in bx
+   161 0000017E 668B95[00000000]        		mov dx, [rbp + Grid.MapWidth]			;store MapWidth in dx
+   162 00000185 E8(00000000)            		call _Node2D.GetByCoordinates			;call GetByCoord to get the start node
+   163 0000018A 6683B9[00000000]00      		cmp word [rcx + Node.Resistance], 0		;if start node is not traversable
+   164 00000192 0F848B000000            		jz .no_path_found_2						;no path can be found
+   165 00000198 48898D[00000000]        		mov qword [rbp + Grid.PStartNode], rcx			;save a ptr to start node
+   166 0000019F 48898D[00000000]        		mov qword [rbp + NodeOpenList.First], rcx		;set first open to start node	
+   167                                  		;find path sequence
+   168                                  		.next_open:
+   169                                  			;ready current node, store
+   170 000001A6 4C8BB5[00000000]        			mov r14, [rbp + NodeOpenList.First]			;set current node to first open
+   171                                  			;ready NodeOpenList.First node, pop
+   172 000001AD 6641C786[00000000]-     			mov word [r14 + Node.Closed], 1				;close current node
+   172 000001B5 0100               
+   173 000001B7 4D8BA6[00000000]        			mov r12, [r14 + Node.PNext]					;get current.next
+   174 000001BE 4C89A5[00000000]        			mov [rbp + NodeOpenList.First], r12			;set first open to current.next
+   175 000001C5 49C786[00000000]FF-     			mov qword [r14 + Node.PNext], -1			;current - set PNext to null
+   175 000001CD FFFFFF             
+   176 000001D0 48FF8D[00000000]        			dec qword [rbp + NodeOpenList.Count]		;dec open list count
+   177                                  			;check adjecent nodes
+   178 000001D7 E8(00000000)            			call _Node.CheckAdjecentNodes			;call proc
+   179 000001DC 4883F905                			cmp rcx, 5								;if target is found, return = 5
+   180 000001E0 740C                    			jz .path_found							;jump to "path found" if it is
+   181 000001E2 4883BD[00000000]00      			cmp qword [rbp + NodeOpenList.Count], 0	;check if open list is empty
+   182 000001EA 7E40                    			jle .no_path_found_3					;if it is, no path found
+   183 000001EC EBB8                    			jmp .next_open							;check next open node
+   184                                  		
+   185                                  	;pathing done
+   186                                  	.path_found:
+   187 000001EE 4C89F8                  		mov rax, r15								;store target node in rax
+   188 000001F1 488B9D[00000000]        		mov rbx, [rbp + Grid.POutBuffer]			;store ptr to outbuffer in rbx
+   189 000001F8 488BB5[00000000]        		mov rsi, [rbp + Grid.PStartNode]			;store ptr to start node in rsi
+   190 000001FF 4831C9                  		xor rcx, rcx								;ready rcx
+   191 00000202 4831D2                  		xor rdx, rdx								;ready rdx
+   192 00000205 4831FF                  		xor rdi, rdi								;ready rdi
+   193 00000208 E8(00000000)            		call _Node.Traceback						;call _Node.Traceback to store the final path in outbuffer
+   194 0000020D 4889C8                  		mov rax, rcx								;store ptr to outbuffer in rax
+   195 00000210 EB23                    		jmp .pf_done								;jump to pf_done
+   196                                  	.no_path_found:
+   197 00000212 48C7C0FFFFFFFF          		mov rax, -1			;ret val: start or target is out-of-bounds of map
+   198 00000219 C3                      		ret					;return
+   199                                  	.no_path_found_1:
+   200 0000021A 48C7C0FEFFFFFF          		mov rax, -2			;ret val: target node is non-traversable
+   201 00000221 EB12                    		jmp .pf_done		;jump to pf_done
+   202                                  	.no_path_found_2:
+   203 00000223 48C7C0FDFFFFFF          		mov rax, -3			;ret val: start node is non-traversable
+   204 0000022A EB09                    		jmp .pf_done		;jump to pf_done
+   205                                  	.no_path_found_3:
+   206 0000022C 48C7C0FCFFFFFF          		mov rax, -4			;ret val: open list is empty
+   207 00000233 EB00                    		jmp .pf_done		;jump to pf_done
+   208                                  	.pf_done:
+   209 00000235 4989E9                  		mov r9, rbp			;save rbp in r9
+   210 00000238 E8(00000000)            		call _Node.Empty	;empty nodes
+   211 0000023D C3                      		ret					;return

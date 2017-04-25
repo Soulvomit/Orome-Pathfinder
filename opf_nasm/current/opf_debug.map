@@ -38,42 +38,43 @@ LOAD Data.o64
 .text           0x0000000400001000      0x600
  *(.init)
  *(.text)
- .text          0x0000000400001000      0x291 Node.o64
+ .text          0x0000000400001000      0x278 Node.o64
                 0x0000000400001000                _Node.CheckAdjecentNodes
-                0x00000004000010d5                _Node.Traceback
-                0x0000000400001123                _Node.Empty
- *fill*         0x0000000400001291        0xf 
- .text          0x00000004000012a0       0x6b Node2D.o64
-                0x00000004000012a0                _Node2D.CalcManhattanDistance
-                0x00000004000012ef                _Node2D.GetByCoordinates
- *fill*         0x000000040000130b        0x5 
- .text          0x0000000400001310      0x240 FindPath.o64
-                0x0000000400001310                DllMain
-                0x0000000400001316                FindPath
+                0x00000004000010d1                _Node.Traceback
+                0x000000040000110a                _Node.Empty
+ *fill*         0x0000000400001278        0x8 
+ .text          0x0000000400001280       0x6b Node2D.o64
+                0x0000000400001280                _Node2D.CalcManhattanDistance
+                0x00000004000012cf                _Node2D.GetByCoordinates
+ *fill*         0x00000004000012eb        0x5 
+ .text          0x00000004000012f0      0x23e FindPath.o64
+                0x00000004000012f0                DllMain
+                0x00000004000012f6                FindPath
  *(SORT(.text$*))
  *(.text.*)
  *(.gnu.linkonce.t.*)
  *(.glue_7t)
  *(.glue_7)
-                0x0000000400001550                . = ALIGN (0x8)
-                0x0000000400001550                ___CTOR_LIST__ = .
-                0x0000000400001550                __CTOR_LIST__ = .
-                0x0000000400001550        0x4 LONG 0xffffffffffffffff
-                0x0000000400001554        0x4 LONG 0xffffffffffffffff
+                0x0000000400001530                . = ALIGN (0x8)
+ *fill*         0x000000040000152e        0x2 
+                0x0000000400001530                ___CTOR_LIST__ = .
+                0x0000000400001530                __CTOR_LIST__ = .
+                0x0000000400001530        0x4 LONG 0xffffffffffffffff
+                0x0000000400001534        0x4 LONG 0xffffffffffffffff
  *(.ctors)
  *(.ctor)
  *(SORT(.ctors.*))
-                0x0000000400001558        0x4 LONG 0x0
-                0x000000040000155c        0x4 LONG 0x0
-                0x0000000400001560                ___DTOR_LIST__ = .
-                0x0000000400001560                __DTOR_LIST__ = .
-                0x0000000400001560        0x4 LONG 0xffffffffffffffff
-                0x0000000400001564        0x4 LONG 0xffffffffffffffff
+                0x0000000400001538        0x4 LONG 0x0
+                0x000000040000153c        0x4 LONG 0x0
+                0x0000000400001540                ___DTOR_LIST__ = .
+                0x0000000400001540                __DTOR_LIST__ = .
+                0x0000000400001540        0x4 LONG 0xffffffffffffffff
+                0x0000000400001544        0x4 LONG 0xffffffffffffffff
  *(.dtors)
  *(.dtor)
  *(SORT(.dtors.*))
-                0x0000000400001568        0x4 LONG 0x0
-                0x000000040000156c        0x4 LONG 0x0
+                0x0000000400001548        0x4 LONG 0x0
+                0x000000040000154c        0x4 LONG 0x0
  *(.fini)
  *(.gcc_exc)
                 [!provide]                        PROVIDE (etext, .)
@@ -83,7 +84,7 @@ LOAD Data.o64
                 0x0000000400002000                __data_start__ = .
  *(.data)
  .data          0x0000000400002000       0x20 Data.o64
-                0x0000000400002000                Node.AdjecentOffsets
+                0x0000000400002000                AdjecentArray.Offsets
  *(.data2)
  *(SORT(.data$*))
  *(.jcr)
@@ -180,7 +181,7 @@ LOAD Data.o64
 
 .reloc          0x0000000400005000      0x200
  *(.reloc)
- .reloc         0x0000000400005000       0xb0 dll stuff
+ .reloc         0x0000000400005000       0xa8 dll stuff
 
 .stab
  *(.stab)
